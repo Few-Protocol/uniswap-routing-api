@@ -124,7 +124,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
           entry: path.join(__dirname, '../../lib/cron/cache-pools.ts'),
           handler: 'handler',
           timeout: Duration.seconds(900),
-          memorySize: chainId === ChainId.BASE ? 5120 : 2560,
+          memorySize: chainId === ChainId.BASE ? 3008 : 2560,
           bundling: {
             minify: true,
             sourceMap: true,
