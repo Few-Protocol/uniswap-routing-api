@@ -215,51 +215,51 @@ export class RoutingAPIPipeline extends Stack {
     const RPC_GATEWAY_PROVIDERS = [
       // Optimism
       // 'INFURA_10',
-      'QUICKNODE_10',
-      'ALCHEMY_10',
+      // 'QUICKNODE_10',
+      // 'ALCHEMY_10',
       // Polygon
-      'QUICKNODE_137',
+      // 'QUICKNODE_137',
       // 'INFURA_137',
-      'ALCHEMY_137',
+      // 'ALCHEMY_137',
       // Celo
-      'QUICKNODE_42220',
+      // 'QUICKNODE_42220',
       // 'INFURA_42220',
       // Avalanche
       // 'INFURA_43114',
-      'QUICKNODE_43114',
+      // 'QUICKNODE_43114',
       // BNB
-      'QUICKNODE_56',
+      // 'QUICKNODE_56',
       // Base
-      'QUICKNODE_8453',
+      // 'QUICKNODE_8453',
       // 'INFURA_8453',
-      'ALCHEMY_8453',
+      // 'ALCHEMY_8453',
       // Sepolia
       // 'INFURA_11155111',
       'ALCHEMY_11155111',
       // Arbitrum
       // 'INFURA_42161',
-      'QUICKNODE_42161',
-      'ALCHEMY_42161',
+      // 'QUICKNODE_42161',
+      // 'ALCHEMY_42161',
       // Ethereum
       // 'INFURA_1',
-      'QUICKNODE_1',
+      // 'QUICKNODE_1',
       'ALCHEMY_1',
-      'QUICKNODERETH_1',
+      // 'QUICKNODERETH_1',
       // Blast
-      'QUICKNODE_81457',
+      // 'QUICKNODE_81457',
       // 'INFURA_81457',
       // ZORA
-      'QUICKNODE_7777777',
+      // 'QUICKNODE_7777777',
       // ZkSync
-      'QUICKNODE_324',
-      'ALCHEMY_324',
+      // 'QUICKNODE_324',
+      // 'ALCHEMY_324',
       // WorldChain,
-      'QUICKNODE_480',
+      // 'QUICKNODE_480',
       // Unichain Sepolia,
-      'QUICKNODE_1301',
-      'ALCHEMY_1301',
+      // 'QUICKNODE_1301',
+      // 'ALCHEMY_1301',
       // unirpc - serves all chains
-      'UNIRPC_0',
+      // 'UNIRPC_0',
     ]
     for (const provider of RPC_GATEWAY_PROVIDERS) {
       jsonRpcProviders[provider] = jsonRpcProvidersSecret.secretValueFromJson(provider).toString()

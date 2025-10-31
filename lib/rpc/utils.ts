@@ -140,7 +140,7 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
       return `https://arb-mainnet-fast.g.alchemy.com/v2/${tokens[0]}`
     }
     case 'ALCHEMY_1': {
-      return `https://eth-mainnet-fast.g.alchemy.com/v2/${tokens[0]}`
+      return `https://eth-mainnet.g.alchemy.com/v2/${tokens[0]}`
     }
     case 'ALCHEMY_324': {
       return `https://zksync-mainnet.g.alchemy.com/v2/${tokens[0]}`

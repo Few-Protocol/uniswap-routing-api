@@ -95,26 +95,26 @@ import { TENDERLY_NEW_ENDPOINT_ROLLOUT_PERCENT } from '../util/tenderlyNewEndpoi
 
 export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MAINNET,
-  ChainId.OPTIMISM,
-  ChainId.ARBITRUM_ONE,
-  ChainId.POLYGON,
+  // ChainId.OPTIMISM,
+  // ChainId.ARBITRUM_ONE,
+  // ChainId.POLYGON,
   ChainId.SEPOLIA,
-  ChainId.CELO,
-  ChainId.CELO_ALFAJORES,
-  ChainId.BNB,
-  ChainId.AVALANCHE,
-  ChainId.BASE,
-  ChainId.BLAST,
-  ChainId.ZORA,
-  ChainId.ZKSYNC,
-  ChainId.WORLDCHAIN,
-  ChainId.UNICHAIN_SEPOLIA,
-  ChainId.MONAD_TESTNET,
-  ChainId.BASE_SEPOLIA,
-  ChainId.UNICHAIN,
-  ChainId.SONEIUM,
+  // ChainId.CELO,
+  // ChainId.CELO_ALFAJORES,
+  // ChainId.BNB,
+  // ChainId.AVALANCHE,
+  // ChainId.BASE,
+  // ChainId.BLAST,
+  // ChainId.ZORA,
+  // ChainId.ZKSYNC,
+  // ChainId.WORLDCHAIN,
+  // ChainId.UNICHAIN_SEPOLIA,
+  // ChainId.MONAD_TESTNET,
+  // ChainId.BASE_SEPOLIA,
+  // ChainId.UNICHAIN,
+  // ChainId.SONEIUM,
 ]
-const DEFAULT_TOKEN_LIST = 'https://gateway.ipfs.io/ipns/tokens.uniswap.org'
+const DEFAULT_TOKEN_LIST = 'https://raw.githubusercontent.com/RingProtocol/token-list/master/uniswap.tokenlist.json';//https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
 export interface RequestInjected<Router> extends BaseRInj {
   chainId: ChainId
@@ -230,7 +230,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           if (GlobalRpcProviders.getGlobalUniRpcProviders(log).has(chainId)) {
             // Use RPC gateway.
             provider = GlobalRpcProviders.getGlobalUniRpcProviders(log).get(chainId)!
-            ;(provider as UniJsonRpcProvider).shouldEvaluate = false
+              ; (provider as UniJsonRpcProvider).shouldEvaluate = false
           } else {
             provider = new DefaultEVMClient({
               allProviders: [
@@ -401,8 +401,8 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                       ? MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId]
                       : MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId]
                     : protocol === Protocol.V3
-                    ? QUOTER_V2_ADDRESSES[chainId]
-                    : PROTOCOL_V4_QUOTER_ADDRESSES[chainId]
+                      ? QUOTER_V2_ADDRESSES[chainId]
+                      : PROTOCOL_V4_QUOTER_ADDRESSES[chainId]
               )
               const targetQuoteProvider = new OnChainQuoteProvider(
                 chainId,
@@ -426,11 +426,11 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                     ? mixedRouteContainsV4Pool
                       ? MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId]
                       : MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId] ??
-                        // besides mainnet, only base has mixed quoter v1 deployed
-                        (chainId === ChainId.BASE ? '0xe544efae946f0008ae9a8d64493efa7886b73776' : undefined)
+                      // besides mainnet, only base has mixed quoter v1 deployed
+                      (chainId === ChainId.BASE ? '0xe544efae946f0008ae9a8d64493efa7886b73776' : undefined)
                     : protocol === Protocol.V3
-                    ? NEW_QUOTER_V2_ADDRESSES[chainId]
-                    : PROTOCOL_V4_QUOTER_ADDRESSES[chainId],
+                      ? NEW_QUOTER_V2_ADDRESSES[chainId]
+                      : PROTOCOL_V4_QUOTER_ADDRESSES[chainId],
                 (chainId: ChainId, useMixedRouteQuoter: boolean, optimisticCachedRoutes: boolean) =>
                   useMixedRouteQuoter
                     ? `ChainId_${chainId}_ShadowMixedQuoter_OptimisticCachedRoutes${optimisticCachedRoutes}_`
