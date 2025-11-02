@@ -1,6 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { AllowanceTransfer, PERMIT2_ADDRESS, PermitSingle } from '@uniswap/permit2-sdk'
-import { ChainId, Currency, CurrencyAmount, Ether, Fraction, Rounding, Token, WETH9 } from '@uniswap/sdk-core'
+import { ChainId, Currency, CurrencyAmount, Ether, Fraction, Rounding, Token, WETH9 } from '@fewprotocol/sdk-core'
 import {
   CEUR_CELO,
   CEUR_CELO_ALFAJORES,
@@ -28,7 +28,7 @@ import {
   V4_SUPPORTED,
   WBTC_MAINNET,
   WLD_WORLDCHAIN,
-} from '@uniswap/smart-order-router'
+} from '@fewprotocol/smart-order-router'
 import {
   UNIVERSAL_ROUTER_ADDRESS as UNIVERSAL_ROUTER_ADDRESS_BY_CHAIN,
   UniversalRouterVersion,
@@ -51,7 +51,7 @@ import { resetAndFundAtBlock } from '../../utils/forkAndFund'
 import { getBalance, getBalanceAndApprove } from '../../utils/getBalanceAndApprove'
 import { DAI_ON, getAmount, getAmountFromToken, UNI_MAINNET, USDC_ON, USDT_ON, WNATIVE_ON } from '../../utils/tokens'
 import { FLAT_PORTION, GREENLIST_TOKEN_PAIRS, Portion } from '../../test-utils/mocked-data'
-import { WRAPPED_NATIVE_CURRENCY } from '@uniswap/smart-order-router/build/main/index'
+import { WRAPPED_NATIVE_CURRENCY } from '@fewprotocol/smart-order-router/build/main/index'
 import { getFirstNonDelegatedSigner } from '../../utils/getFirstNonDelegatedSigner'
 
 const { ethers } = hre
@@ -3402,7 +3402,7 @@ describe('quote', function () {
     [ChainId.MAINNET]: () => DAI_ON(1),
     [ChainId.GOERLI]: () => DAI_ON(ChainId.GOERLI),
     [ChainId.SEPOLIA]: () => DAI_ON(ChainId.SEPOLIA),
-    [ChainId.SEPOLIA]: () => V4_SEPOLIA_TEST_B,
+    // [ChainId.SEPOLIA]: () => V4_SEPOLIA_TEST_B,
     [ChainId.OPTIMISM]: () => DAI_ON(ChainId.OPTIMISM),
     [ChainId.OPTIMISM_GOERLI]: () => DAI_ON(ChainId.OPTIMISM_GOERLI),
     [ChainId.OPTIMISM_SEPOLIA]: () => USDC_ON(ChainId.OPTIMISM_SEPOLIA),
@@ -3473,9 +3473,9 @@ describe('quote', function () {
           // Current WETH/USDB pool (https://blastscan.io/address/0xf52b4b69123cbcf07798ae8265642793b2e8990c) has low WETH amount
           const amount =
             chain === ChainId.BLAST ||
-            chain === ChainId.WORLDCHAIN ||
-            chain === ChainId.UNICHAIN_SEPOLIA ||
-            chain === ChainId.ZORA
+              chain === ChainId.WORLDCHAIN ||
+              chain === ChainId.UNICHAIN_SEPOLIA ||
+              chain === ChainId.ZORA
               ? type === 'exactOut'
                 ? '0.002'
                 : '0.01'
@@ -3582,7 +3582,7 @@ describe('quote', function () {
           // Current WETH/USDB pool (https://blastscan.io/address/0xf52b4b69123cbcf07798ae8265642793b2e8990c) has low WETH amount
           const amount =
             type === 'exactOut' &&
-            (chain === ChainId.BLAST || chain === ChainId.ZKSYNC || chain === ChainId.UNICHAIN_SEPOLIA)
+              (chain === ChainId.BLAST || chain === ChainId.ZKSYNC || chain === ChainId.UNICHAIN_SEPOLIA)
               ? '0.002'
               : '1'
 
@@ -3734,7 +3734,7 @@ describe('quote', function () {
           // Current WETH/USDB pool (https://blastscan.io/address/0xf52b4b69123cbcf07798ae8265642793b2e8990c) has low WETH amount
           const amount =
             type === 'exactOut' &&
-            (chain === ChainId.BLAST || chain === ChainId.ZKSYNC || chain === ChainId.UNICHAIN_SEPOLIA)
+              (chain === ChainId.BLAST || chain === ChainId.ZKSYNC || chain === ChainId.UNICHAIN_SEPOLIA)
               ? '0.002'
               : '1'
 
@@ -3793,6 +3793,6 @@ describe('alpha only quote', function () {
   this.timeout(5000)
 
   for (const type of ['exactIn', 'exactOut']) {
-    describe(`${type} 2xx`, () => {})
+    describe(`${type} 2xx`, () => { })
   }
 })

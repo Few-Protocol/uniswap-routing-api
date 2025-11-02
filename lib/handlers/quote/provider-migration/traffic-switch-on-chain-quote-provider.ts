@@ -6,9 +6,9 @@ import {
   OnChainQuotes,
   SupportedExactOutRoutes,
   SupportedRoutes,
-} from '@uniswap/smart-order-router'
+} from '@fewprotocol/smart-order-router'
 import { ChainId, Currency, CurrencyAmount } from '@uniswap/sdk-core'
-import { ProviderConfig } from '@uniswap/smart-order-router/build/main/providers/provider'
+import { ProviderConfig } from '@fewprotocol/smart-order-router/build/main/providers/provider'
 import { QUOTE_PROVIDER_TRAFFIC_SWITCH_CONFIGURATION } from '../util/quote-provider-traffic-switch-configuration'
 import { BigNumber } from 'ethers'
 import { LIKELY_OUT_OF_GAS_THRESHOLD, NEW_QUOTER_DEPLOY_BLOCK } from '../../../util/onChainQuoteProviderConfigs'

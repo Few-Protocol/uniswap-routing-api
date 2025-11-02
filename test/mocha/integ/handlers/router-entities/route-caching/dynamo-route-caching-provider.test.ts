@@ -7,10 +7,10 @@ import {
   PairTradeTypeChainId,
 } from '../../../../../../lib/handlers/router-entities/route-caching'
 import { ADDRESS_ZERO, Protocol } from '@uniswap/router-sdk'
-import { ChainId, CurrencyAmount, Ether, TradeType } from '@uniswap/sdk-core'
+import { ChainId, CurrencyAmount, Ether, TradeType } from '@fewprotocol/sdk-core'
 import JSBI from 'jsbi'
-import { encodeSqrtRatioX96, FeeAmount, Pool as V3Pool } from '@uniswap/v3-sdk'
-import { Pool as V4Pool } from '@uniswap/v4-sdk'
+import { encodeSqrtRatioX96, FeeAmount, Pool as V3Pool } from '@fewprotocol/uniswap-v3-sdk'
+import { Pool as V4Pool } from '@fewprotocol/uniswap-v4-sdk'
 import { WNATIVE_ON } from '../../../../../utils/tokens'
 import {
   CachedRoute,
@@ -22,12 +22,12 @@ import {
   UNI_MAINNET,
   USDC_MAINNET,
   V3Route,
-} from '@uniswap/smart-order-router'
+} from '@fewprotocol/smart-order-router'
 import { DynamoDBTableProps } from '../../../../../../bin/stacks/routing-database-stack'
-import { V4Route } from '@uniswap/smart-order-router/build/main/routers'
+import { V4Route } from '@fewprotocol/smart-order-router/build/main/routers'
 import { NEW_CACHED_ROUTES_ROLLOUT_PERCENT } from '../../../../../../lib/util/newCachedRoutesRolloutPercent'
 import sinon, { SinonSpy } from 'sinon'
-import { metric } from '@uniswap/smart-order-router/build/main/util/metric'
+import { metric } from '@fewprotocol/smart-order-router/build/main/util/metric'
 import { DynamoDB } from 'aws-sdk'
 import { DEFAULT_ROUTING_CONFIG_BY_CHAIN } from '../../../../../../lib/handlers/shared'
 import { UniversalRouterVersion } from '@uniswap/universal-router-sdk'

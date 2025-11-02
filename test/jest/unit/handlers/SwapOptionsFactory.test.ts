@@ -3,7 +3,7 @@ import { Factory } from 'fishery'
 import { ChainId, Percent, Token } from '@uniswap/sdk-core'
 import { TradeTypeParam } from '../../../../lib/handlers/quote/schema/quote-schema'
 import { expect, jest } from '@jest/globals'
-import { SwapType } from '@uniswap/smart-order-router'
+import { SwapType } from '@fewprotocol/smart-order-router'
 import { utils } from 'ethers'
 import { UNIVERSAL_ROUTER_ADDRESS, UniversalRouterVersion } from '@uniswap/universal-router-sdk'
 
@@ -419,11 +419,11 @@ describe('SwapOptionsFactory - Swap Router 02', () => {
   it('Splits the token signature if permitSignature, permitNonce, and permitExpiration are provided', () => {
     jest.spyOn(utils, 'splitSignature').mockImplementation(
       () =>
-        ({
-          v: 'v',
-          r: 'r',
-          s: 's',
-        } as any)
+      ({
+        v: 'v',
+        r: 'r',
+        s: 's',
+      } as any)
     )
     const input = SwapRouter02InputFactory.withPermitNonceAndExpiration().build()
 
@@ -443,11 +443,11 @@ describe('SwapOptionsFactory - Swap Router 02', () => {
   it('Splits the token signature if permitSignature, permitAmount, and permitSigDeadline are provided', () => {
     jest.spyOn(utils, 'splitSignature').mockImplementation(
       () =>
-        ({
-          v: 'v',
-          r: 'r',
-          s: 's',
-        } as any)
+      ({
+        v: 'v',
+        r: 'r',
+        s: 's',
+      } as any)
     )
     const input = SwapRouter02InputFactory.withPermitAmountAndSigDeadline().build()
 

@@ -5,7 +5,7 @@ import {
   ITokenProvider,
   NATIVE_NAMES_BY_ID,
   nativeOnChain,
-} from '@uniswap/smart-order-router'
+} from '@fewprotocol/smart-order-router'
 import Logger from 'bunyan'
 import { isAddress } from '../util/isAddress'
 
@@ -18,7 +18,7 @@ export class CurrencyLookup {
     private readonly tokenListProvider: ITokenListProvider,
     private readonly tokenProvider: ITokenProvider,
     private readonly log: Logger
-  ) {}
+  ) { }
 
   public async searchForToken(tokenRaw: string, chainId: number): Promise<Currency | undefined> {
     const nativeToken = this.checkIfNativeToken(tokenRaw, chainId)

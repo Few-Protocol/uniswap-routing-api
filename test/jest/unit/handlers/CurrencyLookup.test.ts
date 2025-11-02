@@ -1,5 +1,5 @@
 import { describe, expect, jest } from '@jest/globals'
-import { ExtendedEther } from '@uniswap/smart-order-router'
+import { ExtendedEther } from '@fewprotocol/smart-order-router'
 import { ChainId, Token } from '@uniswap/sdk-core'
 import { CurrencyLookup } from '../../../../lib/handlers/CurrencyLookup'
 

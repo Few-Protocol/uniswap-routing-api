@@ -1,4 +1,4 @@
-import { isPoolFeeDynamic, log, nativeOnChain, V4SubgraphPool } from '@uniswap/smart-order-router'
+import { isPoolFeeDynamic, log, nativeOnChain, V4SubgraphPool } from '@fewprotocol/smart-order-router'
 import { Hook } from '@uniswap/v4-sdk'
 import {
   HOOKS_ADDRESSES_ALLOWLIST,

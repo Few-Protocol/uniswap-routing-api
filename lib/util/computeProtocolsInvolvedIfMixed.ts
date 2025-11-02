@@ -1,4 +1,4 @@
-import { CachedRoute, log, SupportedRoutes } from '@uniswap/smart-order-router'
+import { CachedRoute, log, SupportedRoutes } from '@fewprotocol/smart-order-router'
 import { Protocol } from '@uniswap/router-sdk'
 import { Pair } from '@uniswap/v2-sdk'
 import { Pool as V3Pool } from '@uniswap/v3-sdk'

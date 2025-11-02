@@ -1,6 +1,6 @@
 import { Protocol } from '@uniswap/router-sdk'
 import { ChainId, Currency, TradeType } from '@uniswap/sdk-core'
-import { CachedRoutes, getAddress } from '@uniswap/smart-order-router'
+import { CachedRoutes, getAddress } from '@fewprotocol/smart-order-router'
 
 interface PairTradeTypeChainIdArgs {
   currencyIn: string

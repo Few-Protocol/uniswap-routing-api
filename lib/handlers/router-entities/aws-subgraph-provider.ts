@@ -8,7 +8,7 @@ import {
   V2SubgraphPool,
   V3SubgraphPool,
   V4SubgraphPool,
-} from '@uniswap/smart-order-router'
+} from '@fewprotocol/smart-order-router'
 import { S3 } from 'aws-sdk'
 import { ChainId } from '@uniswap/sdk-core'
 import NodeCache from 'node-cache'
@@ -21,7 +21,7 @@ const LOCAL_POOL_CACHE_KEY = (chainId: ChainId, protocol: Protocol) => `pools${c
 const s3 = new S3({ correctClockSkew: true, maxRetries: 1 })
 
 export class AWSSubgraphProvider<TSubgraphPool extends V2SubgraphPool | V3SubgraphPool> {
-  constructor(private chain: ChainId, private protocol: Protocol, private bucket: string, private baseKey: string) {}
+  constructor(private chain: ChainId, private protocol: Protocol, private bucket: string, private baseKey: string) { }
 
   public async getPools(): Promise<TSubgraphPool[]> {
     log.info(`In new AWS subgraph provider for protocol ${this.protocol}`)
@@ -95,8 +95,7 @@ export const cachePoolsFromS3 = async <TSubgraphPool>(
 
   log.info(
     { bucket, key },
-    `Got subgraph pools from S3 for protocol ${protocol} on ${chainId}. Num: ${pools.length} with latency ${
-      after - before
+    `Got subgraph pools from S3 for protocol ${protocol} on ${chainId}. Num: ${pools.length} with latency ${after - before
     } milliseconds.`
   )
 

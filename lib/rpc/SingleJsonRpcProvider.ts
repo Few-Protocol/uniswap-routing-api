@@ -1,6 +1,6 @@
 import { StaticJsonRpcProvider, TransactionRequest } from '@ethersproject/providers'
 import { SingleJsonRpcProviderConfig } from './config'
-import { metric, MetricLoggerUnit } from '@uniswap/smart-order-router'
+import { metric, MetricLoggerUnit } from '@fewprotocol/smart-order-router'
 import {
   BlockTag,
   BlockWithTransactions,
@@ -103,8 +103,7 @@ export class SingleJsonRpcProvider extends StaticJsonRpcProvider {
 
   hasEnoughWaitSinceLastLatencyEvaluation(waitTimeRequirementInMs: number): boolean {
     this.log.debug(
-      `${this.url}: hasEnoughWaitSinceLastLatencyEvaluation? waited ${
-        Date.now() - this.lastLatencyEvaluationTimestampInMs
+      `${this.url}: hasEnoughWaitSinceLastLatencyEvaluation? waited ${Date.now() - this.lastLatencyEvaluationTimestampInMs
       } ms, wait requirement: ${waitTimeRequirementInMs} ms`
     )
     return Date.now() - this.lastLatencyEvaluationTimestampInMs > waitTimeRequirementInMs
@@ -112,8 +111,7 @@ export class SingleJsonRpcProvider extends StaticJsonRpcProvider {
 
   hasEnoughWaitSinceLastHealthinessEvaluation(waitTimeRequirementInMs: number): boolean {
     this.log.debug(
-      `${this.url}: hasEnoughWaitSinceLastHealthinessEvaluation? waited ${
-        Date.now() - this.lastHealthinessEvaluationTimestampInMs
+      `${this.url}: hasEnoughWaitSinceLastHealthinessEvaluation? waited ${Date.now() - this.lastHealthinessEvaluationTimestampInMs
       } ms, wait requirement: ${waitTimeRequirementInMs} ms`
     )
     return Date.now() - this.lastHealthinessEvaluationTimestampInMs > waitTimeRequirementInMs
@@ -121,8 +119,7 @@ export class SingleJsonRpcProvider extends StaticJsonRpcProvider {
 
   hasEnoughWaitSinceLastDbSync(waitTimeRequirementInMs: number): boolean {
     this.log.debug(
-      `${this.url}: hasEnoughWaitSinceLastDbSync? waited ${
-        Date.now() - this.lastDbSyncTimestampInMs
+      `${this.url}: hasEnoughWaitSinceLastDbSync? waited ${Date.now() - this.lastDbSyncTimestampInMs
       } ms, wait requirement: ${waitTimeRequirementInMs} ms`
     )
     return Date.now() - this.lastDbSyncTimestampInMs > waitTimeRequirementInMs
@@ -275,8 +272,7 @@ export class SingleJsonRpcProvider extends StaticJsonRpcProvider {
     ...args: any[]
   ): Promise<any> {
     this.log.debug(
-      `SingleJsonRpcProvider: wrappedFunctionCall: callType: ${callType}, provider: ${
-        this.url
+      `SingleJsonRpcProvider: wrappedFunctionCall: callType: ${callType}, provider: ${this.url
       }, fnName: ${fnName}, fn: ${fn}, args: ${JSON.stringify([...args])}`
     )
     const perf: SingleCallPerf = {

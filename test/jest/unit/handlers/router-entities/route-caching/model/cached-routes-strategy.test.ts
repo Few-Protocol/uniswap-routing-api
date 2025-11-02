@@ -1,4 +1,4 @@
-import { CacheMode } from '@uniswap/smart-order-router'
+import { CacheMode } from '@fewprotocol/smart-order-router'
 import { ChainId, CurrencyAmount, Token, TradeType } from '@uniswap/sdk-core'
 import {
   CachedRoutesBucket,

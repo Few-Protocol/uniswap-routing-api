@@ -7,7 +7,7 @@ import {
   V3SubgraphPool,
   V3SubgraphProvider,
   V4SubgraphPool,
-} from '@uniswap/smart-order-router'
+} from '@fewprotocol/smart-order-router'
 import { EventBridgeEvent, ScheduledHandler } from 'aws-lambda'
 import { S3 } from 'aws-sdk'
 import { ChainId } from '@uniswap/sdk-core'
@@ -305,9 +305,9 @@ const handler: ScheduledHandler = metricScope((metrics) => async (event: EventBr
               const pool = await eulerHooksProvider?.getPoolByHook(eulerHook.hook)
               log.info(`eulerHooks pool ${JSON.stringify(pool)}`)
 
-              // we need to inflate euler pool TVL from 0 to significant TVL, so that they have a chance to be picked up
-              ;(pool as V4SubgraphPool).tvlUSD = 1000
-              ;(pool as V4SubgraphPool).tvlETH = 5500000
+                // we need to inflate euler pool TVL from 0 to significant TVL, so that they have a chance to be picked up
+                ; (pool as V4SubgraphPool).tvlUSD = 1000
+                ; (pool as V4SubgraphPool).tvlETH = 5500000
 
               return pool
             })

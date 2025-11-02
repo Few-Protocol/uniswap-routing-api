@@ -11,17 +11,17 @@ import {
   MetricLoggerUnit,
   routeToString,
   SupportedRoutes,
-} from '@uniswap/smart-order-router'
+} from '@fewprotocol/smart-order-router'
 import { AWSError, DynamoDB, Lambda } from 'aws-sdk'
-import { ChainId, Currency, CurrencyAmount, Fraction, Token, TradeType } from '@uniswap/sdk-core'
+import { ChainId, Currency, CurrencyAmount, Fraction, Token, TradeType } from '@fewprotocol/sdk-core'
 import { Protocol } from '@uniswap/router-sdk'
-import { SwapOptions } from '@uniswap/smart-order-router'
+import { SwapOptions } from '@fewprotocol/smart-order-router'
 import { PairTradeTypeChainId } from './model/pair-trade-type-chain-id'
 import { CachedRoutesMarshaller } from '../../marshalling/cached-routes-marshaller'
 import { PromiseResult } from 'aws-sdk/lib/request'
 import { DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB } from '../../../util/defaultBlocksToLiveRoutesDB'
 import { getSymbolOrAddress } from '../../../util/getSymbolOrAddress'
-import { serializeRouteIds } from '@uniswap/smart-order-router/build/main/util/serializeRouteIds'
+import { serializeRouteIds } from '@fewprotocol/smart-order-router/build/main/util/serializeRouteIds'
 import { UniversalRouterVersion } from '@uniswap/universal-router-sdk'
 import { computeProtocolsInvolvedIfMixed } from '../../../util/computeProtocolsInvolvedIfMixed'
 
@@ -558,6 +558,13 @@ export class DynamoRouteCachingProvider extends IRouteCachingProvider {
       log.warn(`[DynamoRouteCachingProvider] No Route Entries to insert`)
       return false
     }
+  }
+
+  // see _deleteCachedRoute
+  public async deleteCachedRoute(
+    cachedRoutes: CachedRoutes
+  ): Promise<boolean> {
+    return await this._deleteCachedRoute(cachedRoutes)
   }
 
   /**
