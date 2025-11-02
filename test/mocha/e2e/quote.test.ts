@@ -20,7 +20,7 @@ import {
   USDC_NATIVE_BASE,
   USDC_NATIVE_OPTIMISM,
   USDC_NATIVE_POLYGON,
-  USDC_NATIVE_SEPOLIA,
+  // USDC_NATIVE_SEPOLIA,
   USDC_SONEIUM,
   USDT_MAINNET,
   V4_SEPOLIA_TEST_A,
@@ -3362,16 +3362,12 @@ describe('quote', function () {
   const TEST_ERC20_1: { [chainId in ChainId]: () => null | Token } = {
     [ChainId.MAINNET]: () => USDC_ON(1),
     [ChainId.GOERLI]: () => USDC_ON(ChainId.GOERLI),
-    [ChainId.SEPOLIA]: () => USDC_ON(ChainId.SEPOLIA),
     [ChainId.SEPOLIA]: () => V4_SEPOLIA_TEST_A,
-    [ChainId.OPTIMISM]: () => USDC_ON(ChainId.OPTIMISM),
     [ChainId.OPTIMISM]: () => USDC_NATIVE_OPTIMISM,
     [ChainId.OPTIMISM_GOERLI]: () => USDC_ON(ChainId.OPTIMISM_GOERLI),
     [ChainId.OPTIMISM_SEPOLIA]: () => USDC_ON(ChainId.OPTIMISM_SEPOLIA),
-    [ChainId.ARBITRUM_ONE]: () => USDC_ON(ChainId.ARBITRUM_ONE),
     [ChainId.ARBITRUM_ONE]: () => USDC_NATIVE_ARBITRUM,
     [ChainId.ARBITRUM_SEPOLIA]: () => USDC_ON(ChainId.ARBITRUM_ONE),
-    [ChainId.POLYGON]: () => USDC_ON(ChainId.POLYGON),
     [ChainId.POLYGON]: () => USDC_NATIVE_POLYGON,
     [ChainId.POLYGON_MUMBAI]: () => USDC_ON(ChainId.POLYGON_MUMBAI),
     [ChainId.CELO]: () => CUSD_CELO,
@@ -3380,11 +3376,9 @@ describe('quote', function () {
     [ChainId.GNOSIS]: () => null,
     [ChainId.ARBITRUM_GOERLI]: () => null,
     [ChainId.BNB]: () => USDC_ON(ChainId.BNB),
-    [ChainId.AVALANCHE]: () => USDC_ON(ChainId.AVALANCHE),
     [ChainId.AVALANCHE]: () => USDC_NATIVE_AVAX,
     [ChainId.BASE_GOERLI]: () => USDC_ON(ChainId.BASE_GOERLI),
     [ChainId.BASE_SEPOLIA]: () => USDC_ON(ChainId.BASE_SEPOLIA),
-    [ChainId.BASE]: () => USDC_ON(ChainId.BASE),
     [ChainId.BASE]: () => USDC_NATIVE_BASE,
     [ChainId.ZORA]: () => USDC_ON(ChainId.ZORA),
     [ChainId.ZORA_SEPOLIA]: () => USDC_ON(ChainId.ZORA_SEPOLIA),
@@ -3396,13 +3390,16 @@ describe('quote', function () {
     [ChainId.UNICHAIN]: () => USDC_ON(ChainId.UNICHAIN),
     [ChainId.MONAD_TESTNET]: () => USDC_ON(ChainId.MONAD_TESTNET),
     [ChainId.SONEIUM]: () => USDC_ON(ChainId.SONEIUM),
+    [ChainId.BLAST_SEPOLIA]: () => null,
+    [ChainId.STORY_ODYSSEY]: () => null,
+    [ChainId.STORY_MAINNET]: () => null,
+    [ChainId.HYPER_MAINNET]: () => null,
   }
 
   const TEST_ERC20_2: { [chainId in ChainId]: () => Token | null } = {
     [ChainId.MAINNET]: () => DAI_ON(1),
     [ChainId.GOERLI]: () => DAI_ON(ChainId.GOERLI),
-    [ChainId.SEPOLIA]: () => DAI_ON(ChainId.SEPOLIA),
-    // [ChainId.SEPOLIA]: () => V4_SEPOLIA_TEST_B,
+    [ChainId.SEPOLIA]: () => V4_SEPOLIA_TEST_B,
     [ChainId.OPTIMISM]: () => DAI_ON(ChainId.OPTIMISM),
     [ChainId.OPTIMISM_GOERLI]: () => DAI_ON(ChainId.OPTIMISM_GOERLI),
     [ChainId.OPTIMISM_SEPOLIA]: () => USDC_ON(ChainId.OPTIMISM_SEPOLIA),
@@ -3430,6 +3427,10 @@ describe('quote', function () {
     [ChainId.UNICHAIN]: () => WNATIVE_ON(ChainId.UNICHAIN),
     [ChainId.MONAD_TESTNET]: () => WNATIVE_ON(ChainId.MONAD_TESTNET),
     [ChainId.SONEIUM]: () => WNATIVE_ON(ChainId.SONEIUM),
+    [ChainId.BLAST_SEPOLIA]: () => null,
+    [ChainId.STORY_ODYSSEY]: () => null,
+    [ChainId.STORY_MAINNET]: () => null,
+    [ChainId.HYPER_MAINNET]: () => null,
   }
 
   // TODO: Find valid pools/tokens on optimistic kovan and polygon mumbai. We skip those tests for now.
@@ -3465,16 +3466,18 @@ describe('quote', function () {
         const wrappedNative = WNATIVE_ON(chain)
 
         it(`${wrappedNative.symbol} -> erc20`, async () => {
-          if (chain === ChainId.SEPOLIA && erc1.equals(V4_SEPOLIA_TEST_A)) {
-            // there's no WETH/USDC v4 pool on Sepolia
-            return
-          }
+          // TODO: SEPOLIA is filtered out in the test loop, remove this dead code check
+          // if (chain === ChainId.SEPOLIA && erc1.equals(V4_SEPOLIA_TEST_A)) {
+          //   // there's no WETH/USDC v4 pool on Sepolia
+          //   return
+          // }
 
           // Current WETH/USDB pool (https://blastscan.io/address/0xf52b4b69123cbcf07798ae8265642793b2e8990c) has low WETH amount
           const amount =
             chain === ChainId.BLAST ||
               chain === ChainId.WORLDCHAIN ||
-              chain === ChainId.UNICHAIN_SEPOLIA ||
+              // TODO: UNICHAIN_SEPOLIA is filtered out in the test loop, remove this dead code check
+              // chain === ChainId.UNICHAIN_SEPOLIA ||
               chain === ChainId.ZORA
               ? type === 'exactOut'
                 ? '0.002'
@@ -3561,10 +3564,11 @@ describe('quote', function () {
         })
 
         it(`${erc1.symbol} -> ${erc2.symbol}`, async () => {
-          if (chain === ChainId.SEPOLIA) {
-            // Sepolia doesn't have sufficient liquidity on DAI pools yet
-            return
-          }
+          // TODO: SEPOLIA is filtered out in the test loop, remove this dead code check
+          // if (chain === ChainId.SEPOLIA) {
+          //   // Sepolia doesn't have sufficient liquidity on DAI pools yet
+          //   return
+          // }
 
           // Disable ZORA exactOut tests to unblock pipeline because it doesn't have enough liquidity to calc gas costs.
           if (chain === ChainId.ZORA && type === 'exactOut') {
@@ -3581,8 +3585,10 @@ describe('quote', function () {
 
           // Current WETH/USDB pool (https://blastscan.io/address/0xf52b4b69123cbcf07798ae8265642793b2e8990c) has low WETH amount
           const amount =
-            type === 'exactOut' &&
-              (chain === ChainId.BLAST || chain === ChainId.ZKSYNC || chain === ChainId.UNICHAIN_SEPOLIA)
+            type === 'exactOut' && (chain === ChainId.BLAST || chain === ChainId.ZKSYNC
+              // TODO: UNICHAIN_SEPOLIA is filtered out in the test loop, remove this dead code check
+              // || chain === ChainId.UNICHAIN_SEPOLIA
+            )
               ? '0.002'
               : '1'
 
@@ -3629,7 +3635,8 @@ describe('quote', function () {
             chain === ChainId.BLAST ||
             chain === ChainId.ZORA ||
             chain === ChainId.ZKSYNC ||
-            chain === ChainId.UNICHAIN_SEPOLIA ||
+            // TODO: UNICHAIN_SEPOLIA is filtered out in the test loop, remove this dead code check
+            // chain === ChainId.UNICHAIN_SEPOLIA ||
             chain === ChainId.UNICHAIN ||
             chain === ChainId.SONEIUM
           ) {
@@ -3641,12 +3648,15 @@ describe('quote', function () {
 
           // TODO ROUTE-64: Remove this once smart-order-router supports ETH native currency on BASE
           // see https://uniswapteam.slack.com/archives/C021SU4PMR7/p1691593679108459?thread_ts=1691532336.742419&cid=C021SU4PMR7
-          const tokenOut = [ChainId.BASE, ChainId.SEPOLIA, ChainId.AVALANCHE].includes(chain)
-            ? chain !== ChainId.SEPOLIA
-              ? USDC_ON(chain)
-              : USDC_NATIVE_SEPOLIA
+          // TODO: SEPOLIA is filtered out in the test loop, remove this dead code check
+          const tokenOut = [ChainId.BASE, /* ChainId.SEPOLIA, */ ChainId.AVALANCHE].includes(chain)
+            ? /* chain !== ChainId.SEPOLIA
+              ? */ USDC_ON(chain)
+            /* : USDC_NATIVE_SEPOLIA */
             : erc2
-          const amount = chain === ChainId.SEPOLIA ? (type === 'exactIn' ? '0.00000000000001' : '0.000001') : '0.1'
+          // TODO: SEPOLIA is filtered out in the test loop, remove this dead code check
+          // const amount = chain === ChainId.SEPOLIA ? (type === 'exactIn' ? '0.00000000000001' : '0.000001') : '0.1'
+          const amount = '0.1'
 
           const quoteReq: QuoteQueryParams = {
             tokenInAddress: native,
@@ -3713,10 +3723,11 @@ describe('quote', function () {
         })
 
         it(`has quoteGasAdjusted values`, async () => {
-          if (chain === ChainId.SEPOLIA && !erc1.equals(V4_SEPOLIA_TEST_A)) {
-            // Sepolia doesn't have sufficient liquidity on DAI pools yet
-            return
-          }
+          // TODO: SEPOLIA is filtered out in the test loop, remove this dead code check
+          // if (chain === ChainId.SEPOLIA && !erc1.equals(V4_SEPOLIA_TEST_A)) {
+          //   // Sepolia doesn't have sufficient liquidity on DAI pools yet
+          //   return
+          // }
 
           // Disable ZORA exactOut tests to unblock pipeline because it doesn't have enough liquidity to calc gas costs.
           if (chain === ChainId.ZORA && type === 'exactOut') {
@@ -3733,8 +3744,10 @@ describe('quote', function () {
 
           // Current WETH/USDB pool (https://blastscan.io/address/0xf52b4b69123cbcf07798ae8265642793b2e8990c) has low WETH amount
           const amount =
-            type === 'exactOut' &&
-              (chain === ChainId.BLAST || chain === ChainId.ZKSYNC || chain === ChainId.UNICHAIN_SEPOLIA)
+            type === 'exactOut' && (chain === ChainId.BLAST || chain === ChainId.ZKSYNC
+              // TODO: UNICHAIN_SEPOLIA is filtered out in the test loop, remove this dead code check
+              // || chain === ChainId.UNICHAIN_SEPOLIA
+            )
               ? '0.002'
               : '1'
 
