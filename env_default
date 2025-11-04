@@ -1,0 +1,59 @@
+# Optional: Throttle requests per 5 minutes
+THROTTLE_PER_FIVE_MINS=
+
+# RPC Providers for different chains
+# MAINNET
+WEB3_RPC_1=
+# ROPSTEN
+WEB3_RPC_3=
+# RINKEBY
+WEB3_RPC_4=
+# GOERLI
+WEB3_RPC_5=
+# KOVAN
+WEB3_RPC_42=
+# OPTIMISM
+WEB3_RPC_10=
+# OPTIMISTIC_KOVAN
+WEB3_RPC_69=
+# ARBITRUM_ONE
+WEB3_RPC_42161=
+# ARBITRUM_RINKEBY
+WEB3_RPC_421611=
+# POLYGON
+WEB3_RPC_137=
+# POLYGON_MUMBAI
+WEB3_RPC_80001=
+# BNB
+WEB3_RPC_56=
+# BASE
+WEB3_RPC_8453=
+# BLAST
+WEB3_RPC_81457=
+# ZORA
+WEB3_RPC_7777777=
+# ZKSYNC
+WEB3_RPC_324=
+
+ALCHEMY_1=https://eth-mainnet.g.alchemy.com/v2/Q3EUEtQ0XUKtceDSkJNfX
+ALCHEMY_11155111=https://eth-sepolia.g.alchemy.com/v2/Q3EUEtQ0XUKtceDSkJNfX
+
+# Tenderly configuration for simulations
+TENDERLY_USER=tt1943
+TENDERLY_PROJECT=few
+TENDERLY_ACCESS_KEY=38fZs1RA0bU8cT17IjkhzzOm3qSpXA8g
+TENDERLY_NODE_API_KEY=38fZs1RA0bU8cT17IjkhzzOm3qSpXA8g
+# TENDERLY_BASE_URL=https://mainnet.gateway.tenderly.co
+# TENDERLY_ACCESS_KEY=38fZs1RA0bU8cT17IjkhzzOm3qSpXA8g
+
+# Alchemy subgraph query access
+ALCHEMY_QUERY_KEY=
+ALCHEMY_QUERY_KEY_2=
+
+# Uniswap GraphQL configuration
+GQL_URL=
+GQL_H_ORGN=
+
+# Optional: For end-to-end tests
+# ARCHIVE_NODE_RPC=
+UNISWAP_ROUTING_API=https://kkt5z5xhw3.execute-api.us-east-1.amazonaws.com/prod/quote
