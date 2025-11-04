@@ -1,6 +1,7 @@
 import { describe, expect, jest } from '@jest/globals'
 import { ExtendedEther } from '@uniswap/smart-order-router'
 import { ChainId, Token } from '@uniswap/sdk-core'
+import { ADDRESS_ZERO } from '@uniswap/router-sdk'
 import { CurrencyLookup } from '../../../../lib/handlers/CurrencyLookup'
 
 const address = '0x0000000000000000000000000000000000000001'
@@ -16,6 +17,20 @@ describe('CurrencyLookup', () => {
       } as any // log
     )
     const result = await tokenLookup.searchForToken('ETH', ChainId.MAINNET)
+
+    expect(result).toBeDefined()
+    expect(result).toEqual(ExtendedEther.onChain(ChainId.MAINNET))
+  })
+
+  it('Returns the native token if tokenRaw is the zero address', async () => {
+    const tokenLookup = new CurrencyLookup(
+      {} as any, // tokenListProvider
+      {} as any, // tokenProvider,
+      {
+        debug: jest.fn(),
+      } as any // log
+    )
+    const result = await tokenLookup.searchForToken(ADDRESS_ZERO, ChainId.MAINNET)
 
     expect(result).toBeDefined()
     expect(result).toEqual(ExtendedEther.onChain(ChainId.MAINNET))

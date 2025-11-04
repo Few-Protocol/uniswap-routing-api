@@ -1,4 +1,5 @@
 import { Currency, Token } from '@uniswap/sdk-core'
+import { ADDRESS_ZERO } from '@uniswap/router-sdk'
 import {
   getAddress,
   ITokenListProvider,
@@ -18,7 +19,7 @@ export class CurrencyLookup {
     private readonly tokenListProvider: ITokenListProvider,
     private readonly tokenProvider: ITokenProvider,
     private readonly log: Logger
-  ) {}
+  ) { }
 
   public async searchForToken(tokenRaw: string, chainId: number): Promise<Currency | undefined> {
     const nativeToken = this.checkIfNativeToken(tokenRaw, chainId)
@@ -36,6 +37,19 @@ export class CurrencyLookup {
   }
 
   checkIfNativeToken = (tokenRaw: string, chainId: number): Currency | undefined => {
+    // Check if the address is the zero address, which represents native currency
+    if (isAddress(tokenRaw) && tokenRaw.toLowerCase() === ADDRESS_ZERO.toLowerCase()) {
+      const nativeToken = nativeOnChain(chainId)
+      this.log.debug(
+        {
+          tokenAddress: getAddress(nativeToken),
+        },
+        `Found native token via zero address ${tokenRaw} for chain ${chainId}: ${getAddress(nativeToken)}}`
+      )
+      return nativeToken
+    }
+
+    // Check if the token string matches a native token name (e.g., "ETH", "MATIC")
     if (!NATIVE_NAMES_BY_ID[chainId] || !NATIVE_NAMES_BY_ID[chainId].includes(tokenRaw)) {
       return undefined
     }
