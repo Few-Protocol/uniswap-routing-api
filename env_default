@@ -35,8 +35,8 @@ WEB3_RPC_7777777=
 # ZKSYNC
 WEB3_RPC_324=
 
-ALCHEMY_1=https://eth-mainnet.g.alchemy.com/v2/Q3EUEtQ0XUKtceDSkJNfX
-ALCHEMY_11155111=https://eth-sepolia.g.alchemy.com/v2/Q3EUEtQ0XUKtceDSkJNfX
+ALCHEMY_1=https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s
+ALCHEMY_11155111=https://eth-sepolia.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s
 
 # Tenderly configuration for simulations
 TENDERLY_USER=tt1943
