@@ -342,6 +342,96 @@ export const OPTIMISTIC_CACHED_ROUTES_BATCH_PARAMS: { [protocol in Protocol]: { 
       quoteMinSuccessRate: 0.1,
     },
   },
+  // FEWV2 doesn't apply because fewv2 doesnt call onchain-quote provider at all (same as V2)
+  // we use Protocol enum type to remember for each new protocol version, we will add the protocol specific tuning
+  [Protocol.FEWV2]: {
+    ...constructSameBatchParamsMap(DEFAULT_BATCH_PARAMS),
+    [ChainId.BASE]: {
+      multicallChunk: 1320,
+      gasLimitPerCall: 100_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.ARBITRUM_ONE]: {
+      multicallChunk: 3000,
+      gasLimitPerCall: 75_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.OPTIMISM]: {
+      multicallChunk: 1650,
+      gasLimitPerCall: 80_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.CELO]: {
+      multicallChunk: 6240,
+      gasLimitPerCall: 80_000,
+      quoteMinSuccessRate: 0,
+    },
+    [ChainId.BLAST]: {
+      multicallChunk: 1200,
+      gasLimitPerCall: 80_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.AVALANCHE]: {
+      multicallChunk: 2625,
+      gasLimitPerCall: 60_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.BNB]: {
+      multicallChunk: 1850,
+      gasLimitPerCall: 80_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.POLYGON]: {
+      multicallChunk: 1850,
+      gasLimitPerCall: 80_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.MAINNET]: {
+      multicallChunk: 1974,
+      gasLimitPerCall: 75_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.ZKSYNC]: {
+      multicallChunk: 20,
+      gasLimitPerCall: 4_000_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once worldchain has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.WORLDCHAIN]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once unichain-sepolia has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.UNICHAIN_SEPOLIA]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once monad-testnet has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.MONAD_TESTNET]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.BASE_SEPOLIA]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once unichain has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.UNICHAIN]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once soneium has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.SONEIUM]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+  },
   [Protocol.MIXED]: {
     ...constructSameBatchParamsMap(DEFAULT_BATCH_PARAMS),
     [ChainId.BASE]: {
@@ -696,6 +786,96 @@ export const NON_OPTIMISTIC_CACHED_ROUTES_BATCH_PARAMS: { [protocol in Protocol]
         quoteMinSuccessRate: 0.1,
       },
     },
+  // FEWV2 doesn't apply because fewv2 doesnt call onchain-quote provider at all (same as V2)
+  // we use Protocol enum type to remember for each new protocol version, we will add the protocol specific tuning
+  [Protocol.FEWV2]: {
+    ...constructSameBatchParamsMap(DEFAULT_BATCH_PARAMS),
+    [ChainId.BASE]: {
+      multicallChunk: 660,
+      gasLimitPerCall: 200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.ARBITRUM_ONE]: {
+      multicallChunk: 1125,
+      gasLimitPerCall: 200_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.OPTIMISM]: {
+      multicallChunk: 880,
+      gasLimitPerCall: 150_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.CELO]: {
+      multicallChunk: 3120,
+      gasLimitPerCall: 160_000,
+      quoteMinSuccessRate: 0,
+    },
+    [ChainId.BLAST]: {
+      multicallChunk: 1200,
+      gasLimitPerCall: 80_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.AVALANCHE]: {
+      multicallChunk: 420,
+      gasLimitPerCall: 375_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.BNB]: {
+      multicallChunk: 2961,
+      gasLimitPerCall: 50_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.POLYGON]: {
+      multicallChunk: 987,
+      gasLimitPerCall: 150_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.MAINNET]: {
+      multicallChunk: 987,
+      gasLimitPerCall: 150_000,
+      quoteMinSuccessRate: 0.15,
+    },
+    [ChainId.ZKSYNC]: {
+      multicallChunk: 20,
+      gasLimitPerCall: 4_000_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once worldchain has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.WORLDCHAIN]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once unichain-sepolia has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.UNICHAIN_SEPOLIA]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once monad-testnet has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.MONAD_TESTNET]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    [ChainId.BASE_SEPOLIA]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once unichain has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.UNICHAIN]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+    // TODO: once soneium has view-quoter, optimize muilcallChunk and gasLimitPerCall
+    [ChainId.SONEIUM]: {
+      multicallChunk: 80,
+      gasLimitPerCall: 1_200_000,
+      quoteMinSuccessRate: 0.1,
+    },
+  },
     [Protocol.MIXED]: {
       ...constructSameBatchParamsMap(DEFAULT_BATCH_PARAMS),
       [ChainId.BASE]: {
@@ -1002,6 +1182,11 @@ export const NEW_QUOTER_DEPLOY_BLOCK: { [chainId in ChainId]: number } = {
   [ChainId.UNICHAIN]: -1,
   [ChainId.MONAD_TESTNET]: -1,
   [ChainId.SONEIUM]: -1,
+  [ChainId.MONAD]: -1,
+  [ChainId.BLAST_SEPOLIA]: -1,
+  [ChainId.STORY_ODYSSEY]: -1,
+  [ChainId.STORY_MAINNET]: -1,
+  [ChainId.HYPER_MAINNET]: -1,
 }
 
 // 0 threshold means it's not deployed yet
@@ -1036,6 +1221,11 @@ export const LIKELY_OUT_OF_GAS_THRESHOLD: { [chainId in ChainId]: number } = {
   [ChainId.UNICHAIN]: 0,
   [ChainId.MONAD_TESTNET]: 0,
   [ChainId.SONEIUM]: 0,
+  [ChainId.MONAD]: 0,
+  [ChainId.BLAST_SEPOLIA]: 0,
+  [ChainId.STORY_ODYSSEY]: 0,
+  [ChainId.STORY_MAINNET]: 0,
+  [ChainId.HYPER_MAINNET]: 0,
 }
 
 // TODO: Move this new addresses to SOR
