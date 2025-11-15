@@ -42,6 +42,13 @@ export type MarshalledRoute = MarshalledV2Route | MarshalledV3Route | Marshalled
 export class RouteMarshaller {
   public static marshal(route: SupportedRoutes): MarshalledRoute {
     switch (route.protocol) {
+      case Protocol.FEWV2:
+        return {
+          protocol: Protocol.FEWV2,
+          input: TokenMarshaller.marshal(route.input),
+          output: TokenMarshaller.marshal(route.output),
+          pairs: route.pairs.map((pair) => PairMarshaller.marshal(pair)),
+        }
       case Protocol.V2:
         return {
           protocol: Protocol.V2,
@@ -87,6 +94,13 @@ export class RouteMarshaller {
 
   public static unmarshal(marshalledRoute: MarshalledRoute): SupportedRoutes {
     switch (marshalledRoute.protocol) {
+      case Protocol.FEWV2:
+        const fewv2Route = marshalledRoute as MarshalledV2Route
+        return new V2Route(
+          fewv2Route.pairs.map((marshalledPair) => PairMarshaller.unmarshal(marshalledPair)),
+          TokenMarshaller.unmarshal(fewv2Route.input).wrapped,
+          TokenMarshaller.unmarshal(fewv2Route.output).wrapped
+        )
       case Protocol.V2:
         const v2Route = marshalledRoute as MarshalledV2Route
         return new V2Route(

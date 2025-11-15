@@ -144,6 +144,7 @@ export type ContainerDependencies = {
   v2PoolProvider: IV2PoolProvider
   tokenProvider: ITokenProvider
   multicallProvider: UniswapMulticallProvider
+  ringSwapMulticall2Provider: RingswapMulticallProvider
   onChainQuoteProvider?: IOnChainQuoteProvider
   v2QuoteProvider: V2QuoteProvider
   simulator: Simulator
