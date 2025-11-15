@@ -604,6 +604,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
               tokenListProvider,
               blockedTokenListProvider,
               multicallProvider: multicall2Provider,
+              ringSwapMulticall2Provider: ringFewV2Multicall2Provider,
               tokenProvider,
               tokenProviderFromTokenList: tokenListProvider,
               gasPriceProvider: new CachingGasStationProvider(
