@@ -40,6 +40,7 @@ import { GlobalRpcProviders } from '../../rpc/GlobalRpcProviders'
 import { adhocCorrectGasUsed } from '../../util/estimateGasUsed'
 import { adhocCorrectGasUsedUSD } from '../../util/estimateGasUsedUSD'
 import { Pair } from '@uniswap/v2-sdk'
+import { Pair as FewV2Pair } from '@ring-protocol/few-v2-sdk'
 import { UniversalRouterVersion } from '@uniswap/universal-router-sdk'
 import {
   convertStringRouterVersionToEnum,
@@ -536,7 +537,7 @@ export class QuoteHandler extends APIGLambdaHandler<
     for (const subRoute of route) {
       const { amount, quote, tokenPath } = subRoute
 
-      const pools = subRoute.protocol == Protocol.V2 ? subRoute.route.pairs : subRoute.route.pools
+      const pools = (subRoute.protocol == Protocol.V2 || subRoute.protocol == Protocol.FEWV2) ? subRoute.route.pairs : subRoute.route.pools
       const curRoute: SupportedPoolInRoute[] = []
       for (let i = 0; i < pools.length; i++) {
         const nextPool = pools[i]
@@ -682,7 +683,76 @@ export class QuoteHandler extends APIGLambdaHandler<
             amountIn: edgeAmountIn,
             amountOut: edgeAmountOut,
           })
-        } else {
+        } else if (nextPool instanceof FewV2Pair) {
+          const reserve0 = nextPool.reserve0
+          const reserve1 = nextPool.reserve1
+
+          curRoute.push({
+            type: 'fewv2-pool',
+            address: fewV2PoolProvider.getPoolAddress(nextPool.token0, nextPool.token1).poolAddress,
+            tokenIn: {
+              chainId: tokenIn.chainId,
+              decimals: tokenIn.decimals.toString(),
+              address: tokenIn.wrapped.address,
+              symbol: tokenIn.symbol!,
+              buyFeeBps: this.deriveBuyFeeBps(tokenIn, reserve0, reserve1, enableFeeOnTransferFeeFetching),
+              sellFeeBps: this.deriveSellFeeBps(tokenIn, reserve0, reserve1, enableFeeOnTransferFeeFetching),
+            },
+            tokenOut: {
+              chainId: tokenOut.chainId,
+              decimals: tokenOut.decimals.toString(),
+              address: tokenOut.wrapped.address,
+              symbol: tokenOut.symbol!,
+              buyFeeBps: this.deriveBuyFeeBps(tokenOut, reserve0, reserve1, enableFeeOnTransferFeeFetching),
+              sellFeeBps: this.deriveSellFeeBps(tokenOut, reserve0, reserve1, enableFeeOnTransferFeeFetching),
+            },
+            reserve0: {
+              token: {
+                chainId: reserve0.currency.wrapped.chainId,
+                decimals: reserve0.currency.wrapped.decimals.toString(),
+                address: reserve0.currency.wrapped.address,
+                symbol: reserve0.currency.wrapped.symbol!,
+                buyFeeBps: this.deriveBuyFeeBps(
+                  reserve0.currency.wrapped,
+                  reserve0,
+                  undefined,
+                  enableFeeOnTransferFeeFetching
+                ),
+                sellFeeBps: this.deriveSellFeeBps(
+                  reserve0.currency.wrapped,
+                  reserve0,
+                  undefined,
+                  enableFeeOnTransferFeeFetching
+                ),
+              },
+              quotient: reserve0.quotient.toString(),
+            },
+            reserve1: {
+              token: {
+                chainId: reserve1.currency.wrapped.chainId,
+                decimals: reserve1.currency.wrapped.decimals.toString(),
+                address: reserve1.currency.wrapped.address,
+                symbol: reserve1.currency.wrapped.symbol!,
+                buyFeeBps: this.deriveBuyFeeBps(
+                  reserve1.currency.wrapped,
+                  undefined,
+                  reserve1,
+                  enableFeeOnTransferFeeFetching
+                ),
+                sellFeeBps: this.deriveSellFeeBps(
+                  reserve1.currency.wrapped,
+                  undefined,
+                  reserve1,
+                  enableFeeOnTransferFeeFetching
+                ),
+              },
+              quotient: reserve1.quotient.toString(),
+            },
+            amountIn: edgeAmountIn,
+            amountOut: edgeAmountOut,
+          })
+        }
+        else {
           throw new Error(`Unsupported pool type ${JSON.stringify(nextPool)}`)
         }
       }

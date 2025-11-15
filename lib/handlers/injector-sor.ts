@@ -251,7 +251,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           const tokenCache = new NodeJSCache<Token>(new NodeCache({ stdTTL: 3600, useClones: false }))
           const blockedTokenCache = new NodeJSCache<Token>(new NodeCache({ stdTTL: 3600, useClones: false }))
           const multicall2Provider = new UniswapMulticallProvider(chainId, provider, 375_000)
-          const ringFewV2Multicall2Provider = new RingswapMulticallProvider(chainId, provider, 375_000)
+          const ringSwapV2Multicall2Provider = new RingswapMulticallProvider(chainId, provider, 375_000)
           // We didn't switch caching from in-memory to dynamo for V3, and we haven't seen perf degradation
           // We switched caching from in-memory to dynamo for V2, and we haven't seen perf improvement
           // V2 has a lot more pools than V3, so for V4 we don't need to pre-emptively switch to dynamo
@@ -384,7 +384,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                 chainId,
                 provider,
                 multicall2Provider,
-                ringFewV2Multicall2Provider,
+                ringSwapV2Multicall2Provider,
                 RETRY_OPTIONS[chainId],
                 (optimisticCachedRoutes, protocol) => {
                   return optimisticCachedRoutes
@@ -411,7 +411,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                 chainId,
                 provider,
                 multicall2Provider,
-                ringFewV2Multicall2Provider,
+                ringSwapV2Multicall2Provider,
                 RETRY_OPTIONS[chainId],
                 (optimisticCachedRoutes, useMixedRouteQuoter) => {
                   const protocol = useMixedRouteQuoter ? Protocol.MIXED : Protocol.V3
@@ -604,7 +604,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
               tokenListProvider,
               blockedTokenListProvider,
               multicallProvider: multicall2Provider,
-              ringSwapMulticall2Provider: ringFewV2Multicall2Provider,
+              ringSwapMulticall2Provider: ringSwapV2Multicall2Provider,
               tokenProvider,
               tokenProviderFromTokenList: tokenListProvider,
               gasPriceProvider: new CachingGasStationProvider(
