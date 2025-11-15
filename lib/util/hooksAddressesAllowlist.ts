@@ -169,4 +169,9 @@ export const HOOKS_ADDRESSES_ALLOWLIST: { [chain in ChainId]: Array<string> } = 
   ],
   [ChainId.MONAD_TESTNET]: [ADDRESS_ZERO],
   [ChainId.SONEIUM]: [ADDRESS_ZERO],
+  [ChainId.MONAD]: [ADDRESS_ZERO],
+  [ChainId.BLAST_SEPOLIA]: [ADDRESS_ZERO],
+  [ChainId.STORY_ODYSSEY]: [ADDRESS_ZERO],
+  [ChainId.STORY_MAINNET]: [ADDRESS_ZERO],
+  [ChainId.HYPER_MAINNET]: [ADDRESS_ZERO],
 }

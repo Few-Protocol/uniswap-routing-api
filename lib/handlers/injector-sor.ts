@@ -47,6 +47,9 @@ import {
   V2QuoteProvider,
   V3PoolProvider,
   V4PoolProvider,
+  RingV2PoolProvider,
+  RingFewCachingV2PoolProvider,
+  IRingV2PoolProvider
 } from '@uniswap/smart-order-router'
 import { TokenList } from '@uniswap/token-lists'
 import { default as bunyan, default as Logger } from 'bunyan'
@@ -67,6 +70,7 @@ import { DefaultEVMClient } from './evm/EVMClient'
 import { InstrumentedEVMProvider } from './evm/provider/InstrumentedEVMProvider'
 import { deriveProviderName } from './evm/provider/ProviderName'
 import { V2DynamoCache } from './pools/pool-caching/v2/v2-dynamo-cache'
+import { FewV2DynamoCache } from './pools/pool-caching/v2/few-v2-dynamo-cache'
 import { OnChainTokenFeeFetcher } from '@uniswap/smart-order-router/build/main/providers/token-fee-fetcher'
 import { PortionProvider } from '@uniswap/smart-order-router/build/main/providers/portion-provider'
 import { GlobalRpcProviders } from '../rpc/GlobalRpcProviders'
@@ -123,6 +127,7 @@ export interface RequestInjected<Router> extends BaseRInj {
   v4PoolProvider: IV4PoolProvider
   v3PoolProvider: IV3PoolProvider
   v2PoolProvider: IV2PoolProvider
+  fewV2PoolProvider: IRingV2PoolProvider
   tokenProvider: ITokenProvider
   tokenListProvider: ITokenListProvider
   router: Router
@@ -142,6 +147,7 @@ export type ContainerDependencies = {
   v4PoolProvider: IV4PoolProvider
   v3PoolProvider: IV3PoolProvider
   v2PoolProvider: IV2PoolProvider
+  fewV2PoolProvider: IRingV2PoolProvider
   tokenProvider: ITokenProvider
   multicallProvider: UniswapMulticallProvider
   ringSwapMulticall2Provider: RingswapMulticallProvider
@@ -194,6 +200,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
         AWS_LAMBDA_FUNCTION_NAME,
         V2_PAIRS_CACHE_TABLE_NAME,
         CACHING_ROUTING_LAMBDA_FUNCTION_NAME,
+        FEW_V2_PAIRS_CACHE_TABLE_NAME
       } = process.env
 
       const dependenciesByChain: {
@@ -311,6 +318,12 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             chainId,
             underlyingV2PoolProvider,
             new V2DynamoCache(V2_PAIRS_CACHE_TABLE_NAME!)
+          )
+          const underlyingFewV2PoolProvider = new RingV2PoolProvider(chainId, ringSwapV2Multicall2Provider, tokenPropertiesProvider)
+          const fewV2PoolProvider = new RingFewCachingV2PoolProvider(
+            chainId,
+            underlyingFewV2PoolProvider,
+            new FewV2DynamoCache(FEW_V2_PAIRS_CACHE_TABLE_NAME!)
           )
           const v4PoolParams = getApplicableV4FeesTickspacingsHooks(chainId).concat(
             EXTRA_V4_FEE_TICK_SPACINGS_HOOK_ADDRESSES[chainId] ?? emptyV4FeeTickSpacingsHookAddresses
@@ -622,6 +635,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
               v4PoolProvider,
               v3PoolProvider,
               v2PoolProvider,
+              fewV2PoolProvider,
               v2QuoteProvider: new V2QuoteProvider(),
               v2SubgraphProvider,
               simulator,

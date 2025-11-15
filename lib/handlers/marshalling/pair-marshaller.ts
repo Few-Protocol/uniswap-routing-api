@@ -10,7 +10,7 @@ export interface MarshalledPair {
 }
 
 export class PairMarshaller {
-  public static marshal(pair: Pair | FewPair): MarshalledPair {
+  public static marshal(pair: Pair): MarshalledPair {
     return {
       protocol: Protocol.V2,
       currencyAmountA: CurrencyAmountMarshaller.marshal(pair.reserve0),
@@ -18,8 +18,23 @@ export class PairMarshaller {
     }
   }
 
+  public static marshalFewPair(pair: FewPair): MarshalledPair {
+    return {
+      protocol: Protocol.FEWV2,
+      currencyAmountA: CurrencyAmountMarshaller.marshal(pair.reserve0),
+      tokenAmountB: CurrencyAmountMarshaller.marshal(pair.reserve1),
+    }
+  }
+
   public static unmarshal(marshalledPair: MarshalledPair): Pair {
     return new Pair(
+      CurrencyAmountMarshaller.unmarshal(marshalledPair.currencyAmountA).wrapped,
+      CurrencyAmountMarshaller.unmarshal(marshalledPair.tokenAmountB).wrapped
+    )
+  }
+
+  public static unmarshalFewPair(marshalledPair: MarshalledPair): FewPair {
+    return new FewPair(
       CurrencyAmountMarshaller.unmarshal(marshalledPair.currencyAmountA).wrapped,
       CurrencyAmountMarshaller.unmarshal(marshalledPair.tokenAmountB).wrapped
     )

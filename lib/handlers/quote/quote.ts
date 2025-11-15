@@ -241,6 +241,7 @@ export class QuoteHandler extends APIGLambdaHandler<
         v4PoolProvider: v4PoolProvider,
         v3PoolProvider: v3PoolProvider,
         v2PoolProvider: v2PoolProvider,
+        fewV2PoolProvider: fewV2PoolProvider,
         metric,
       },
     } = params

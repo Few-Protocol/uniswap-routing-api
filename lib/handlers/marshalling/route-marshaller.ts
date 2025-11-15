@@ -47,7 +47,7 @@ export class RouteMarshaller {
           protocol: Protocol.FEWV2,
           input: TokenMarshaller.marshal(route.input),
           output: TokenMarshaller.marshal(route.output),
-          pairs: route.pairs.map((pair) => PairMarshaller.marshal(pair)),
+          pairs: route.pairs.map((pair) => PairMarshaller.marshalFewPair(pair)),
         }
       case Protocol.V2:
         return {
