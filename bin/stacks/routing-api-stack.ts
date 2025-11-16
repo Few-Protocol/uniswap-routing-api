@@ -288,6 +288,13 @@ export class RoutingAPIStack extends cdk.Stack {
     })
     quote.addMethod('GET', lambdaIntegration)
 
+    const enable_alarm = false;
+    if (!enable_alarm || process.env.ENABLE_ALARMS === 'false') {
+      this.url = new CfnOutput(this, 'Url', {
+        value: api.url,
+      })
+      return;
+    }
     // All alarms default to GreaterThanOrEqualToThreshold for when to be triggered.
     const apiAlarm5xxSev2 = new aws_cloudwatch.Alarm(this, 'RoutingAPI-SEV2-5XXAlarm', {
       alarmName: 'RoutingAPI-SEV2-5XX',
