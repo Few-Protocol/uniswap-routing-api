@@ -323,7 +323,7 @@ describe('GlobalRpcProviders', () => {
     ).get(ChainId.MAINNET)!!
     expect(ethRpcProvider['providers'][0].url).equal('https://mainnet.infura.io/v3/key22')
     expect(ethRpcProvider['providers'][1].url).equal('https://host23.quiknode.pro/key23')
-    expect(ethRpcProvider['providers'][2].url).equal('https://eth-mainnet-fast.g.alchemy.com/v2/key25')
+    expect(ethRpcProvider['providers'][2].url).equal('https://eth-mainnet.g.alchemy.com/v2/key25')
 
     const blastRpcProvider = GlobalRpcProviders.getGlobalUniRpcProviders(
       log,

@@ -22,10 +22,10 @@ describe('FallbackHandler', () => {
   const realisticAlarm = JSON.parse(`
     {
       "source": "aws.cloudwatch",
-      "alarmArn": "arn:aws:cloudwatch:us-east-2:901338192186:alarm:RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-QUIKNODE",
+      "alarmArn": "arn:aws:cloudwatch:us-east-1:901338192186:alarm:RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-QUIKNODE",
       "accountId": "901338192186",
       "time": "2024-04-16T08:47:36.960+0000",
-      "region": "us-east-2",
+      "region": "us-east-1",
       "alarmData": {
         "alarmName": "RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-QUIKNODE",
         "state": {
