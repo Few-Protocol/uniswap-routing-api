@@ -61,6 +61,7 @@ import {
   V2AWSSubgraphProvider,
   V3AWSSubgraphProvider,
   V4AWSSubgraphProvider,
+  RingV2AWSSubgraphProvider
 } from './router-entities/aws-subgraph-provider'
 import { AWSTokenListProvider } from './router-entities/aws-token-list-provider'
 import { DynamoRouteCachingProvider } from './router-entities/route-caching/dynamo-route-caching-provider'
@@ -360,6 +361,13 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
               POOL_CACHE_GZIP_KEY!,
               v2PoolProvider
             )) as V2AWSSubgraphProvider,
+            (await this.instantiateSubgraphProvider(
+              chainId,
+              Protocol.FEWV2,
+              POOL_CACHE_BUCKET_3!,
+              POOL_CACHE_GZIP_KEY!,
+              v2PoolProvider
+            )) as RingV2AWSSubgraphProvider,
           ])
 
           const tokenProvider = new CachingTokenProviderWithFallback(
@@ -692,6 +700,8 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           return await V3AWSSubgraphProvider.EagerBuild(poolCacheBucket!, poolCacheKey!, chainId)
         case Protocol.V2:
           return await V2AWSSubgraphProvider.EagerBuild(poolCacheBucket!, poolCacheKey!, chainId)
+        case Protocol.FEWV2:
+          return await RingV2AWSSubgraphProvider.EagerBuild(poolCacheBucket!, poolCacheKey!, chainId)
         default:
           throw new Error(`Unsupported protocol ${protocol} for chain ${chainId} to instantiate subgraph provider`)
       }

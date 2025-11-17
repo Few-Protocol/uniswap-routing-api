@@ -1,5 +1,6 @@
 import { Protocol } from '@uniswap/router-sdk'
 import {
+  IRingV2SubgraphProvider,
   IV2SubgraphProvider,
   IV3SubgraphProvider,
   log,
@@ -8,6 +9,7 @@ import {
   V2SubgraphPool,
   V3SubgraphPool,
   V4SubgraphPool,
+  RingV2SubgraphPool
 } from '@uniswap/smart-order-router'
 import { S3 } from 'aws-sdk'
 import { ChainId } from '@uniswap/sdk-core'
@@ -20,7 +22,7 @@ const POOL_CACHE = new NodeCache({ stdTTL: 240, useClones: false })
 const LOCAL_POOL_CACHE_KEY = (chainId: ChainId, protocol: Protocol) => `pools${chainId}#${protocol}`
 const s3 = new S3({ correctClockSkew: true, maxRetries: 1 })
 
-export class AWSSubgraphProvider<TSubgraphPool extends V2SubgraphPool | V3SubgraphPool> {
+export class AWSSubgraphProvider<TSubgraphPool extends V2SubgraphPool | RingV2SubgraphPool | V3SubgraphPool> {
   constructor(private chain: ChainId, private protocol: Protocol, private bucket: string, private baseKey: string) {}
 
   public async getPools(): Promise<TSubgraphPool[]> {
@@ -42,9 +44,18 @@ export class AWSSubgraphProvider<TSubgraphPool extends V2SubgraphPool | V3Subgra
       `Subgraph pools local cache miss for protocol ${this.protocol}. Getting subgraph pools from S3`
     )
 
-    const pools = await cachePoolsFromS3<TSubgraphPool>(s3, this.bucket, this.baseKey, this.chain, this.protocol)
-
-    return pools
+    try {
+      const pools = await cachePoolsFromS3<TSubgraphPool>(s3, this.bucket, this.baseKey, this.chain, this.protocol)
+      return pools
+    } catch (err) {
+      log.info(
+        { bucket: this.bucket, baseKey: this.baseKey, protocol: this.protocol, chainId: this.chain, err },
+        `Failed to get subgraph pools from S3 for protocol ${this.protocol} on chain ${this.chain}. Returning empty array.`
+      )
+      // Return empty array as fallback instead of throwing error
+      // This allows the system to continue operating, though with reduced pool data
+      return []
+    }
   }
 }
 
@@ -71,7 +82,21 @@ export const cachePoolsFromS3 = async <TSubgraphPool>(
       `Downloaded s3 object for ${protocol} on ${chainId} with latency ${after - before} milliseconds.`
     )
   } catch (err) {
-    log.error({ bucket, key, err }, `Failed to get pools from S3 for ${protocol} on chain ${chainId}`)
+    // Check if it's a NoSuchKey error (file doesn't exist) vs other errors
+    const isNoSuchKey =
+      err &&
+      typeof err === 'object' &&
+      'code' in err &&
+      (err as { code?: string }).code === 'NoSuchKey'
+
+    if (isNoSuchKey) {
+      log.info(
+        { bucket, key, err },
+        `S3 key does not exist for ${protocol} on chain ${chainId}. This may be expected for new chains or protocols.`
+      )
+    } else {
+      log.error({ bucket, key, err }, `Failed to get pools from S3 for ${protocol} on chain ${chainId}`)
+    }
     throw new Error(`Failed to get pools from S3 for ${protocol} on chain ${chainId}`)
   }
 
@@ -140,5 +165,17 @@ export class V2AWSSubgraphProvider extends AWSSubgraphProvider<V2SubgraphPool> i
     await cachePoolsFromS3<V2SubgraphPool>(s3, bucket, baseKey, chainId, Protocol.V2)
 
     return new V2AWSSubgraphProvider(chainId, bucket, baseKey)
+  }
+}
+
+export class RingV2AWSSubgraphProvider extends AWSSubgraphProvider<RingV2SubgraphPool> implements IRingV2SubgraphProvider {
+  constructor(chainId: ChainId, bucket: string, key: string) {
+    super(chainId, Protocol.FEWV2, bucket, key)
+  }
+
+  public static async EagerBuild(bucket: string, baseKey: string, chainId: ChainId): Promise<RingV2AWSSubgraphProvider> {
+    await cachePoolsFromS3<RingV2SubgraphPool>(s3, bucket, baseKey, chainId, Protocol.FEWV2)
+
+    return new RingV2AWSSubgraphProvider(chainId, bucket, baseKey)
   }
 }
