@@ -37,6 +37,8 @@ export class UniGraphQLProvider implements IUniGraphQLProvider {
     switch (chainId) {
       case ChainId.MAINNET:
         return 'ETHEREUM'
+      case ChainId.SEPOLIA:
+        return 'SEPOLIA'
       case ChainId.ARBITRUM_ONE:
         return 'ARBITRUM'
       case ChainId.AVALANCHE:
