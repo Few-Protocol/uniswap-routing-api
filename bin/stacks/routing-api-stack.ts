@@ -133,6 +133,7 @@ export class RoutingAPIStack extends cdk.Stack {
       cachingRequestFlagDynamoDb,
       cachedV3PoolsDynamoDb,
       cachedV2PairsDynamoDb,
+      cachedFewV2PairsDynamoDb,
       tokenPropertiesCachingDynamoDb,
       rpcProviderHealthStateDynamoDb,
     } = new RoutingDatabaseStack(this, 'RoutingDatabaseStack', {})
@@ -158,6 +159,7 @@ export class RoutingAPIStack extends cdk.Stack {
       cachingRequestFlagDynamoDb,
       cachedV3PoolsDynamoDb,
       cachedV2PairsDynamoDb,
+      cachedFewV2PairsDynamoDb,
       tokenPropertiesCachingDynamoDb,
       rpcProviderHealthStateDynamoDb,
       unicornSecret,

@@ -36,6 +36,11 @@ export const DynamoDBTableProps = {
     PartitionKeyName: 'cacheKey',
     SortKeyName: 'block',
   },
+  FewV2PairsDynamoCache: {
+    Name: 'FewV2PairsCachingDB',
+    PartitionKeyName: 'cacheKey',
+    SortKeyName: 'block',
+  },
   TokenPropertiesCachingDbTable: {
     Name: 'TokenPropertiesCachingDb',
     PartitionKeyName: 'chainIdTokenAddress',
@@ -64,6 +69,7 @@ export class RoutingDatabaseStack extends cdk.NestedStack {
 
   public readonly cachedV3PoolsDynamoDb: aws_dynamodb.Table
   public readonly cachedV2PairsDynamoDb: aws_dynamodb.Table
+  public readonly cachedFewV2PairsDynamoDb: aws_dynamodb.Table
   public readonly tokenPropertiesCachingDynamoDb: aws_dynamodb.Table
   public readonly rpcProviderHealthStateDynamoDb: aws_dynamodb.Table
 
@@ -134,6 +140,15 @@ export class RoutingDatabaseStack extends cdk.NestedStack {
       tableName: DynamoDBTableProps.V2PairsDynamoCache.Name,
       partitionKey: { name: DynamoDBTableProps.V2PairsDynamoCache.PartitionKeyName, type: AttributeType.STRING },
       sortKey: { name: DynamoDBTableProps.V2PairsDynamoCache.SortKeyName, type: AttributeType.NUMBER },
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      timeToLiveAttribute: DynamoDBTableProps.TTLAttributeName,
+    })
+
+    // Creates a DynamoDB Table for storing the cached fewV2 pairs
+    this.cachedFewV2PairsDynamoDb = new aws_dynamodb.Table(this, DynamoDBTableProps.FewV2PairsDynamoCache.Name, {
+      tableName: DynamoDBTableProps.FewV2PairsDynamoCache.Name,
+      partitionKey: { name: DynamoDBTableProps.FewV2PairsDynamoCache.PartitionKeyName, type: AttributeType.STRING },
+      sortKey: { name: DynamoDBTableProps.FewV2PairsDynamoCache.SortKeyName, type: AttributeType.NUMBER },
       billingMode: BillingMode.PAY_PER_REQUEST,
       timeToLiveAttribute: DynamoDBTableProps.TTLAttributeName,
     })

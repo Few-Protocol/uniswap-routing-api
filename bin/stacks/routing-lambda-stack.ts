@@ -35,6 +35,7 @@ export interface RoutingLambdaStackProps extends cdk.NestedStackProps {
   cachingRequestFlagDynamoDb: aws_dynamodb.Table
   cachedV3PoolsDynamoDb: aws_dynamodb.Table
   cachedV2PairsDynamoDb: aws_dynamodb.Table
+  cachedFewV2PairsDynamoDb: aws_dynamodb.Table
   tokenPropertiesCachingDynamoDb: aws_dynamodb.Table
   rpcProviderHealthStateDynamoDb: aws_dynamodb.Table
   unicornSecret: string
@@ -67,6 +68,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       cachingRequestFlagDynamoDb,
       cachedV3PoolsDynamoDb,
       cachedV2PairsDynamoDb,
+      cachedFewV2PairsDynamoDb,
       tokenPropertiesCachingDynamoDb,
       rpcProviderHealthStateDynamoDb,
       unicornSecret,
@@ -97,6 +99,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
     cachingRequestFlagDynamoDb.grantReadWriteData(lambdaRole)
     cachedV3PoolsDynamoDb.grantReadWriteData(lambdaRole)
     cachedV2PairsDynamoDb.grantReadWriteData(lambdaRole)
+    cachedFewV2PairsDynamoDb.grantReadWriteData(lambdaRole)
     tokenPropertiesCachingDynamoDb.grantReadWriteData(lambdaRole)
     rpcProviderHealthStateDynamoDb.grantReadWriteData(lambdaRole)
 
@@ -143,6 +146,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         CACHING_REQUEST_FLAG_TABLE_NAME: DynamoDBTableProps.CachingRequestFlagDynamoDbTable.Name,
         CACHED_V3_POOLS_TABLE_NAME: DynamoDBTableProps.V3PoolsDynamoDbTable.Name,
         V2_PAIRS_CACHE_TABLE_NAME: DynamoDBTableProps.V2PairsDynamoCache.Name,
+        FEW_V2_PAIRS_CACHE_TABLE_NAME: DynamoDBTableProps.FewV2PairsDynamoCache.Name,
         RPC_PROVIDER_HEALTH_TABLE_NAME: DynamoDBTableProps.RpcProviderHealthStateDbTable.Name,
 
         // tokenPropertiesCachingDynamoDb.tableName is the correct format.
@@ -207,6 +211,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         CACHING_REQUEST_FLAG_TABLE_NAME: DynamoDBTableProps.CachingRequestFlagDynamoDbTable.Name,
         CACHED_V3_POOLS_TABLE_NAME: DynamoDBTableProps.V3PoolsDynamoDbTable.Name,
         V2_PAIRS_CACHE_TABLE_NAME: DynamoDBTableProps.V2PairsDynamoCache.Name,
+        FEW_V2_PAIRS_CACHE_TABLE_NAME: DynamoDBTableProps.FewV2PairsDynamoCache.Name,
         RPC_PROVIDER_HEALTH_TABLE_NAME: DynamoDBTableProps.RpcProviderHealthStateDbTable.Name,
 
         // tokenPropertiesCachingDynamoDb.tableName is the correct format.
