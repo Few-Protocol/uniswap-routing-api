@@ -6,8 +6,9 @@ import {
   LegacyRoutingConfig,
   setGlobalLogger,
   setGlobalMetric,
-  V3HeuristicGasModelFactory,
 } from '@uniswap/smart-order-router'
+import { V3HeuristicGasModelFactory } from '@uniswap/smart-order-router/build/main/routers/alpha-router/gas-models/v3/v3-heuristic-gas-model'
+import { RingFewV2HeuristicGasModelFactory } from '@uniswap/smart-order-router/build/main/routers/alpha-router/gas-models/fewV2/v2-heuristic-gas-model'
 import { MetricsLogger } from 'aws-embedded-metrics'
 import { APIGatewayProxyEvent, Context } from 'aws-lambda'
 import { default as bunyan, default as Logger } from 'bunyan'
@@ -99,7 +100,9 @@ export class QuoteHandlerInjector extends InjectorSOR<
       tokenValidatorProvider,
       tokenPropertiesProvider,
       v2QuoteProvider,
+      ringV2QuoteProvider,
       v2SubgraphProvider,
+      ringV2SubgraphProvider,
       gasPriceProvider: gasPriceProviderOnChain,
       simulator,
       routeCachingProvider,
@@ -135,11 +138,15 @@ export class QuoteHandlerInjector extends InjectorSOR<
           onChainQuoteProvider,
           gasPriceProvider,
           v3GasModelFactory: new V3HeuristicGasModelFactory(provider),
+          ringFewV2GasModelFactory: new RingFewV2HeuristicGasModelFactory(provider),
           blockedTokenListProvider,
           tokenProvider,
           v2PoolProvider,
+          ringFewV2PoolProvider: fewV2PoolProvider,
           v2QuoteProvider,
+          ringFewV2QuoteProvider: ringV2QuoteProvider,
           v2SubgraphProvider,
+          ringFewV2SubgraphProvider: ringV2SubgraphProvider,
           simulator,
           routeCachingProvider,
           tokenValidatorProvider,

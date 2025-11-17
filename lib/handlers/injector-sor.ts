@@ -49,7 +49,9 @@ import {
   V4PoolProvider,
   RingV2PoolProvider,
   RingFewCachingV2PoolProvider,
-  IRingV2PoolProvider
+  IRingV2PoolProvider,
+  IRingV2SubgraphProvider,
+  RingV2QuoteProvider
 } from '@uniswap/smart-order-router'
 import { TokenList } from '@uniswap/token-lists'
 import { default as bunyan, default as Logger } from 'bunyan'
@@ -141,6 +143,7 @@ export type ContainerDependencies = {
   v4SubgraphProvider: IV4SubgraphProvider
   v3SubgraphProvider: IV3SubgraphProvider
   v2SubgraphProvider: IV2SubgraphProvider
+  ringV2SubgraphProvider: IRingV2SubgraphProvider
   tokenListProvider: ITokenListProvider
   gasPriceProvider: IGasPriceProvider
   tokenProviderFromTokenList: ITokenProvider
@@ -154,6 +157,7 @@ export type ContainerDependencies = {
   ringSwapMulticall2Provider: RingswapMulticallProvider
   onChainQuoteProvider?: IOnChainQuoteProvider
   v2QuoteProvider: V2QuoteProvider
+  ringV2QuoteProvider: RingV2QuoteProvider
   simulator: Simulator
   routeCachingProvider?: IRouteCachingProvider
   tokenValidatorProvider: TokenValidatorProvider
@@ -336,6 +340,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             v4SubgraphProvider,
             v3SubgraphProvider,
             v2SubgraphProvider,
+            ringV2SubgraphProvider,
           ] = await Promise.all([
             AWSTokenListProvider.fromTokenListS3Bucket(chainId, TOKEN_LIST_CACHE_BUCKET!, DEFAULT_TOKEN_LIST),
             CachingTokenListProvider.fromTokenList(chainId, UNSUPPORTED_TOKEN_LIST as TokenList, blockedTokenCache),
@@ -645,7 +650,9 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
               v2PoolProvider,
               fewV2PoolProvider,
               v2QuoteProvider: new V2QuoteProvider(),
+              ringV2QuoteProvider: new RingV2QuoteProvider(),
               v2SubgraphProvider,
+              ringV2SubgraphProvider,
               simulator,
               routeCachingProvider,
               tokenValidatorProvider,
@@ -713,6 +720,10 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           return new StaticV3SubgraphProvider(chainId, poolProvider as IV3PoolProvider)
         case Protocol.V2:
           return new StaticV2SubgraphProvider(chainId)
+        case Protocol.FEWV2:
+          // For FEWV2, return a RingV2AWSSubgraphProvider instance even if S3 fails
+          // It will return empty array as fallback when getPools() is called
+          return new RingV2AWSSubgraphProvider(chainId, poolCacheBucket, poolCacheKey)
         default:
           throw new Error(`Unsupported protocol ${protocol} for chain ${chainId} to instantiate subgraph provider`)
       }
