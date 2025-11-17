@@ -20,16 +20,13 @@
     "latencyEvaluationSampleProb": 0,
     "healthCheckSampleProb": 0,
     "providerInitialWeights": [
-      1,
-      0
+      1
     ],
     "providerUrls": [
-      "ALCHEMY_11155111",
-      "UNIRPC_0"
+      "ALCHEMY_11155111"
     ],
     "providerNames": [
-      "ALCHEMY",
-      "UNIRPC"
+      "ALCHEMY"
     ],
     "enableDbSync": true
   }

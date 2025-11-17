@@ -150,7 +150,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
 }
 
 const v4TrackedEthThreshold = 0.01 // Pools need at least 0.01 of trackedEth to be selected
-const v4BaseTrackedEthThreshold = 0.1 // Pools on Base need at least 0.1 of trackedEth to be selected
+// const v4BaseTrackedEthThreshold = 0.1 // Pools on Base need at least 0.1 of trackedEth to be selected
 const v4BaseZoraTrackedEthThreshold = 0.001 // Pools on Zora need at least 0.1 of trackedEth to be selected
 const v4UntrackedUsdThreshold = 0 // v4 subgraph totalValueLockedUSDUntracked returns 0, even with the pools that have appropriate liqudities and correct pool pricing
 
@@ -186,6 +186,7 @@ export const chainProtocols = [
       v3SubgraphUrlOverride(ChainId.MAINNET)
     ),
   },
+  /*
   {
     protocol: Protocol.V3,
     chainId: ChainId.ARBITRUM_ONE,
@@ -354,7 +355,7 @@ export const chainProtocols = [
       v3UntrackedUsdThreshold,
       v3SubgraphUrlOverride(ChainId.SONEIUM)
     ),
-  },
+  },*/
   // V2.
   {
     protocol: Protocol.V2,
@@ -371,6 +372,7 @@ export const chainProtocols = [
       v2SubgraphUrlOverride(ChainId.MAINNET)
     ), // 1000 is the largest page size supported by thegraph
   },
+  /*
   {
     protocol: Protocol.V2,
     chainId: ChainId.ARBITRUM_ONE,
@@ -535,7 +537,7 @@ export const chainProtocols = [
       v2UntrackedUsdThreshold,
       v2SubgraphUrlOverride(ChainId.SONEIUM)
     ),
-  },
+  },*/
   // V4
   {
     protocol: Protocol.V4,
@@ -553,6 +555,7 @@ export const chainProtocols = [
       v4SubgraphUrlOverride(ChainId.SEPOLIA)
     ),
   },
+  /*
   {
     protocol: Protocol.V4,
     chainId: ChainId.ARBITRUM_ONE,
@@ -672,7 +675,7 @@ export const chainProtocols = [
       v4UntrackedUsdThreshold,
       v4SubgraphUrlOverride(ChainId.BLAST)
     ),
-  },
+  },*/
   {
     protocol: Protocol.V4,
     chainId: ChainId.MAINNET,
@@ -696,6 +699,7 @@ export const chainProtocols = [
       v4SubgraphUrlOverride(ChainId.MAINNET)
     ),
   },
+  /*
   {
     protocol: Protocol.V4,
     chainId: ChainId.SONEIUM,
@@ -743,5 +747,5 @@ export const chainProtocols = [
       v4UntrackedUsdThreshold,
       v4SubgraphUrlOverride(ChainId.BNB)
     ),
-  },
+  },*/
 ]
