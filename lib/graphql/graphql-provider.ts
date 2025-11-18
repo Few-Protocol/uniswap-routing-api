@@ -19,14 +19,26 @@ export interface IUniGraphQLProvider {
 
 /* Implementation of the UniGraphQLProvider interface to give access to Uniswap GraphQL API */
 export class UniGraphQLProvider implements IUniGraphQLProvider {
-  private readonly endpoint = process.env.GQL_URL!
-  private readonly headers = {
-    Origin: process.env.GQL_H_ORGN!,
-    'Content-Type': 'application/json',
-  }
+  private readonly endpoint: string
+  private readonly headers: Record<string, string>
   private client: IGraphQLClient
 
   constructor() {
+    const gqlUrl = process.env.GQL_URL
+    const gqlHeaderOrigin = process.env.GQL_H_ORGN
+
+    if (!gqlUrl) {
+      throw new Error('GQL_URL environment variable is not set')
+    }
+    if (!gqlHeaderOrigin) {
+      throw new Error('GQL_H_ORGN environment variable is not set')
+    }
+
+    this.endpoint = gqlUrl
+    this.headers = {
+      Origin: gqlHeaderOrigin,
+      'Content-Type': 'application/json',
+    }
     this.client = new GraphQLClient(this.endpoint, this.headers)
   }
 

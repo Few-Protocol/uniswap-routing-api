@@ -9,9 +9,19 @@ export interface IGraphQLClient {
 
 /* Implementation of the IGraphQLClient interface to give access to any GraphQL API */
 export class GraphQLClient implements IGraphQLClient {
-  constructor(private readonly endpoint: string, private readonly headers: Record<string, string>) {}
+  constructor(private readonly endpoint: string, private readonly headers: Record<string, string>) {
+    if (!endpoint) {
+      throw new Error('GraphQLClient: endpoint is required')
+    }
+    if (!headers || typeof headers !== 'object') {
+      throw new Error('GraphQLClient: headers must be a valid object')
+    }
+  }
 
   async fetchData<T>(query: string, variables: { [key: string]: any } = {}): Promise<T> {
+    if (!this.endpoint) {
+      throw new Error('GraphQLClient: endpoint is not set')
+    }
     const requestConfig: AxiosRequestConfig = {
       method: 'POST',
       url: this.endpoint,

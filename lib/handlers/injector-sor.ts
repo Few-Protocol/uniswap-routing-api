@@ -74,7 +74,7 @@ import { InstrumentedEVMProvider } from './evm/provider/InstrumentedEVMProvider'
 import { deriveProviderName } from './evm/provider/ProviderName'
 import { V2DynamoCache } from './pools/pool-caching/v2/v2-dynamo-cache'
 import { FewV2DynamoCache } from './pools/pool-caching/v2/few-v2-dynamo-cache'
-import { OnChainTokenFeeFetcher } from '@uniswap/smart-order-router/build/main/providers/token-fee-fetcher'
+import { OnChainTokenFeeFetcher, ITokenFeeFetcher } from '@uniswap/smart-order-router/build/main/providers/token-fee-fetcher'
 import { PortionProvider } from '@uniswap/smart-order-router/build/main/providers/portion-provider'
 import { GlobalRpcProviders } from '../rpc/GlobalRpcProviders'
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
@@ -292,13 +292,27 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           })
 
           const onChainTokenFeeFetcher = new OnChainTokenFeeFetcher(chainId, provider)
-          const graphQLTokenFeeFetcher = new GraphQLTokenFeeFetcher(
-            new UniGraphQLProvider(),
-            onChainTokenFeeFetcher,
-            chainId
-          )
+          
+          // Try to initialize GraphQL provider, fallback to on-chain only if it fails
+          let tokenFeeFetcher: ITokenFeeFetcher = onChainTokenFeeFetcher
+          try {
+            const graphQLProvider = new UniGraphQLProvider()
+            const graphQLTokenFeeFetcher = new GraphQLTokenFeeFetcher(
+              graphQLProvider,
+              onChainTokenFeeFetcher,
+              chainId
+            )
+            tokenFeeFetcher = graphQLTokenFeeFetcher
+          } catch (err) {
+            log.warn(
+              { err, chainId },
+              'Failed to initialize UniGraphQLProvider. Falling back to OnChainTokenFeeFetcher only.'
+            )
+            // tokenFeeFetcher already set to onChainTokenFeeFetcher
+          }
+          
           const trafficSwitcherTokenFetcher = new TrafficSwitcherITokenFeeFetcher('TokenFetcherExperimentV2', {
-            control: graphQLTokenFeeFetcher,
+            control: tokenFeeFetcher,
             treatment: onChainTokenFeeFetcher,
             aliasControl: 'graphQLTokenFeeFetcher',
             aliasTreatment: 'onChainTokenFeeFetcher',
