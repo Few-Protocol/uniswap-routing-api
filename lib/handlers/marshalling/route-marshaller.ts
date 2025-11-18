@@ -1,4 +1,4 @@
-import { MixedRoute, V2Route, V3Route, V4Route } from '@uniswap/smart-order-router/build/main/routers'
+import { MixedRoute, V2Route, V3Route, V4Route, RingFewV2Route } from '@uniswap/smart-order-router/build/main/routers'
 import { Protocol } from '@uniswap/router-sdk'
 import { MarshalledCurrency, TokenMarshaller } from './token-marshaller'
 import { MarshalledPair, PairMarshaller } from './pair-marshaller'
@@ -8,7 +8,7 @@ import { Pool as V3Pool } from '@uniswap/v3-sdk'
 import { Pool as V4Pool } from '@uniswap/v4-sdk'
 import { SupportedRoutes } from '@uniswap/smart-order-router'
 import { Pair } from '@uniswap/v2-sdk'
-
+import { Pair as FewV2Pair } from '@ring-protocol/few-v2-sdk'
 export interface MarshalledV2Route {
   protocol: Protocol
   input: MarshalledCurrency
@@ -82,6 +82,8 @@ export class RouteMarshaller {
               return V4PoolMarshaller.marshal(tpool)
             } else if (tpool instanceof Pair) {
               return PairMarshaller.marshal(tpool)
+            } else if (tpool instanceof FewV2Pair) {
+              return PairMarshaller.marshalFewPair(tpool)
             } else {
               throw new Error(`Unsupported pool type ${JSON.stringify(tpool)}`)
             }
@@ -96,8 +98,8 @@ export class RouteMarshaller {
     switch (marshalledRoute.protocol) {
       case Protocol.FEWV2:
         const fewv2Route = marshalledRoute as MarshalledV2Route
-        return new V2Route(
-          fewv2Route.pairs.map((marshalledPair) => PairMarshaller.unmarshal(marshalledPair)),
+        return new RingFewV2Route(
+          fewv2Route.pairs.map((marshalledPair) => PairMarshaller.unmarshalFewPair(marshalledPair)),
           TokenMarshaller.unmarshal(fewv2Route.input).wrapped,
           TokenMarshaller.unmarshal(fewv2Route.output).wrapped
         )
@@ -132,6 +134,8 @@ export class RouteMarshaller {
               return V3PoolMarshaller.unmarshal(tpool as V3MarshalledPool)
             case Protocol.V4:
               return V4PoolMarshaller.unmarshal(tpool as V4MarshalledPool)
+            case Protocol.FEWV2:
+              return PairMarshaller.unmarshalFewPair(tpool as MarshalledPair)
             default:
               throw new Error(`Unsupported protocol ${JSON.stringify(tpool)}`)
           }
