@@ -7,8 +7,6 @@
   "license": "GPL",
   "repository": "https://github.com/Uniswap/routing-api",
   "scripts": {
-    "postinstall": "mkdir -p node_modules/@uniswap && ln -sf ../\\@ring-protocol/smart-order-router node_modules/@uniswap/smart-order-router",
-    "preinstall": "node -e \"const fs=require('fs');const path=require('path');const cwd=process.cwd();const link=path.join(cwd,'node_modules','@uniswap','smart-order-router');try{if(fs.existsSync(link)){const stat=fs.lstatSync(link);if(stat.isSymbolicLink()){fs.unlinkSync(link);}else if(stat.isDirectory()){fs.rmSync(link,{recursive:true,force:true});}}}catch(e){}\"",
     "compile-external-types": "npx typechain --target ethers-v5 --out-dir lib/types/ext 'lib/abis/**/*.json'",
     "compile-v3-contract-types": "npx typechain --target ethers-v5 --out-dir lib/types/v3 './node_modules/@uniswap/?(v3-core|v3-periphery)/artifacts/contracts/**/*.json'",
     "build": "run-p compile-external-types compile-v3-contract-types && tsc",
@@ -80,7 +78,7 @@
     "@middy/validator": "^2.4.1",
     "@pinata/sdk": "^1.1.23",
     "@ring-protocol/few-v2-sdk": "0.1.7",
-    "@ring-protocol/smart-order-router": "file:../uniswap-smart-order-router",
+    "@uniswap/smart-order-router": "npm:@ring-protocol/smart-order-router@0.5.1",
     "@typechain/ethers-v5": "^7.0.1",
     "@types/async-retry": "^1.4.2",
     "@types/chai-subset": "^1.3.3",

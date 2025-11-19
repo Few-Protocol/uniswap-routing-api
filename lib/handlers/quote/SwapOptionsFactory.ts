@@ -167,6 +167,8 @@ export class SwapOptionsFactory {
 
     if (simulateFromAddress) {
       swapParams.simulate = { fromAddress: simulateFromAddress }
+    } else {
+      swapParams.simulate = undefined
     }
     return swapParams
   }
