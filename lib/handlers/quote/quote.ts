@@ -555,22 +555,33 @@ export class QuoteHandler extends APIGLambdaHandler<
           edgeAmountOut = type == 'exactIn' ? quote.quotient.toString() : amount.quotient.toString()
         }
 
-        if (nextPool instanceof V4Pool) {
+        if (nextPool instanceof V4Pool || subRoute.protocol === Protocol.V4) {
           // We want to filter the fake v4 pool here,
           // because in SOR, we intentionally retain the fake pool, when it returns the valid routes
           // https://github.com/Uniswap/smart-order-router/pull/819/files#diff-0eeab2733d13572382be381aa273dddcb38e797adf48c864105fbab2dcf011ffR489
-          if (nextPool.tickSpacing === V4_ETH_WETH_FAKE_POOL[chainId].tickSpacing) {
+          const pool = nextPool as any
+          if (pool.tickSpacing === V4_ETH_WETH_FAKE_POOL[chainId].tickSpacing) {
             continue
           }
+
+          // 提取 V4Pool 的所有属性
+          const token0 = pool.token0
+          const token1 = pool.token1
+          const fee = pool.fee
+          const tickSpacing = pool.tickSpacing
+          const hooks = pool.hooks
+          const liquidity = pool.liquidity
+          const sqrtRatioX96 = pool.sqrtRatioX96
+          const tickCurrent = pool.tickCurrent
 
           curRoute.push({
             type: 'v4-pool',
             address: v4PoolProvider.getPoolId(
-              nextPool.token0,
-              nextPool.token1,
-              nextPool.fee,
-              nextPool.tickSpacing,
-              nextPool.hooks
+              token0,
+              token1,
+              fee,
+              tickSpacing,
+              hooks
             ).poolId,
             tokenIn: {
               chainId: tokenIn.chainId,
@@ -584,19 +595,27 @@ export class QuoteHandler extends APIGLambdaHandler<
               address: getAddress(tokenOut),
               symbol: tokenOut.symbol!,
             },
-            fee: nextPool.fee.toString(),
-            tickSpacing: nextPool.tickSpacing.toString(),
-            hooks: nextPool.hooks.toString(),
-            liquidity: nextPool.liquidity.toString(),
-            sqrtRatioX96: nextPool.sqrtRatioX96.toString(),
-            tickCurrent: nextPool.tickCurrent.toString(),
+            fee: fee.toString(),
+            tickSpacing: tickSpacing.toString(),
+            hooks: hooks.toString(),
+            liquidity: liquidity.toString(),
+            sqrtRatioX96: sqrtRatioX96.toString(),
+            tickCurrent: tickCurrent.toString(),
             amountIn: edgeAmountIn,
             amountOut: edgeAmountOut,
           })
-        } else if (nextPool instanceof V3Pool) {
+        } else if (nextPool instanceof V3Pool || subRoute.protocol === Protocol.V3) {
+          const pool = nextPool as any
+          const token0 = pool.token0
+          const token1 = pool.token1
+          const fee = pool.fee
+          const liquidity = pool.liquidity
+          const sqrtRatioX96 = pool.sqrtRatioX96
+          const tickCurrent = pool.tickCurrent
+
           curRoute.push({
             type: 'v3-pool',
-            address: v3PoolProvider.getPoolAddress(nextPool.token0, nextPool.token1, nextPool.fee).poolAddress,
+            address: v3PoolProvider.getPoolAddress(token0, token1, fee).poolAddress,
             tokenIn: {
               chainId: tokenIn.chainId,
               decimals: tokenIn.decimals.toString(),
@@ -609,14 +628,14 @@ export class QuoteHandler extends APIGLambdaHandler<
               address: tokenOut.wrapped.address,
               symbol: tokenOut.symbol!,
             },
-            fee: nextPool.fee.toString(),
-            liquidity: nextPool.liquidity.toString(),
-            sqrtRatioX96: nextPool.sqrtRatioX96.toString(),
-            tickCurrent: nextPool.tickCurrent.toString(),
+            fee: fee.toString(),
+            liquidity: liquidity.toString(),
+            sqrtRatioX96: sqrtRatioX96.toString(),
+            tickCurrent: tickCurrent.toString(),
             amountIn: edgeAmountIn,
             amountOut: edgeAmountOut,
           })
-        } else if (nextPool instanceof Pair) {
+        } else if (nextPool instanceof Pair || subRoute.protocol === Protocol.V2) {
           const reserve0 = nextPool.reserve0
           const reserve1 = nextPool.reserve1
 
@@ -684,7 +703,7 @@ export class QuoteHandler extends APIGLambdaHandler<
             amountIn: edgeAmountIn,
             amountOut: edgeAmountOut,
           })
-        } else if (nextPool instanceof FewV2Pair) {
+        } else if (nextPool instanceof FewV2Pair || subRoute.protocol === Protocol.FEWV2) {
           const reserve0 = nextPool.reserve0
           const reserve1 = nextPool.reserve1
 
