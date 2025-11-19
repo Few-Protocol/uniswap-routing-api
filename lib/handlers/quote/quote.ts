@@ -861,8 +861,13 @@ export class QuoteHandler extends APIGLambdaHandler<
 
       for (const protocolStr of requestedProtocols) {
         switch (protocolStr.toUpperCase()) {
+          case Protocol.FEWV2:
+            if (URVersionsToProtocolVersions[universalRouterVersion].includes(Protocol.FEWV2)) {
+              protocols.push(Protocol.FEWV2)
+            }
+            break
           case Protocol.V2:
-            if (chainId === ChainId.MAINNET || !excludeV2) {
+            if (/*chainId === ChainId.MAINNET || */!excludeV2) {
               if (URVersionsToProtocolVersions[universalRouterVersion].includes(Protocol.V2)) {
                 protocols.push(Protocol.V2)
               }
