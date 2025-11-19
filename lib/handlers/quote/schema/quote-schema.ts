@@ -47,7 +47,7 @@ export const QuoteQueryParamsJoi = Joi.object({
   minSplits: Joi.number().max(7).optional(),
   forceCrossProtocol: Joi.boolean().optional(),
   forceMixedRoutes: Joi.boolean().optional(),
-  protocols: Joi.stringArray().items(Joi.string().valid('v2', 'v3', 'v4', 'mixed')).optional(),
+  protocols: Joi.stringArray().items(Joi.string().valid('v2', 'v3', 'v4', 'mixed', 'fewv2')).optional(),
   simulateFromAddress: Joi.string().alphanum().max(42).optional(),
   permitSignature: Joi.string().optional(),
   permitNonce: Joi.string().optional(),
