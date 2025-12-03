@@ -721,6 +721,7 @@ export class RoutingAPIStack extends cdk.Stack {
       { protocol: 'V3', metricSuffix: 'getPools.filter.length' },
       { protocol: 'V4', metricSuffix: 'getPools.filter.length' },
       { protocol: 'V2', metricSuffix: 'getPools.untracked.length' },
+      // { protocol: 'FEWV2', metricSuffix: 'getPools.untracked.length' },
     ]
 
     // Create anomaly alarms for each supported chain and protocol

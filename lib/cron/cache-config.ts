@@ -118,6 +118,8 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
 
 export const v2SubgraphUrlOverride = (chainId: ChainId) => {
   switch (chainId) {
+    case ChainId.SEPOLIA:
+      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-sepolia/api`
     case ChainId.MAINNET:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-mainnet/api`
     case ChainId.ARBITRUM_ONE:
@@ -372,6 +374,36 @@ export const chainProtocols = [
       v2SubgraphUrlOverride(ChainId.MAINNET)
     ), // 1000 is the largest page size supported by thegraph
   },
+  // {
+  //   protocol: Protocol.V2,
+  //   chainId: ChainId.SEPOLIA,
+  //   timeout: 840000,
+  //   provider: new V2SubgraphProvider(
+  //     ChainId.SEPOLIA,
+  //     5,
+  //     900000,
+  //     true,
+  //     1000,
+  //     v2TrackedEthThreshold,
+  //     v2UntrackedUsdThreshold,
+  //     v2SubgraphUrlOverride(ChainId.SEPOLIA)
+  //   ), // 1000 is the largest page size supported by thegraph
+  // },
+  // {
+  //   protocol: Protocol.FEWV2,
+  //   chainId: ChainId.SEPOLIA,
+  //   timeout: 840000,
+  //   provider: new RingV2SubgraphProvider(
+  //     ChainId.SEPOLIA,
+  //     5,
+  //     900000,
+  //     true,
+  //     1000,
+  //     v2TrackedEthThreshold,
+  //     v2UntrackedUsdThreshold,
+  //     v2SubgraphUrlOverride(ChainId.SEPOLIA)
+  //   ), // 1000 is the largest page size supported by thegraph
+  // },
   /*
   {
     protocol: Protocol.V2,
