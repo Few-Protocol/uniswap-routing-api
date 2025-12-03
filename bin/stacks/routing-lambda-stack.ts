@@ -177,7 +177,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       // Set this lambda's timeout to be slightly lower to give them time to
       // log the response in the event of a failure on our end.
       timeout: cdk.Duration.seconds(9),
-      memorySize: 128,//3008,//5120,
+      memorySize: 1024,//3008,//5120,
       deadLetterQueueEnabled: true,
       bundling: {
         minify: true,
@@ -231,7 +231,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         ),
       ],
       tracing: aws_lambda.Tracing.ACTIVE,
-      logRetention: RetentionDays.TWO_WEEKS,
+      logRetention: RetentionDays.ONE_WEEK,
     })
 
     const cachingLambdaAlarmErrorRate = new aws_cloudwatch.Alarm(this, 'CachingRoutingAPI-LambdaErrorRate', {

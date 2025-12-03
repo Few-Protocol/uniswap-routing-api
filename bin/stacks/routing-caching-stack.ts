@@ -201,7 +201,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
       entry: path.join(__dirname, '../../lib/cron/cache-token-lists.ts'),
       handler: 'handler',
       timeout: Duration.seconds(180),
-      memorySize: 256,
+      memorySize: 1024,
       bundling: {
         minify: true,
         sourceMap: true,
