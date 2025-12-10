@@ -102,10 +102,9 @@ export class RoutingAPIPipeline extends Stack {
     super(scope, id, props)
 
     // update to use codestar for standard connections
-    const code = CodePipelineSource.connection('Uniswap/routing-api', 'ring_main', {
-      connectionArn:
-        'arn:aws:codestar-connections:us-east-1:513278913266:connection/4806faf1-c31e-4ea2-a5bf-c6fc1fa79487',
-    })
+    const code = CodePipelineSource.connection('Few-Protocol/uniswap-routing-api', 'ring_main_beta', {
+      connectionArn: `arn:aws:codestar-connections:us-east-1:513278913266:connection/0f542f06-c771-47e0-83ea-7a2602d092a8`,
+    });
 
     const synthStep = new CodeBuildStep('Synth', {
       input: code,
@@ -118,7 +117,8 @@ export class RoutingAPIPipeline extends Stack {
         },
       },
       commands: [
-        'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc && npm ci',
+        // 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc && npm ci',
+        'npm install',
         'npm run build',
         'npx cdk synth',
       ],
@@ -270,7 +270,7 @@ export class RoutingAPIPipeline extends Stack {
 
     // Beta us-east-1
     const betaUsEast2Stage = new RoutingAPIStage(this, 'beta-us-east-1', {
-      env: { account: '513278913266'/*145079444317*/, region: 'us-east-1' },
+      env: { account: '007059276686'/*145079444317*/, region: 'us-east-1' },
       jsonRpcProviders: jsonRpcProviders,
       internalApiKey: internalApiKey.secretValue.toString(),
       provisionedConcurrency: 5,
@@ -302,7 +302,7 @@ export class RoutingAPIPipeline extends Stack {
 
     // Prod us-east-1
     const prodUsEast2Stage = new RoutingAPIStage(this, 'prod-us-east-1', {
-      env: { account: '513278913266', region: 'us-east-1' },
+      env: { account: '739605955562', region: 'us-east-1' },
       jsonRpcProviders: jsonRpcProviders,
       internalApiKey: internalApiKey.secretValue.toString(),
       provisionedConcurrency: 70,
