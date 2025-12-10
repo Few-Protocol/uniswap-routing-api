@@ -1,5 +1,5 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
-import { AllowanceTransfer, PERMIT2_ADDRESS, PermitSingle } from '@uniswap/permit2-sdk'
+import { AllowanceTransfer, permit2Address, PermitSingle } from '@uniswap/permit2-sdk'
 import { ChainId, Currency, CurrencyAmount, Ether, Fraction, Rounding, Token, WETH9 } from '@uniswap/sdk-core'
 import {
   CEUR_CELO,
@@ -258,6 +258,7 @@ describe('quote', function () {
     tokenOutPortionRecipientBefore?: CurrencyAmount<Currency>
     tokenOutPortionRecipientAfter?: CurrencyAmount<Currency>
   }> => {
+    const PERMIT2_ADDRESS = permit2Address(chainId)
     const permit2 = Permit2__factory.connect(PERMIT2_ADDRESS, alice)
     const portionRecipientSigner = portion?.recipient ? await ethers.getSigner(portion?.recipient) : undefined
 
