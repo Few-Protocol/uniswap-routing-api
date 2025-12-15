@@ -7,7 +7,7 @@ import * as aws_cloudwatch_actions from 'aws-cdk-lib/aws-cloudwatch-actions'
 import * as aws_events from 'aws-cdk-lib/aws-events'
 import * as aws_events_targets from 'aws-cdk-lib/aws-events-targets'
 import * as aws_iam from 'aws-cdk-lib/aws-iam'
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
+// import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import * as aws_lambda from 'aws-cdk-lib/aws-lambda'
 import * as aws_lambda_nodejs from 'aws-cdk-lib/aws-lambda-nodejs'
 import * as aws_s3 from 'aws-cdk-lib/aws-s3'
@@ -84,7 +84,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
     this.poolCacheKey = PoolCachingFilePrefixes.PlainText
     this.poolCacheGzipKey = PoolCachingFilePrefixes.GzipText
 
-    const { stage, route53Arn } = props
+    const { stage/*, route53Arn*/ } = props
 
     const lambdaRole = new aws_iam.Role(this, 'RoutingLambdaRole', {
       assumedBy: new aws_iam.ServicePrincipal('lambda.amazonaws.com'),
