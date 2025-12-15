@@ -95,13 +95,13 @@ export class RoutingCachingStack extends cdk.NestedStack {
     })
 
     if (stage == STAGE.BETA || stage == STAGE.PROD) {
-      lambdaRole.addToPolicy(
-        new PolicyStatement({
-          resources: [route53Arn!],
-          actions: ['sts:AssumeRole'],
-          sid: '1',
-        })
-      )
+      // lambdaRole.addToPolicy(
+      //   new PolicyStatement({
+      //     resources: [route53Arn!],
+      //     actions: ['sts:AssumeRole'],
+      //     sid: '1',
+      //   })
+      // )
     }
 
     const region = cdk.Stack.of(this).region

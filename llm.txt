@@ -1,0 +1,15 @@
+背景：
+1.根据 bin/app.ts 的代码，这是一个跨账户部署的 CDK Pipeline 设置：
+Pipeline 账户: 513278913266 (第487行),profile:mgmt
+目标部署账户: 739605955562 (第306行，prod-us-east-1 stage),profile ringprod
+Pipeline 配置了 crossAccountKeys: true (第130行) 来支持跨账户部署
+2.已完成trust处理
+在目标账户 (739605955562) Bootstrap CDK 并信任 Pipeline 账户
+3. Pipeline 账户 (513278913266) 的 Bootstrap已经完成，Pipeline已经成功部署；
+4. 739605955562目前的权限是：AdministratorAccess
+
+触发部署：
+aws codepipeline start-pipeline-execution \
+  --name RoutingAPI \
+  --region us-east-1 \
+  --profile mgmt
