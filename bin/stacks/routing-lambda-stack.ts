@@ -157,13 +157,13 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         GQL_H_ORGN: uniGraphQLHeaderOrigin,
         ...jsonRpcProviders,
       },
-      layers: [
-        aws_lambda.LayerVersion.fromLayerVersionArn(
-          this,
-          'CachingInsightsLayer',
-          `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
-        ),
-      ],
+      // layers: [
+      //   aws_lambda.LayerVersion.fromLayerVersionArn(
+      //     this,
+      //     'CachingInsightsLayer',
+      //     `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
+      //   ),
+      // ],
       tracing: aws_lambda.Tracing.ACTIVE,
       logRetention: RetentionDays.TWO_WEEKS,
     })
@@ -223,13 +223,13 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         CACHING_ROUTING_LAMBDA_FUNCTION_NAME: cachingRoutingLambda.functionName,
         ...jsonRpcProviders,
       },
-      layers: [
-        aws_lambda.LayerVersion.fromLayerVersionArn(
-          this,
-          'InsightsLayer',
-          `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
-        ),
-      ],
+      // layers: [
+      //   aws_lambda.LayerVersion.fromLayerVersionArn(
+      //     this,
+      //     'InsightsLayer',
+      //     `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
+      //   ),
+      // ],
       tracing: aws_lambda.Tracing.ACTIVE,
       logRetention: RetentionDays.ONE_WEEK,
     })

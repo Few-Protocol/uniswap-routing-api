@@ -206,13 +206,13 @@ export class RoutingCachingStack extends cdk.NestedStack {
         minify: true,
         sourceMap: true,
       },
-      layers: [
-        aws_lambda.LayerVersion.fromLayerVersionArn(
-          this,
-          'InsightsLayerTokenList',
-          `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
-        ),
-      ],
+      // layers: [
+      //   aws_lambda.LayerVersion.fromLayerVersionArn(
+      //     this,
+      //     'InsightsLayerTokenList',
+      //     `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
+      //   ),
+      // ],
       description: 'Token List Cache Lambda',
       tracing: aws_lambda.Tracing.ACTIVE,
       environment: {
