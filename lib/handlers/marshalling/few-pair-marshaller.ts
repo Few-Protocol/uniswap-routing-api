@@ -1,24 +1,24 @@
-import { Pair } from '@uniswap/v2-sdk'
+import { Pair as FewPair } from '@ring-protocol/few-v2-sdk'
 import { CurrencyAmountMarshaller, MarshalledCurrencyAmount } from './currency-amount-marshaller'
-import { Protocol } from '@uniswap/router-sdk'
+  import { Protocol } from '@uniswap/router-sdk'
 
-export interface MarshalledPair {
+export interface MarshalledFewV2Pair {
   protocol: Protocol
   currencyAmountA: MarshalledCurrencyAmount
   tokenAmountB: MarshalledCurrencyAmount
 }
 
-export class PairMarshaller {
-  public static marshal(pair: Pair): MarshalledPair {
+export class FewV2PairMarshaller {
+  public static marshalFewPair(pair: FewPair): MarshalledFewV2Pair {
     return {
-      protocol: Protocol.V2,
+      protocol: Protocol.FEWV2,
       currencyAmountA: CurrencyAmountMarshaller.marshal(pair.reserve0),
       tokenAmountB: CurrencyAmountMarshaller.marshal(pair.reserve1),
     }
   }
 
-  public static unmarshal(marshalledPair: MarshalledPair): Pair {
-    return new Pair(
+  public static unmarshalFewPair(marshalledPair: MarshalledFewV2Pair): FewPair {
+    return new FewPair(
       CurrencyAmountMarshaller.unmarshal(marshalledPair.currencyAmountA).wrapped,
       CurrencyAmountMarshaller.unmarshal(marshalledPair.tokenAmountB).wrapped
     )
