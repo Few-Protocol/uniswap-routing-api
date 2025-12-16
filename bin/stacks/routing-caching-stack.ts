@@ -109,7 +109,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
     const lambdaLayerVersion = aws_lambda.LayerVersion.fromLayerVersionArn(
       this,
       'InsightsLayerPools',
-      `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:14`
+      `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
     )
 
     // Spin up a new pool cache lambda for each config in chain X protocol
@@ -210,7 +210,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
         aws_lambda.LayerVersion.fromLayerVersionArn(
           this,
           'InsightsLayerTokenList',
-          `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:14`
+          `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:49`
         ),
       ],
       description: 'Token List Cache Lambda',
