@@ -2,6 +2,7 @@ import { MixedRoute, V2Route, V3Route, V4Route, RingFewV2Route } from '@uniswap/
 import { Protocol } from '@uniswap/router-sdk'
 import { MarshalledCurrency, TokenMarshaller } from './token-marshaller'
 import { MarshalledPair, PairMarshaller } from './pair-marshaller'
+import { MarshalledFewV2Pair, FewV2PairMarshaller } from './few-pair-marshaller'
 import { MarshalledPool as V3MarshalledPool, PoolMarshaller as V3PoolMarshaller } from './v3/pool-marshaller'
 import { MarshalledPool as V4MarshalledPool, PoolMarshaller as V4PoolMarshaller } from './v4/pool-marshaller'
 import { Pool as V3Pool } from '@uniswap/v3-sdk'
@@ -14,6 +15,13 @@ export interface MarshalledV2Route {
   input: MarshalledCurrency
   output: MarshalledCurrency
   pairs: MarshalledPair[]
+}
+
+export interface MarshalledFewV2Route {
+  protocol: Protocol
+  input: MarshalledCurrency
+  output: MarshalledCurrency
+  pairs: MarshalledFewV2Pair[]
 }
 
 export interface MarshalledV3Route {
@@ -34,10 +42,10 @@ export interface MarshalledMixedRoute {
   protocol: Protocol
   input: MarshalledCurrency
   output: MarshalledCurrency
-  pools: (V4MarshalledPool | V3MarshalledPool | MarshalledPair)[]
+  pools: (V4MarshalledPool | V3MarshalledPool | MarshalledPair | MarshalledFewV2Pair)[]
 }
 
-export type MarshalledRoute = MarshalledV2Route | MarshalledV3Route | MarshalledMixedRoute
+export type MarshalledRoute = MarshalledV2Route | MarshalledFewV2Route | MarshalledV3Route | MarshalledMixedRoute
 
 export class RouteMarshaller {
   public static marshal(route: SupportedRoutes): MarshalledRoute {
@@ -47,7 +55,7 @@ export class RouteMarshaller {
           protocol: Protocol.FEWV2,
           input: TokenMarshaller.marshal(route.input),
           output: TokenMarshaller.marshal(route.output),
-          pairs: route.pairs.map((pair) => PairMarshaller.marshalFewPair(pair)),
+          pairs: route.pairs.map((pair) => FewV2PairMarshaller.marshalFewPair(pair)),
         }
       case Protocol.V2:
         return {
@@ -83,7 +91,7 @@ export class RouteMarshaller {
             } else if (tpool instanceof Pair) {
               return PairMarshaller.marshal(tpool)
             } else if (tpool instanceof FewV2Pair) {
-              return PairMarshaller.marshalFewPair(tpool)
+              return FewV2PairMarshaller.marshalFewPair(tpool)
             } else {
               throw new Error(`Unsupported pool type ${JSON.stringify(tpool)}`)
             }
@@ -97,9 +105,9 @@ export class RouteMarshaller {
   public static unmarshal(marshalledRoute: MarshalledRoute): SupportedRoutes {
     switch (marshalledRoute.protocol) {
       case Protocol.FEWV2:
-        const fewv2Route = marshalledRoute as MarshalledV2Route
+        const fewv2Route = marshalledRoute as MarshalledFewV2Route
         return new RingFewV2Route(
-          fewv2Route.pairs.map((marshalledPair) => PairMarshaller.unmarshalFewPair(marshalledPair)),
+          fewv2Route.pairs.map((marshalledPair) => FewV2PairMarshaller.unmarshalFewPair(marshalledPair)),
           TokenMarshaller.unmarshal(fewv2Route.input).wrapped,
           TokenMarshaller.unmarshal(fewv2Route.output).wrapped
         )
@@ -135,7 +143,7 @@ export class RouteMarshaller {
             case Protocol.V4:
               return V4PoolMarshaller.unmarshal(tpool as V4MarshalledPool)
             case Protocol.FEWV2:
-              return PairMarshaller.unmarshalFewPair(tpool as MarshalledPair)
+              return FewV2PairMarshaller.unmarshalFewPair(tpool as MarshalledFewV2Pair)
             default:
               throw new Error(`Unsupported protocol ${JSON.stringify(tpool)}`)
           }
