@@ -24,10 +24,6 @@ import { getSymbolOrAddress } from '../../../util/getSymbolOrAddress'
 import { serializeRouteIds } from '@uniswap/smart-order-router/build/main/util/serializeRouteIds'
 import { UniversalRouterVersion } from '@uniswap/universal-router-sdk'
 import { computeProtocolsInvolvedIfMixed } from '../../../util/computeProtocolsInvolvedIfMixed'
-import { PairMarshaller } from '../../marshalling/pair-marshaller'
-import { Pair } from '@uniswap/v2-sdk'
-import { Pair as FewV2Pair } from '@ring-protocol/few-v2-sdk'
-import { V2Route, RingFewV2Route } from '@uniswap/smart-order-router/build/main/routers'
 
 interface ConstructorParams {
   /**
@@ -90,92 +86,6 @@ export class DynamoRouteCachingProvider extends IRouteCachingProvider {
    */
   protected async _getBlocksToLive(cachedRoutes: CachedRoutes, _: CurrencyAmount<Currency>): Promise<number> {
     return DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB[cachedRoutes.chainId]
-  }
-
-  /**
-   * Validates and fixes a route object to ensure V2/FewV2 routes have proper Pair instances.
-   * This is a defensive measure against routes that may have been improperly deserialized from cache.
-   * 
-   * @param route The route to validate and fix
-   * @returns The validated/fixed route
-   */
-  private validateAndFixRoute(route: SupportedRoutes): SupportedRoutes {
-    // Check if this is a V2 or FewV2 route with pairs that might be plain objects
-    if (route instanceof V2Route || route instanceof RingFewV2Route) {
-      const pairs = (route as any).pairs
-      if (pairs && Array.isArray(pairs) && pairs.length > 0) {
-        // Check if any pair is not a Pair instance (i.e., it's a plain object from serialization)
-        const invalidPairs = pairs.filter((pair: any) => {
-          return !(pair instanceof Pair) && !(pair instanceof FewV2Pair) && typeof pair === 'object'
-        })
-
-        if (invalidPairs.length > 0) {
-          log.warn(
-            {
-              routeProtocol: route.protocol,
-              pairsCount: pairs.length,
-              invalidPairsCount: invalidPairs.length,
-            },
-            'Detected serialized Pair objects in route, attempting to fix by rebuilding pairs'
-          )
-
-          try {
-            // Rebuild pairs: if they look like MarshalledPair format, unmarshal them directly
-            // Otherwise, if they have reserve0/reserve1, convert to MarshalledPair format first
-            const rebuiltPairs = pairs.map((pair: any) => {
-              if (pair instanceof Pair || pair instanceof FewV2Pair) {
-                return pair // Already a valid Pair instance
-              }
-
-              // Check if it's already in MarshalledPair format (has currencyAmountA and tokenAmountB)
-              if (pair.currencyAmountA && pair.tokenAmountB) {
-                const protocol = pair.protocol || route.protocol
-                if (protocol === Protocol.FEWV2) {
-                  return PairMarshaller.unmarshalFewPair(pair as any)
-                } else {
-                  return PairMarshaller.unmarshal(pair as any)
-                }
-              }
-
-              // If it has reserve0/reserve1 (serialized Pair), we can't easily convert without more context
-              // In this case, log and return the original - routeToString should handle it
-              log.warn(
-                { pairKeys: Object.keys(pair) },
-                'Pair object has unexpected format, cannot rebuild. routeToString should handle this.'
-              )
-              return pair
-            })
-
-            // Check if all pairs were successfully rebuilt
-            const allRebuilt = rebuiltPairs.every((p: any) => p instanceof Pair || p instanceof FewV2Pair)
-            
-            if (allRebuilt) {
-              // Rebuild the route with fixed pairs
-              if (route instanceof V2Route) {
-                return new V2Route(
-                  rebuiltPairs as Pair[],
-                  route.input,
-                  route.output
-                )
-              } else if (route instanceof RingFewV2Route) {
-                return new RingFewV2Route(
-                  rebuiltPairs as FewV2Pair[],
-                  route.input,
-                  route.output
-                )
-              }
-            }
-          } catch (err) {
-            log.error(
-              { err, routeProtocol: route.protocol },
-              'Failed to fix route by rebuilding pairs, route may have issues. routeToString should handle this.'
-            )
-            // Return original route - routeToString should handle this with its defensive checks
-          }
-        }
-      }
-    }
-    return route
   }
 
   /**
@@ -389,31 +299,12 @@ export class DynamoRouteCachingProvider extends IRouteCachingProvider {
     cachedRoutesArr.forEach((cachedRoutes) => {
       metric.putMetric(`RoutesDbPerBlockFound`, cachedRoutes.routes.length, MetricLoggerUnit.Count)
       cachedRoutes.routes.forEach((cachedRoute) => {
-        try {
-          // Validate and fix the route before calling routeToString
-          // This ensures V2/FewV2 routes have proper Pair instances instead of plain objects
-          const validatedRoute = this.validateAndFixRoute(cachedRoute.route)
-          
-          // Update the cachedRoute with the validated route
-          const validatedCachedRoute = new CachedRoute<SupportedRoutes>({
-            route: validatedRoute,
-            percent: cachedRoute.percent,
-          })
-
-          // we use the stringified route as identifier
-          const routeId = routeToString(validatedCachedRoute.route)
-          // Using a map to remove duplicates, we will the different percents of different routes.
-          // We also filter by protocol, in case we are loading a route from a protocol that wasn't requested
-          if (!routesMap.has(routeId) && protocols.includes(cachedRoute.protocol)) {
-            routesMap.set(routeId, validatedCachedRoute)
-          }
-        } catch (err) {
-          log.error(
-            { err, protocol: cachedRoute.protocol },
-            'Failed to process cached route, skipping. This may indicate a serialization issue.'
-          )
-          metric.putMetric('RoutesDbRouteProcessingError', 1, MetricLoggerUnit.Count)
-          // Skip this route and continue with others
+        // we use the stringified route as identifier
+        const routeId = routeToString(cachedRoute.route)
+        // Using a map to remove duplicates, we will the different percents of different routes.
+        // We also filter by protocol, in case we are loading a route from a protocol that wasn't requested
+        if (!routesMap.has(routeId) && protocols.includes(cachedRoute.protocol)) {
+          routesMap.set(routeId, cachedRoute)
         }
       })
       // Find the latest blockNumber

@@ -2,7 +2,7 @@ import { ICache } from '@uniswap/smart-order-router/build/main/providers/cache'
 import { Pair as FewPair } from '@ring-protocol/few-v2-sdk'
 import { BatchGetItemInput, DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { log, metric, MetricLoggerUnit } from '@uniswap/smart-order-router'
-import { MarshalledPair, PairMarshaller } from '../../../marshalling'
+import { MarshalledFewV2Pair, FewV2PairMarshaller } from '../../../marshalling/few-pair-marshaller'
 
 export class FewV2DynamoCache implements ICache<{ pair: FewPair; block?: number }> {
   private readonly ddbClient: DocumentClient
@@ -56,11 +56,11 @@ export class FewV2DynamoCache implements ICache<{ pair: FewPair; block?: number 
           const block = parseInt(item.block.N!)
           const itemBinary = item.item.B!
           const pairBuffer = Buffer.from(itemBinary)
-          const pairJson: MarshalledPair = JSON.parse(pairBuffer.toString())
+          const pairJson: MarshalledFewV2Pair = JSON.parse(pairBuffer.toString())
 
           return {
             [key]: {
-              pair: PairMarshaller.unmarshalFewPair(pairJson),
+              pair: FewV2PairMarshaller.unmarshalFewPair(pairJson),
               block,
             },
           }
@@ -97,7 +97,7 @@ export class FewV2DynamoCache implements ICache<{ pair: FewPair; block?: number 
         const pairJson = JSON.parse(pairBuffer.toString())
         // Finally we unmarshal that JSON into a `FewPair` object
         return {
-          pair: PairMarshaller.unmarshalFewPair(pairJson),
+          pair: FewV2PairMarshaller.unmarshalFewPair(pairJson),
           block: record.block,
         }
       } else {
@@ -120,7 +120,7 @@ export class FewV2DynamoCache implements ICache<{ pair: FewPair; block?: number 
       return false
     } else {
       // Marshal the FewPair object in preparation for storing in DynamoDB
-      const marshalledPair = PairMarshaller.marshalFewPair(value.pair)
+      const marshalledPair = FewV2PairMarshaller.marshalFewPair(value.pair)
       // Convert the marshalledPair to JSON string
       const jsonPair = JSON.stringify(marshalledPair)
       // Encode the jsonPair into Binary
