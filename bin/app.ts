@@ -191,6 +191,13 @@ export class RoutingAPIPipeline extends Stack {
       secretCompleteArn: 'arn:aws:secretsmanager:us-east-1:513278913266:secret:RoutingAlchemySubgraphSecret-XAGhSX',
     })
 
+    const CHAINID_URL: Record<string, string> = {
+      "WEB3_RPC_11155111": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
+      "WEB3_RPC_1": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
+      "ALCHEMY_11155111": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
+      "ALCHEMY_1": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
+    }
+
     // Load RPC provider URLs from AWS secret
     let jsonRpcProviders = {} as { [chainId: string]: string }
     SUPPORTED_CHAINS.forEach((chainId: ChainId) => {
@@ -204,7 +211,7 @@ export class RoutingAPIPipeline extends Stack {
         chainId !== ChainId.SONEIUM
       ) {
         const key = `WEB3_RPC_${chainId}`
-        jsonRpcProviders[key] = jsonRpcProvidersSecret.secretValueFromJson(key).toString()
+        jsonRpcProviders[key] = CHAINID_URL[key] //jsonRpcProvidersSecret.secretValueFromJson(key).toString()
         new CfnOutput(this, key, {
           value: jsonRpcProviders[key],
         })
@@ -261,8 +268,9 @@ export class RoutingAPIPipeline extends Stack {
       // unirpc - serves all chains
       // 'UNIRPC_0',
     ]
+
     for (const provider of RPC_GATEWAY_PROVIDERS) {
-      jsonRpcProviders[provider] = jsonRpcProvidersSecret.secretValueFromJson(provider).toString()
+      jsonRpcProviders[provider] = CHAINID_URL[provider] //jsonRpcProvidersSecret.secretValueFromJson(provider).toString()
       new CfnOutput(this, provider, {
         value: jsonRpcProviders[provider],
       })
