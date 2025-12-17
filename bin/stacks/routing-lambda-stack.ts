@@ -296,7 +296,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       lambdaThrottlesErrorRate.addAlarmAction(new aws_cloudwatch_actions.SnsAction(chatBotTopic))
     }
 
-    const enableProvisionedConcurrency = provisionedConcurrency > 0
+    const enableProvisionedConcurrency = false // provisionedConcurrency > 0
 
     const cachingRoutingLambdaAlias = new aws_lambda.Alias(this, 'CachingRoutingLiveAlias', {
       aliasName: 'live',
