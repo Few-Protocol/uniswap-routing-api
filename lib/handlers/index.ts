@@ -11,6 +11,11 @@ const log: Logger = bunyan.createLogger({
 let quoteHandler: QuoteHandler
 try {
   const quoteInjectorPromise = new QuoteHandlerInjector('quoteInjector').build()
+  // Prevent unhandled rejection from crashing the lambda process during init.
+  // The error will still be thrown when the handler awaits the promise.
+  quoteInjectorPromise.catch(error => {
+    log.error({ error }, 'QuoteInjector build failed during init')
+  })
   quoteHandler = new QuoteHandler('quote', quoteInjectorPromise)
 } catch (error) {
   log.fatal({ error }, 'Fatal error')
