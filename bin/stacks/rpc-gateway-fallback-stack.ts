@@ -29,7 +29,7 @@ export class RpcGatewayFallbackStack extends cdk.NestedStack {
     const rpcHealthProviderStateDynamoDB = props.rpcProviderHealthStateDynamoDb
     rpcHealthProviderStateDynamoDB.grantReadWriteData(lambdaRole)
 
-    const region = cdk.Stack.of(this).region
+    // const region = cdk.Stack.of(this).region
 
     const providerFallbackLambda = new aws_lambda_nodejs.NodejsFunction(this, 'ProviderFallbackLambda', {
       role: lambdaRole,

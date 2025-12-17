@@ -103,7 +103,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
     tokenPropertiesCachingDynamoDb.grantReadWriteData(lambdaRole)
     rpcProviderHealthStateDynamoDb.grantReadWriteData(lambdaRole)
 
-    const region = cdk.Stack.of(this).region
+    // const region = cdk.Stack.of(this).region
 
     const cachingRoutingLambda = new aws_lambda_nodejs.NodejsFunction(this, 'CachingRoutingLambda', {
       role: lambdaRole,
