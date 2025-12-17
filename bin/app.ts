@@ -192,9 +192,9 @@ export class RoutingAPIPipeline extends Stack {
     })
 
     const CHAINID_URL: Record<string, string> = {
-      "WEB3_RPC_11155111": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
+      "WEB3_RPC_11155111": 'https://eth-sepolia.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
       "WEB3_RPC_1": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
-      "ALCHEMY_11155111": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
+      "ALCHEMY_11155111": 'https://eth-sepolia.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
       "ALCHEMY_1": 'https://eth-mainnet.g.alchemy.com/v2/w-a3sfAc_0q6mevk1U_9s',
     }
 
@@ -211,7 +211,7 @@ export class RoutingAPIPipeline extends Stack {
         chainId !== ChainId.SONEIUM
       ) {
         const key = `WEB3_RPC_${chainId}`
-        jsonRpcProviders[key] = CHAINID_URL[key] //jsonRpcProvidersSecret.secretValueFromJson(key).toString()
+        jsonRpcProviders[key] = CHAINID_URL[key] ?? jsonRpcProvidersSecret.secretValueFromJson(key).toString()
         new CfnOutput(this, key, {
           value: jsonRpcProviders[key],
         })
