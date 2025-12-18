@@ -281,60 +281,60 @@ export class RoutingAPIPipeline extends Stack {
     const betaUsEast2Stage = new RoutingAPIStage(this, 'beta-us-east-1', {
       env: { account: '007059276686', region: 'us-east-1' },
       jsonRpcProviders: jsonRpcProviders,
-      internalApiKey: internalApiKey.secretValue.toString(),
+      internalApiKey: 'mock-internal-api-key',// internalApiKey.secretValue.toString(),
       provisionedConcurrency: 5,
-      ethGasStationInfoUrl: ethGasStationInfoUrl.secretValue.toString(),
+      ethGasStationInfoUrl: 'https://mock-eth-gas-station.url', // ethGasStationInfoUrl.secretValue.toString(),
       stage: STAGE.BETA,
-      route53Arn: route53Arn.secretValueFromJson('arn').toString(),
-      pinata_key: pinataApi.secretValueFromJson('pinata-api-key').toString(),
-      pinata_secret: pinataSecret.secretValueFromJson('secret').toString(),
-      hosted_zone: hostedZone.secretValueFromJson('zone').toString(),
-      tenderlyUser: tenderlyCreds.secretValueFromJson('tenderly-user').toString(),
-      tenderlyProject: tenderlyCreds.secretValueFromJson('tenderly-project').toString(),
-      tenderlyAccessKey: tenderlyCreds.secretValueFromJson('tenderly-access-key').toString(),
-      tenderlyNodeApiKey: tenderlyCreds.secretValueFromJson('tenderly-node-api-key').toString(),
-      unicornSecret: unicornSecrets.secretValueFromJson('debug-config-unicorn-key').toString(),
-      alchemyQueryKey: alchemySubgraphSecret.secretValueFromJson('alchemy-query-key').toString(),
-      alchemyQueryKey2: alchemySubgraphSecret.secretValueFromJson('alchemy-query-key-2').toString(),
+      route53Arn: 'mock-route53-arn', // route53Arn.secretValueFromJson('arn').toString(),
+      pinata_key: 'mock-pinata-key', // pinataApi.secretValueFromJson('pinata-api-key').toString(),
+      pinata_secret: 'mock-pinata-secret', // pinataSecret.secretValueFromJson('secret').toString(),
+      hosted_zone: 'mock-hosted-zone', // hostedZone.secretValueFromJson('zone').toString(),
+      tenderlyUser: 'mock-tenderly-user', // tenderlyCreds.secretValueFromJson('tenderly-user').toString(),
+      tenderlyProject: 'mock-tenderly-project', // tenderlyCreds.secretValueFromJson('tenderly-project').toString(),
+      tenderlyAccessKey: 'mock-tenderly-access-key', // tenderlyCreds.secretValueFromJson('tenderly-access-key').toString(),
+      tenderlyNodeApiKey: 'mock-tenderly-node-api-key', // tenderlyCreds.secretValueFromJson('tenderly-node-api-key').toString(),
+      unicornSecret: 'mock-unicorn-secret', // unicornSecrets.secretValueFromJson('debug-config-unicorn-key').toString(),
+      alchemyQueryKey: 'mock-alchemy-query-key', // alchemySubgraphSecret.secretValueFromJson('alchemy-query-key').toString(),
+      alchemyQueryKey2: 'mock-alchemy-query-key-2', // alchemySubgraphSecret.secretValueFromJson('alchemy-query-key-2').toString(),
       // bearer token and base subgraph id are not from alchemy subgraph, but from the graph
       // below secret namings are wrong, but we take it as is
-      graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
-      graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
-      uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
-      uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
+      graphBearerToken: 'mock-graph-bearer-token', // alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
+      graphBaseV4SubgraphId: 'mock-graph-base-v4-subgraph-id', // alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
+      uniGraphQLEndpoint: 'mock-uni-graphql-endpoint', // routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
+      uniGraphQLHeaderOrigin: 'mock-uni-graphql-header-origin', // routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
     })
 
     const betaUsEast2AppStage = pipeline.addStage(betaUsEast2Stage)
     */
-    const unicornSecret = unicornSecrets.secretValueFromJson('debug-config-unicorn-key').toString()
+    const unicornSecret = "debug-config-unicorn-key" // unicornSecrets.secretValueFromJson('debug-config-unicorn-key').toString()
     // this.addIntegTests(code, betaUsEast2Stage, betaUsEast2AppStage, unicornSecret)
 
     // Prod us-east-1
     const prodUsEast2Stage = new RoutingAPIStage(this, 'prod-us-east-1', {
       env: { account: '739605955562', region: 'us-east-1' },
       jsonRpcProviders: jsonRpcProviders,
-      internalApiKey: internalApiKey.secretValue.toString(),
+      internalApiKey: 'mock-internal-api-key',// internalApiKey.secretValue.toString(),
       provisionedConcurrency: 70,
-      ethGasStationInfoUrl: ethGasStationInfoUrl.secretValue.toString(),
+      ethGasStationInfoUrl: 'https://mock-eth-gas-station.url', // ethGasStationInfoUrl.secretValue.toString(),
       chatbotSNSArn: 'arn:aws:sns:us-east-1:513278913266:SlackChatbotTopic',
       stage: STAGE.PROD,
-      route53Arn: route53Arn.secretValueFromJson('arn').toString(),
-      pinata_key: pinataApi.secretValueFromJson('pinata-api-key').toString(),
-      pinata_secret: pinataSecret.secretValueFromJson('secret').toString(),
-      hosted_zone: hostedZone.secretValueFromJson('zone').toString(),
-      tenderlyUser: tenderlyCreds.secretValueFromJson('tenderly-user').toString(),
-      tenderlyProject: tenderlyCreds.secretValueFromJson('tenderly-project').toString(),
-      tenderlyAccessKey: tenderlyCreds.secretValueFromJson('tenderly-access-key').toString(),
-      tenderlyNodeApiKey: tenderlyCreds.secretValueFromJson('tenderly-node-api-key').toString(),
-      unicornSecret: unicornSecrets.secretValueFromJson('debug-config-unicorn-key').toString(),
-      alchemyQueryKey: alchemySubgraphSecret.secretValueFromJson('alchemy-query-key').toString(),
-      alchemyQueryKey2: alchemySubgraphSecret.secretValueFromJson('alchemy-query-key-2').toString(),
+      route53Arn: 'mock-route53-arn', // route53Arn.secretValueFromJson('arn').toString(),
+      pinata_key: 'mock-pinata-key', // pinataApi.secretValueFromJson('pinata-api-key').toString(),
+      pinata_secret: 'mock-pinata-secret', // pinataSecret.secretValueFromJson('secret').toString(),
+      hosted_zone: 'mock-hosted-zone', // hostedZone.secretValueFromJson('zone').toString(),
+      tenderlyUser: 'mock-tenderly-user', // tenderlyCreds.secretValueFromJson('tenderly-user').toString(),
+      tenderlyProject: 'mock-tenderly-project', // tenderlyCreds.secretValueFromJson('tenderly-project').toString(),
+      tenderlyAccessKey: 'mock-tenderly-access-key', // tenderlyCreds.secretValueFromJson('tenderly-access-key').toString(),
+      tenderlyNodeApiKey: 'mock-tenderly-node-api-key', // tenderlyCreds.secretValueFromJson('tenderly-node-api-key').toString(),
+      unicornSecret: 'mock-unicorn-secret', // unicornSecrets.secretValueFromJson('debug-config-unicorn-key').toString(),
+      alchemyQueryKey: 'mock-alchemy-query-key', // alchemySubgraphSecret.secretValueFromJson('alchemy-query-key').toString(),
+      alchemyQueryKey2: 'mock-alchemy-query-key-2', // alchemySubgraphSecret.secretValueFromJson('alchemy-query-key-2').toString(),
       // bearer token and base subgraph id are not from alchemy subgraph, but from the graph
       // below secret namings are wrong, but we take it as is
-      graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
-      graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
-      uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
-      uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
+      graphBearerToken: 'mock-graph-bearer-token', // alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
+      graphBaseV4SubgraphId: 'mock-graph-base-v4-subgraph-id', // alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
+      uniGraphQLEndpoint: 'mock-uni-graphql-endpoint', // routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
+      uniGraphQLHeaderOrigin: 'mock-uni-graphql-header-origin', // routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
     })
 
     const prodUsEast2AppStage = pipeline.addStage(prodUsEast2Stage)
