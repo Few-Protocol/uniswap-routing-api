@@ -374,21 +374,21 @@ export const chainProtocols = [
       v2SubgraphUrlOverride(ChainId.MAINNET)
     ), // 1000 is the largest page size supported by thegraph
   },
-  // {
-  //   protocol: Protocol.V2,
-  //   chainId: ChainId.SEPOLIA,
-  //   timeout: 840000,
-  //   provider: new V2SubgraphProvider(
-  //     ChainId.SEPOLIA,
-  //     5,
-  //     900000,
-  //     true,
-  //     1000,
-  //     v2TrackedEthThreshold,
-  //     v2UntrackedUsdThreshold,
-  //     v2SubgraphUrlOverride(ChainId.SEPOLIA)
-  //   ), // 1000 is the largest page size supported by thegraph
-  // },
+  {
+    protocol: Protocol.V2,
+    chainId: ChainId.SEPOLIA,
+    timeout: 840000,
+    provider: new V2SubgraphProvider(
+      ChainId.SEPOLIA,
+      5,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      v2SubgraphUrlOverride(ChainId.SEPOLIA)
+    ), // 1000 is the largest page size supported by thegraph
+  },
   // {
   //   protocol: Protocol.FEWV2,
   //   chainId: ChainId.SEPOLIA,
