@@ -459,6 +459,16 @@ export class SingleJsonRpcProvider extends StaticJsonRpcProvider {
 
   override send(method: string, params: Array<any>): Promise<any> {
     this.logSendMetrod(method)
+    if (method === 'eth_call') {
+      return (async () => {
+        try {
+          return await this.wrappedFunctionCall(CallType.NORMAL, 'send', super.send.bind(this), method, params)
+        } catch (error: any) {
+          this.log.error({ method, params, error }, `eth_call failed on ${this.url}`)
+          throw error
+        }
+      })()
+    }
     return this.wrappedFunctionCall(CallType.NORMAL, 'send', super.send.bind(this), method, params)
   }
 
