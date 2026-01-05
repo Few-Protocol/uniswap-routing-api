@@ -176,7 +176,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       // 11/8/23: URA currently calls the Routing API with a timeout of 10 seconds.
       // Set this lambda's timeout to be slightly lower to give them time to
       // log the response in the event of a failure on our end.
-      timeout: cdk.Duration.seconds(9),
+      timeout: cdk.Duration.seconds(15),
       memorySize: 1024,//3008,//5120,
       deadLetterQueueEnabled: true,
       bundling: {
@@ -188,39 +188,102 @@ export class RoutingLambdaStack extends cdk.NestedStack {
 
       description: 'Routing Lambda',
       environment: {
+        // Application version identifier for tracking and debugging
         VERSION: '30',
+        // Node.js runtime options: enable source maps for better error stack traces
         NODE_OPTIONS: '--enable-source-maps',
+
+        // S3 bucket configurations for pool and token list caching
+        // POOL_CACHE_BUCKET: Legacy pool cache bucket (deprecated, kept for backward compatibility)
         POOL_CACHE_BUCKET: poolCacheBucket.bucketName,
+        // POOL_CACHE_BUCKET_3: Current pool cache bucket storing compressed pool data
         POOL_CACHE_BUCKET_3: poolCacheBucket3.bucketName,
+        // POOL_CACHE_GZIP_KEY: S3 key prefix for gzipped pool cache files
         POOL_CACHE_GZIP_KEY: poolCacheGzipKey,
+        // TOKEN_LIST_CACHE_BUCKET: S3 bucket for caching token list data
         TOKEN_LIST_CACHE_BUCKET: tokenListCacheBucket.bucketName,
+
+        // External service configurations
+        // ETH_GAS_STATION_INFO_URL: URL for fetching Ethereum gas price information
         ETH_GAS_STATION_INFO_URL: ethGasStationInfoUrl,
+        // Tenderly simulation service credentials for transaction simulation
         TENDERLY_USER: tenderlyUser,
         TENDERLY_PROJECT: tenderlyProject,
         TENDERLY_ACCESS_KEY: tenderlyAccessKey,
         TENDERLY_NODE_API_KEY: tenderlyNodeApiKey,
+
+        // DynamoDB table names for route caching and pool data storage
         // WARNING: Dynamo table name should be the tableinstance.name, e.g. routesDynamoDb.tableName.
         //          But we tried and had seen lambd version error:
         //          The following resource(s) failed to create: [RoutingLambda2CurrentVersion49A1BB948389ce4f9c26b15e2ccb07b4c1bab726].
         //          2023-09-01 10:22:43 UTC-0700RoutingLambda2CurrentVersion49A1BB948389ce4f9c26b15e2ccb07b4c1bab726CREATE_FAILED
         //          A version for this Lambda function exists ( 261 ). Modify the function to create a new version.
         //          Hence we do not want to modify the table name below.
+        // ROUTES_TABLE_NAME: Stores cached route data for faster quote retrieval
         ROUTES_TABLE_NAME: DynamoDBTableProps.RoutesDbTable.Name,
+        // ROUTES_CACHING_REQUEST_FLAG_TABLE_NAME: Tracks which routes are being cached to avoid duplicate work
         ROUTES_CACHING_REQUEST_FLAG_TABLE_NAME: DynamoDBTableProps.RoutesDbCachingRequestFlagTable.Name,
+        // CACHED_ROUTES_TABLE_NAME: Alternative cached routes storage table
         CACHED_ROUTES_TABLE_NAME: DynamoDBTableProps.CacheRouteDynamoDbTable.Name,
+        // CACHING_REQUEST_FLAG_TABLE_NAME: Flags for caching request coordination
         CACHING_REQUEST_FLAG_TABLE_NAME: DynamoDBTableProps.CachingRequestFlagDynamoDbTable.Name,
+        // CACHED_V3_POOLS_TABLE_NAME: DynamoDB table for caching V3 pool data
         CACHED_V3_POOLS_TABLE_NAME: DynamoDBTableProps.V3PoolsDynamoDbTable.Name,
+        // V2_PAIRS_CACHE_TABLE_NAME: DynamoDB table for caching V2 pair data
         V2_PAIRS_CACHE_TABLE_NAME: DynamoDBTableProps.V2PairsDynamoCache.Name,
+        // FEW_V2_PAIRS_CACHE_TABLE_NAME: DynamoDB table for caching FewV2 pair data
         FEW_V2_PAIRS_CACHE_TABLE_NAME: DynamoDBTableProps.FewV2PairsDynamoCache.Name,
+        // RPC_PROVIDER_HEALTH_TABLE_NAME: Tracks health status of RPC providers for failover logic
         RPC_PROVIDER_HEALTH_TABLE_NAME: DynamoDBTableProps.RpcProviderHealthStateDbTable.Name,
 
         // tokenPropertiesCachingDynamoDb.tableName is the correct format.
         // we will start using the correct ones going forward
+        // TOKEN_PROPERTIES_CACHING_TABLE_NAME: Stores token metadata and properties (fees, etc.)
         TOKEN_PROPERTIES_CACHING_TABLE_NAME: tokenPropertiesCachingDynamoDb.tableName,
+
+        // Security and feature flags
+        // UNICORN_SECRET: Secret key for enabling debug/experimental features via unicorn header
         UNICORN_SECRET: unicornSecret,
+
+        // GraphQL service configuration for token fee (FOT - Fee On Transfer) fetching
+        // Token Fee 说明：
+        // 1. 什么是 Token Fee (FOT)：
+        //    - 某些 ERC20 token 在转账时会自动收取费用（Fee On Transfer）
+        //    - 买入费用 (buyFeeBps): 购买 token 时收取的费用，以基点 (basis points, 1 bps = 0.01%) 表示
+        //    - 卖出费用 (sellFeeBps): 出售 token 时收取的费用，以基点表示
+        //    - 例如：如果 buyFeeBps = 100，表示买入时收取 1% 的费用
+        //
+        // 2. 为什么需要查询 Token Fee：
+        //    - 在计算路由报价时，必须考虑这些费用才能准确计算用户实际可获得的 token 数量
+        //    - 如果不考虑 FOT，报价会不准确：用户实际收到的 token 数量会少于报价显示的数量
+        //    - 例如：报价显示可换 100 USDT，但如果 USDT 有 1% 的卖出费用，用户实际只能收到 99 USDT
+        //    - 这会导致用户体验差（实际收到少于预期）或交易失败（滑点保护触发）
+        //
+        // 3. GraphQL Token Fee 查询的优势：
+        //    - 比链上查询更快：GraphQL API 提供预计算的 token fee 数据
+        //    - 降低 RPC 调用成本：减少对区块链的直接查询
+        //    - 有回退机制：如果 GraphQL 查询失败或某些 token 未找到，会自动回退到链上查询
+        //    - 动态 FOT 处理：对于动态 FOT token（费用可能变化），仍使用链上查询获取最新数据
+        //
+        // 4. 查询的数据包括：
+        //    - buyFeeBps: 买入费用（基点）
+        //    - sellFeeBps: 卖出费用（基点）
+        //    - feeTakenOnTransfer: 是否在转账时收取费用
+        //    - externalTransferFailed: 外部转账是否失败
+        //    - sellReverted: 卖出交易是否会被回滚
+        //
+        // GQL_URL: UniGraphQL endpoint URL for querying token fee data
         GQL_URL: uniGraphQLEndpoint,
+        // GQL_H_ORGN: Origin header value for GraphQL requests (required for API authentication)
         GQL_H_ORGN: uniGraphQLHeaderOrigin,
+
+        // Lambda function references
+        // CACHING_ROUTING_LAMBDA_FUNCTION_NAME: Name of the async caching routing lambda for background route caching
         CACHING_ROUTING_LAMBDA_FUNCTION_NAME: cachingRoutingLambda.functionName,
+
+        // RPC provider configurations: JSON object mapping chain names to RPC endpoint URLs
+        // Format: { "WEB3_RPC_1": "https://...", "WEB3_RPC_137": "https://...", ... }
+        // Used for chains that don't use the RPC gateway (legacy support)
         ...jsonRpcProviders,
       },
       layers: [

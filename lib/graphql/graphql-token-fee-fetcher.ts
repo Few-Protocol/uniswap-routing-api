@@ -32,6 +32,7 @@ export class GraphQLTokenFeeFetcher implements ITokenFeeFetcher {
   }
 
   async fetchFees(addresses: string[], providerConfig?: ProviderConfig): Promise<TokenFeeMap> {
+    const totalFetchStartTime = Date.now()
     let tokenFeeMap: TokenFeeMap = {}
 
     // Use GraphQL only for tokens that are not dynamic FOT. For dynamic FOT, use fallback (on chain) as we need latest data.
@@ -94,6 +95,18 @@ export class GraphQLTokenFeeFetcher implements ITokenFeeFetcher {
         )
       }
     }
+
+    const totalFetchDuration = Date.now() - totalFetchStartTime
+    log.info(
+      {
+        chainId: this.chainId,
+        totalAddressesCount: addresses.length,
+        addresses: addresses,
+        totalDurationMs: totalFetchDuration,
+      },
+      `GraphQLTokenFeeFetcher.fetchFees total time: ${totalFetchDuration}ms`
+    )
+    metric.putMetric('GraphQLTokenFeeFetcherTotalDuration', totalFetchDuration, MetricLoggerUnit.None)
 
     return tokenFeeMap
   }
