@@ -1,7 +1,7 @@
-import { ICache } from '@uniswap/smart-order-router/build/main/providers/cache'
+import { ICache } from '@ring-protocol/smart-order-router/build/main/providers/cache'
 import { Pair as FewPair } from '@ring-protocol/few-v2-sdk'
 import { BatchGetItemInput, DocumentClient } from 'aws-sdk/clients/dynamodb'
-import { log, metric, MetricLoggerUnit } from '@uniswap/smart-order-router'
+import { log, metric, MetricLoggerUnit } from '@ring-protocol/smart-order-router'
 import { MarshalledPair, PairMarshaller } from '../../../marshalling'
 
 export class FewV2DynamoCache implements ICache<{ pair: FewPair; block?: number }> {

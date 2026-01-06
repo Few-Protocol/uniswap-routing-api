@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@uniswap/sdk-core'
+import { ChainId, Token } from '@ring-protocol/sdk-core'
 import {
   CachingGasStationProvider,
   CachingTokenListProvider,
@@ -52,7 +52,7 @@ import {
   IRingV2PoolProvider,
   IRingV2SubgraphProvider,
   RingV2QuoteProvider
-} from '@uniswap/smart-order-router'
+} from '@ring-protocol/smart-order-router'
 import { TokenList } from '@uniswap/token-lists'
 import { default as bunyan, default as Logger } from 'bunyan'
 import _ from 'lodash'
@@ -74,8 +74,8 @@ import { InstrumentedEVMProvider } from './evm/provider/InstrumentedEVMProvider'
 import { deriveProviderName } from './evm/provider/ProviderName'
 import { V2DynamoCache } from './pools/pool-caching/v2/v2-dynamo-cache'
 import { FewV2DynamoCache } from './pools/pool-caching/v2/few-v2-dynamo-cache'
-import { OnChainTokenFeeFetcher, ITokenFeeFetcher } from '@uniswap/smart-order-router/build/main/providers/token-fee-fetcher'
-import { PortionProvider } from '@uniswap/smart-order-router/build/main/providers/portion-provider'
+import { OnChainTokenFeeFetcher, ITokenFeeFetcher } from '@ring-protocol/smart-order-router/build/main/providers/token-fee-fetcher'
+import { PortionProvider } from '@ring-protocol/smart-order-router/build/main/providers/portion-provider'
 import { GlobalRpcProviders } from '../rpc/GlobalRpcProviders'
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { TrafficSwitchOnChainQuoteProvider } from './quote/provider-migration/traffic-switch-on-chain-quote-provider'
@@ -89,7 +89,7 @@ import {
 } from '../util/onChainQuoteProviderConfigs'
 import { v4 } from 'uuid/index'
 import { chainProtocols } from '../cron/cache-config'
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 import { UniJsonRpcProvider } from '../rpc/UniJsonRpcProvider'
 import { GraphQLTokenFeeFetcher } from '../graphql/graphql-token-fee-fetcher'
 import { UniGraphQLProvider } from '../graphql/graphql-provider'

@@ -1,4 +1,4 @@
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 import { extraHooksAddressesOnSepolia } from './hooksAddressesAllowlist'
 
 export const emptyV4FeeTickSpacingsHookAddresses: Array<[number, number, string]> = new Array<

@@ -6,9 +6,9 @@ import {
   LegacyRoutingConfig,
   setGlobalLogger,
   setGlobalMetric,
-} from '@uniswap/smart-order-router'
-import { V3HeuristicGasModelFactory } from '@uniswap/smart-order-router/build/main/routers/alpha-router/gas-models/v3/v3-heuristic-gas-model'
-import { RingFewV2HeuristicGasModelFactory } from '@uniswap/smart-order-router/build/main/routers/alpha-router/gas-models/fewV2/v2-heuristic-gas-model'
+} from '@ring-protocol/smart-order-router'
+import { V3HeuristicGasModelFactory } from '@ring-protocol/smart-order-router/build/main/routers/alpha-router/gas-models/v3/v3-heuristic-gas-model'
+import { RingFewV2HeuristicGasModelFactory } from '@ring-protocol/smart-order-router/build/main/routers/alpha-router/gas-models/fewV2/v2-heuristic-gas-model'
 import { MetricsLogger } from 'aws-embedded-metrics'
 import { APIGatewayProxyEvent, Context } from 'aws-lambda'
 import { default as bunyan, default as Logger } from 'bunyan'

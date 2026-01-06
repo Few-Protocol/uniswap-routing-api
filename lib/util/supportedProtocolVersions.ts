@@ -1,5 +1,5 @@
-import { Protocol } from '@uniswap/router-sdk'
-import { UniversalRouterVersion } from '@uniswap/universal-router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
+import { UniversalRouterVersion } from '@ring-protocol/universal-router-sdk'
 
 export const SUPPORTED_PROTOCOL_VERSIONS = [Protocol.V2, Protocol.V3, Protocol.V4]
 

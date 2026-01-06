@@ -1,5 +1,5 @@
-import { ChainId } from '@uniswap/sdk-core'
-import { ADDRESS_ZERO } from '@uniswap/router-sdk'
+import { ChainId } from '@ring-protocol/sdk-core'
+import { ADDRESS_ZERO } from '@ring-protocol/router-sdk'
 
 // all hook addresses need to be lower case, since the check in isHooksPoolRoutable assumes lower case
 export const extraHooksAddressesOnSepolia = '0x0000000000000000000000000000000000000020'

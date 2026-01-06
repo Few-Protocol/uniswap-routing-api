@@ -1,8 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ChainId, Currency, CurrencyAmount } from '@uniswap/sdk-core'
+import { ChainId, Currency, CurrencyAmount } from '@ring-protocol/sdk-core'
 import { CHAIN_TO_GAS_LIMIT_MAP } from './gasLimit'
 import JSBI from 'jsbi'
-import { TENDERLY_NOT_SUPPORTED_CHAINS } from '@uniswap/smart-order-router'
+import { TENDERLY_NOT_SUPPORTED_CHAINS } from '@ring-protocol/smart-order-router'
 
 export function adhocCorrectGasUsedUSD(
   estimatedGasUsed: BigNumber,

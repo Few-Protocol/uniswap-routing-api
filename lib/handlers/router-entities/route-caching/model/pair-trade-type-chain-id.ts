@@ -1,6 +1,6 @@
-import { Protocol } from '@uniswap/router-sdk'
-import { ChainId, Currency, TradeType } from '@uniswap/sdk-core'
-import { CachedRoutes, getAddress } from '@uniswap/smart-order-router'
+import { Protocol } from '@ring-protocol/router-sdk'
+import { ChainId, Currency, TradeType } from '@ring-protocol/sdk-core'
+import { CachedRoutes, getAddress } from '@ring-protocol/smart-order-router'
 
 interface PairTradeTypeChainIdArgs {
   currencyIn: string

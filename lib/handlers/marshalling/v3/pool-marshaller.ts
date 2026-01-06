@@ -1,6 +1,6 @@
-import { FeeAmount, Pool } from '@uniswap/v3-sdk'
+import { FeeAmount, Pool } from '@ring-protocol/v3-sdk'
 import { MarshalledCurrency, TokenMarshaller } from '../token-marshaller'
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 
 export interface MarshalledPool {
   protocol: Protocol

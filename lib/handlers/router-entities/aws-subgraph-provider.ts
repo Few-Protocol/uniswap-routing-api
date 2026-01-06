@@ -1,4 +1,4 @@
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 import {
   IRingV2SubgraphProvider,
   IV2SubgraphProvider,
@@ -10,9 +10,9 @@ import {
   V3SubgraphPool,
   V4SubgraphPool,
   RingV2SubgraphPool
-} from '@uniswap/smart-order-router'
+} from '@ring-protocol/smart-order-router'
 import { S3 } from 'aws-sdk'
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 import NodeCache from 'node-cache'
 import { S3_POOL_CACHE_KEY } from '../../util/pool-cache-key'
 import { PoolCachingFilePrefixes } from '../../util/poolCachingFilePrefixes'
