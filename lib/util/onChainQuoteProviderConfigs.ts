@@ -9,11 +9,11 @@ import {
   DEFAULT_GAS_ERROR_FAILURE_OVERRIDES,
   DEFAULT_RETRY_OPTIONS,
   DEFAULT_SUCCESS_RATE_FAILURE_OVERRIDES,
-} from '@uniswap/smart-order-router/build/main/util/onchainQuoteProviderConfigs'
-import { CHAIN_TO_ADDRESSES_MAP, ChainId } from '@uniswap/sdk-core'
+} from '@ring-protocol/smart-order-router/build/main/util/onchainQuoteProviderConfigs'
+import { CHAIN_TO_ADDRESSES_MAP, ChainId } from '@ring-protocol/sdk-core'
 import AsyncRetry from 'async-retry'
-import { AddressMap, BatchParams, BlockNumberConfig, FailureOverrides } from '@uniswap/smart-order-router'
-import { Protocol } from '@uniswap/router-sdk'
+import { AddressMap, BatchParams, BlockNumberConfig, FailureOverrides } from '@ring-protocol/smart-order-router'
+import { Protocol } from '@ring-protocol/router-sdk'
 
 export const RETRY_OPTIONS: { [chainId: number]: AsyncRetry.Options | undefined } = {
   ...constructSameRetryOptionsMap(DEFAULT_RETRY_OPTIONS),

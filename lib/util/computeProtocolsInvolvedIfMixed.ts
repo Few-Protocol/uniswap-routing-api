@@ -1,8 +1,8 @@
-import { CachedRoute, log, SupportedRoutes } from '@uniswap/smart-order-router'
-import { Protocol } from '@uniswap/router-sdk'
-import { Pair } from '@uniswap/v2-sdk'
-import { Pool as V3Pool } from '@uniswap/v3-sdk'
-import { Pool as V4Pool } from '@uniswap/v4-sdk'
+import { CachedRoute, log, SupportedRoutes } from '@ring-protocol/smart-order-router'
+import { Protocol } from '@ring-protocol/router-sdk'
+import { Pair } from '@ring-protocol/v2-sdk'
+import { Pool as V3Pool } from '@ring-protocol/v3-sdk'
+import { Pool as V4Pool } from '@ring-protocol/v4-sdk'
 
 export function computeProtocolsInvolvedIfMixed(route: CachedRoute<SupportedRoutes>): Set<Protocol> {
   if (route.route.protocol === Protocol.MIXED) {

@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi'
-import { Protocol } from '@uniswap/router-sdk'
-import { ChainId, Currency, CurrencyAmount, Token, TradeType } from '@uniswap/sdk-core'
+import { Protocol } from '@ring-protocol/router-sdk'
+import { ChainId, Currency, CurrencyAmount, Token, TradeType } from '@ring-protocol/sdk-core'
 import {
   AlphaRouterConfig,
   getAddress,
@@ -14,9 +14,9 @@ import {
   SwapOptions,
   SwapRoute,
   V4_ETH_WETH_FAKE_POOL,
-} from '@uniswap/smart-order-router'
-import { Pool as V3Pool } from '@uniswap/v3-sdk'
-import { Pool as V4Pool } from '@uniswap/v4-sdk'
+} from '@ring-protocol/smart-order-router'
+import { Pool as V3Pool } from '@ring-protocol/v3-sdk'
+import { Pool as V4Pool } from '@ring-protocol/v4-sdk'
 import JSBI from 'jsbi'
 import _ from 'lodash'
 import { APIGLambdaHandler, ErrorResponse, HandleRequestParams, Response } from '../handler'
@@ -39,9 +39,9 @@ import { SwapOptionsFactory } from './SwapOptionsFactory'
 import { GlobalRpcProviders } from '../../rpc/GlobalRpcProviders'
 import { adhocCorrectGasUsed } from '../../util/estimateGasUsed'
 import { adhocCorrectGasUsedUSD } from '../../util/estimateGasUsedUSD'
-import { Pair } from '@uniswap/v2-sdk'
+import { Pair } from '@ring-protocol/v2-sdk'
 import { Pair as FewV2Pair } from '@ring-protocol/few-v2-sdk'
-import { UniversalRouterVersion } from '@uniswap/universal-router-sdk'
+import { UniversalRouterVersion } from '@ring-protocol/universal-router-sdk'
 import {
   convertStringRouterVersionToEnum,
   protocolVersionsToBeExcludedFromMixed,

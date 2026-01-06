@@ -1,4 +1,4 @@
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 
 // percent is between 0% - 100%, defined in SOR
 // testnets all go to 100% directly

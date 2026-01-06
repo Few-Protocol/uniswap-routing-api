@@ -1,7 +1,7 @@
-import { Pair } from '@uniswap/v2-sdk'
+import { Pair } from '@ring-protocol/v2-sdk'
 import { Pair as FewPair } from '@ring-protocol/few-v2-sdk'
 import { CurrencyAmountMarshaller, MarshalledCurrencyAmount } from './currency-amount-marshaller'
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 
 export interface MarshalledPair {
   protocol: Protocol

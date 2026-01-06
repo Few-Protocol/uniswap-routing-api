@@ -1,5 +1,5 @@
-import { isPoolFeeDynamic, log, nativeOnChain, V4SubgraphPool } from '@uniswap/smart-order-router'
-import { Hook } from '@uniswap/v4-sdk'
+import { isPoolFeeDynamic, log, nativeOnChain, V4SubgraphPool } from '@ring-protocol/smart-order-router'
+import { Hook } from '@ring-protocol/v4-sdk'
 import {
   HOOKS_ADDRESSES_ALLOWLIST,
   ZORA_CREATOR_HOOK_ON_BASE_v1,
@@ -19,9 +19,9 @@ import {
   ZORA_POST_HOOK_ON_BASE_v2_2_1,
   ZORA_POST_HOOK_ON_BASE_v2_3_0,
 } from './hooksAddressesAllowlist'
-import { ChainId, Currency, Token } from '@uniswap/sdk-core'
+import { ChainId, Currency, Token } from '@ring-protocol/sdk-core'
 import { PriorityQueue } from '@datastructures-js/priority-queue'
-import { ADDRESS_ZERO } from '@uniswap/router-sdk'
+import { ADDRESS_ZERO } from '@ring-protocol/router-sdk'
 
 type V4PoolGroupingKey = string
 const TOP_GROUPED_V4_POOLS = 10

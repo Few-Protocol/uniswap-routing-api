@@ -42,6 +42,7 @@ export class RpcGatewayFallbackStack extends cdk.NestedStack {
       bundling: {
         minify: true,
         sourceMap: true,
+        keepNames: true,
       },
       layers: [
         aws_lambda.LayerVersion.fromLayerVersionArn(

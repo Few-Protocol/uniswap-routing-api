@@ -1,4 +1,4 @@
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 import {
   setGlobalLogger,
   setGlobalMetric,
@@ -7,10 +7,10 @@ import {
   V3SubgraphPool,
   V3SubgraphProvider,
   V4SubgraphPool,
-} from '@uniswap/smart-order-router'
+} from '@ring-protocol/smart-order-router'
 import { EventBridgeEvent, ScheduledHandler } from 'aws-lambda'
 import { S3 } from 'aws-sdk'
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 import { default as bunyan, default as Logger } from 'bunyan'
 import { S3_POOL_CACHE_KEY } from '../util/pool-cache-key'
 import {

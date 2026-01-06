@@ -7,7 +7,7 @@ import {
 } from './SingleJsonRpcProvider'
 import { StaticJsonRpcProvider, TransactionRequest } from '@ethersproject/providers'
 import { isEmpty } from 'lodash'
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 import {
   BlockTag,
   BlockWithTransactions,

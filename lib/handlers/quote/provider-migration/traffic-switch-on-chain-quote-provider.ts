@@ -6,13 +6,13 @@ import {
   OnChainQuotes,
   SupportedExactOutRoutes,
   SupportedRoutes,
-} from '@uniswap/smart-order-router'
-import { ChainId, Currency, CurrencyAmount } from '@uniswap/sdk-core'
-import { ProviderConfig } from '@uniswap/smart-order-router/build/main/providers/provider'
+} from '@ring-protocol/smart-order-router'
+import { ChainId, Currency, CurrencyAmount } from '@ring-protocol/sdk-core'
+import { ProviderConfig } from '@ring-protocol/smart-order-router/build/main/providers/provider'
 import { QUOTE_PROVIDER_TRAFFIC_SWITCH_CONFIGURATION } from '../util/quote-provider-traffic-switch-configuration'
 import { BigNumber } from 'ethers'
 import { LIKELY_OUT_OF_GAS_THRESHOLD, NEW_QUOTER_DEPLOY_BLOCK } from '../../../util/onChainQuoteProviderConfigs'
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 
 export type TrafficSwitchOnChainQuoteProviderProps = {
   currentQuoteProvider: IOnChainQuoteProvider

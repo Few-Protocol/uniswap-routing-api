@@ -1,4 +1,4 @@
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 
 export const TESTNETS = [
   ChainId.ARBITRUM_GOERLI,

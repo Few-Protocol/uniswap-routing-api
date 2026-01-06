@@ -117,6 +117,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       bundling: {
         minify: true,
         sourceMap: true,
+        keepNames: true,
       },
 
       awsSdkConnectionReuse: true,
@@ -182,6 +183,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       bundling: {
         minify: true,
         sourceMap: true,
+        keepNames: true,
       },
 
       awsSdkConnectionReuse: true,

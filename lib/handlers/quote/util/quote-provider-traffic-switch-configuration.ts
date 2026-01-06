@@ -1,5 +1,5 @@
-import { ChainId } from '@uniswap/sdk-core'
-import { Protocol } from '@uniswap/router-sdk'
+import { ChainId } from '@ring-protocol/sdk-core'
+import { Protocol } from '@ring-protocol/router-sdk'
 
 export type QuoteProviderTrafficSwitchConfiguration = {
   switchExactInPercentage: number

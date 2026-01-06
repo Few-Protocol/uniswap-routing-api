@@ -1,4 +1,4 @@
-import { log, metric, MetricLoggerUnit } from '@uniswap/smart-order-router'
+import { log, metric, MetricLoggerUnit } from '@ring-protocol/smart-order-router'
 
 export interface TrafficSwitcherProps<TExperiment> {
   control: TExperiment

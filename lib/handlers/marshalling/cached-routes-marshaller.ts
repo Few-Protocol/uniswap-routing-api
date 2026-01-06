@@ -1,6 +1,6 @@
-import { CachedRoutes } from '@uniswap/smart-order-router'
-import { ChainId, TradeType } from '@uniswap/sdk-core'
-import { Protocol } from '@uniswap/router-sdk'
+import { CachedRoutes } from '@ring-protocol/smart-order-router'
+import { ChainId, TradeType } from '@ring-protocol/sdk-core'
+import { Protocol } from '@ring-protocol/router-sdk'
 import { MarshalledCurrency, TokenMarshaller } from './token-marshaller'
 import { CachedRouteMarshaller, MarshalledCachedRoute } from './cached-route-marshaller'
 
