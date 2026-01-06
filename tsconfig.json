@@ -27,7 +27,8 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "cdk.out",
