@@ -1,4 +1,4 @@
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 import * as cdk from 'aws-cdk-lib'
 import { Duration } from 'aws-cdk-lib'
 import * as aws_cloudwatch from 'aws-cdk-lib/aws-cloudwatch'
@@ -17,7 +17,7 @@ import * as path from 'path'
 import { chainProtocols } from '../../lib/cron/cache-config'
 import { STAGE } from '../../lib/util/stage'
 import { PoolCachingFilePrefixes } from '../../lib/util/poolCachingFilePrefixes'
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 
 export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   stage: string
@@ -128,6 +128,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
           bundling: {
             minify: true,
             sourceMap: true,
+            keepNames: true,
           },
           description: `Pool Cache Lambda for Chain with ChainId ${chainId} and Protocol ${protocol}`,
           layers: [lambdaLayerVersion],
@@ -205,6 +206,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
       bundling: {
         minify: true,
         sourceMap: true,
+        keepNames: true,
       },
       layers: [
         aws_lambda.LayerVersion.fromLayerVersionArn(
