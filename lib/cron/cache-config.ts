@@ -84,7 +84,7 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
 export const v3SubgraphUrlOverride = (chainId: ChainId) => {
   switch (chainId) {
     case ChainId.MAINNET:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-mainnet/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV`
     case ChainId.ARBITRUM_ONE:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-arbitrum-ii/api`
     case ChainId.POLYGON:
@@ -197,7 +197,8 @@ export const chainProtocols = [
       true,
       v3TrackedEthThreshold,
       v3UntrackedUsdThreshold,
-      v3SubgraphUrlOverride(ChainId.MAINNET)
+      v3SubgraphUrlOverride(ChainId.MAINNET),
+      process.env.FEWV2_GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
     ),
   },
   /*
