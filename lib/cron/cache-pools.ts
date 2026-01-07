@@ -75,7 +75,8 @@ const handler: ScheduledHandler = metricScope((metrics) => async (event: EventBr
         1000,
         v2TrackedEthThreshold,
         0, // wstETH/DOG reserveUSD is 0, but the pool balance (https://app.uniswap.org/explore/pools/ethereum/0x801c868ce08fb5b396e6911eac351beb259d386c) is sufficiently hight
-        v2SubgraphUrlOverride(ChainId.MAINNET)
+        v2SubgraphUrlOverride(ChainId.MAINNET),
+        process.env.GRAPH_BEARER_TOKEN
       )
       const additionalPools = await v2MainnetSubgraphProvider.getPools()
       const filteredPools = additionalPools.filter((pool) => {
@@ -199,7 +200,8 @@ const handler: ScheduledHandler = metricScope((metrics) => async (event: EventBr
         true,
         v3TrackedEthThreshold,
         0, // wstETH/USDC totalValueLockedUSDUntracked is 0, but the pool balance (https://app.uniswap.org/explore/pools/ethereum/0x4622df6fb2d9bee0dcdacf545acdb6a2b2f4f863) is sufficiently hight
-        v3SubgraphUrlOverride(ChainId.MAINNET)
+        v3SubgraphUrlOverride(ChainId.MAINNET),
+        process.env.GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
       )
       const additionalPools = await v3MainnetSubgraphProvider.getPools()
       const filteredPools = additionalPools.filter((pool: V3SubgraphPool) => {

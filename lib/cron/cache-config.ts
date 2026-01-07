@@ -71,7 +71,7 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.BLAST:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-blast/api`
     case ChainId.MAINNET:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-mainnet/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/DiYPVdygkfjDWhbxGSqAQxwBKmfKnkWQojqeM2rkLb3G`
     case ChainId.SONEIUM:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-soneium-mainnet/api`
     case ChainId.OPTIMISM:
@@ -120,9 +120,9 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
   switch (chainId) {
     case ChainId.MAINNET:
       // 使用 The Graph Gateway URL，需要配合 FEWV2_GRAPH_BEARER_TOKEN 环境变量
-      return `https://gateway.thegraph.com/api/subgraphs/id/${process.env.FEWV2_SUBGRAPH_ID}`
+      return `https://gateway.thegraph.com/api/subgraphs/id/HMtLevwVwkYSSwXXUSmwxr3fiFSzcmyGywA9exPRHfcH`
     case ChainId.SEPOLIA:
-      return `https://gateway.thegraph.com/api/subgraphs/id/${process.env.FEWV2_SEPOLIA_SUBGRAPH_ID}`
+      return `https://gateway.thegraph.com/api/subgraphs/id/HMtLevwVwkYSSwXXUSmwxr3fiFSzcmyGywA9exPRHfcH`
     default:
       return undefined
   }
@@ -198,7 +198,7 @@ export const chainProtocols = [
       v3TrackedEthThreshold,
       v3UntrackedUsdThreshold,
       v3SubgraphUrlOverride(ChainId.MAINNET),
-      process.env.FEWV2_GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
+      process.env.GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
     ),
   },
   /*
@@ -385,7 +385,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       v2SubgraphUrlOverride(ChainId.MAINNET),
-      process.env.FEWV2_GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
+      process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
   // FEWV2.
@@ -402,7 +402,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       fewV2SubgraphUrlOverride(ChainId.MAINNET),
-      process.env.FEWV2_GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
+      process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
   // {
@@ -615,7 +615,8 @@ export const chainProtocols = [
       v4BaseZoraTrackedEthThreshold,
       ZORA_HOOKS_FOR_V4_SUBGRAPH_FILTERING,
       v4UntrackedUsdThreshold,
-      v4SubgraphUrlOverride(ChainId.SEPOLIA)
+      v4SubgraphUrlOverride(ChainId.SEPOLIA),
+      process.env.GRAPH_BEARER_TOKEN
     ),
   },
   /*
@@ -752,14 +753,16 @@ export const chainProtocols = [
       v4BaseZoraTrackedEthThreshold,
       ZORA_HOOKS_FOR_V4_SUBGRAPH_FILTERING,
       v4UntrackedUsdThreshold,
-      v4SubgraphUrlOverride(ChainId.MAINNET)
+      v4SubgraphUrlOverride(ChainId.MAINNET),
+      process.env.GRAPH_BEARER_TOKEN
     ),
     eulerHooksProvider: new EulerSwapHooksSubgraphProvider(
       ChainId.MAINNET,
       3,
       90000,
       true,
-      v4SubgraphUrlOverride(ChainId.MAINNET)
+      v4SubgraphUrlOverride(ChainId.MAINNET),
+      process.env.GRAPH_BEARER_TOKEN
     ),
   },
   /*

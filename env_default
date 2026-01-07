@@ -54,16 +54,6 @@ ALCHEMY_QUERY_KEY_2=
 GRAPH_BASE_V4_SUBGRAPH_ID=
 GRAPH_BEARER_TOKEN=
 
-# FEWV2 (Ring Protocol) subgraph configuration
-# 从 The Graph 获取的 Subgraph ID
-FEWV2_SUBGRAPH_ID=HMtLevwVwkYSSwXXUSmwxr3fiFSzcmyGywA9exPRHfcH
-# The Graph Gateway API Key (Bearer Token)
-FEWV2_GRAPH_BEARER_TOKEN=ed738d9c678c75e2d431132347998bbc
-
-# V2 subgraph configuration for The Graph Gateway
-# The Graph Gateway API Key (Bearer Token) for V2 mainnet subgraph
-V2_GRAPH_BEARER_TOKEN=ed738d9c678c75e2d431132347998bbc
-
 # Uniswap GraphQL configuration
 GQL_URL=
 GQL_H_ORGN=
