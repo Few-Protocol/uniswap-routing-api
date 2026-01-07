@@ -1,5 +1,5 @@
 import { Protocol } from '@ring-protocol/router-sdk'
-import { V2SubgraphProvider, V3SubgraphProvider, V4SubgraphProvider } from '@ring-protocol/smart-order-router'
+import { V2SubgraphProvider, V3SubgraphProvider, V4SubgraphProvider, RingV2SubgraphProvider } from '@ring-protocol/smart-order-router'
 import { ChainId } from '@ring-protocol/sdk-core'
 import { EulerSwapHooksSubgraphProvider } from '@ring-protocol/smart-order-router/'
 import {
@@ -116,6 +116,18 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
   }
 }
 
+export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
+  switch (chainId) {
+    case ChainId.MAINNET:
+      // 使用 The Graph Gateway URL，需要配合 FEWV2_GRAPH_BEARER_TOKEN 环境变量
+      return `https://gateway.thegraph.com/api/subgraphs/id/${process.env.FEWV2_SUBGRAPH_ID}`
+    case ChainId.SEPOLIA:
+      return `https://gateway.thegraph.com/api/subgraphs/id/${process.env.FEWV2_SEPOLIA_SUBGRAPH_ID}`
+    default:
+      return undefined
+  }
+}
+
 export const v2SubgraphUrlOverride = (chainId: ChainId) => {
   switch (chainId) {
     case ChainId.SEPOLIA:
@@ -168,7 +180,7 @@ export interface ChainProtocol {
   protocol: Protocol
   chainId: ChainId
   timeout: number
-  provider: V2SubgraphProvider | V3SubgraphProvider | V4SubgraphProvider
+  provider: V2SubgraphProvider | V3SubgraphProvider | V4SubgraphProvider | RingV2SubgraphProvider
   eulerHooksProvider?: EulerSwapHooksSubgraphProvider
 }
 
@@ -372,6 +384,23 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       v2SubgraphUrlOverride(ChainId.MAINNET)
+    ), // 1000 is the largest page size supported by thegraph
+  },
+  // FEWV2.
+  {
+    protocol: Protocol.FEWV2,
+    chainId: ChainId.MAINNET,
+    timeout: 840000,
+    provider: new RingV2SubgraphProvider(
+      ChainId.MAINNET,
+      5,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      fewV2SubgraphUrlOverride(ChainId.MAINNET),
+      process.env.FEWV2_GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
   // {

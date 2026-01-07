@@ -50,6 +50,16 @@ TENDERLY_NODE_API_KEY=38fZs1RA0bU8cT17IjkhzzOm3qSpXA8g
 ALCHEMY_QUERY_KEY=
 ALCHEMY_QUERY_KEY_2=
 
+# The Graph configuration
+GRAPH_BASE_V4_SUBGRAPH_ID=
+GRAPH_BEARER_TOKEN=
+
+# FEWV2 (Ring Protocol) subgraph configuration
+# 从 The Graph 获取的 Subgraph ID
+FEWV2_SUBGRAPH_ID=HMtLevwVwkYSSwXXUSmwxr3fiFSzcmyGywA9exPRHfcH
+# The Graph Gateway API Key (Bearer Token)
+FEWV2_GRAPH_BEARER_TOKEN=ed738d9c678c75e2d431132347998bbc
+
 # Uniswap GraphQL configuration
 GQL_URL=
 GQL_H_ORGN=

@@ -445,6 +445,12 @@ const handler: ScheduledHandler = metricScope((metrics) => async (event: EventBr
       pools = v4HooksPoolsFiltering(chainId, pools as Array<V4SubgraphPool>)
     }
 
+    if (protocol === Protocol.FEWV2) {
+      // FEWV2: 暂无特殊处理，池子数据直接从 subgraph 获取
+      // 如需手动添加池子或过滤，参考 V2/V3/V4 的处理方式
+      log.info(`FEWV2 pools from subgraph: ${pools.length}`)
+    }
+
     metric.putMetric(`${metricPrefix}.getPools.latency`, Date.now() - beforeGetPool)
   } catch (err) {
     metric.putMetric(`${metricPrefix}.getPools.error`, 1)

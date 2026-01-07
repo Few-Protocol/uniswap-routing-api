@@ -479,6 +479,8 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   alchemyQueryKey2: process.env.ALCHEMY_QUERY_KEY_2!,
   graphBaseV4SubgraphId: process.env.GRAPH_BASE_V4_SUBGRAPH_ID!,
   graphBearerToken: process.env.GRAPH_BEARER_TOKEN!,
+  fewV2SubgraphId: process.env.FEWV2_SUBGRAPH_ID!,
+  fewV2GraphBearerToken: process.env.FEWV2_GRAPH_BEARER_TOKEN!,
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {

@@ -30,6 +30,8 @@ export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   alchemyQueryKey2?: string
   graphBaseV4SubgraphId?: string
   graphBearerToken?: string
+  fewV2SubgraphId?: string
+  fewV2GraphBearerToken?: string
 }
 
 export class RoutingCachingStack extends cdk.NestedStack {
@@ -44,11 +46,13 @@ export class RoutingCachingStack extends cdk.NestedStack {
   public readonly alchemyQueryKey2: string | undefined = undefined
   public readonly graphBaseV4SubgraphId: string | undefined = undefined
   public readonly graphBearerToken: string | undefined = undefined
+  public readonly fewV2SubgraphId: string | undefined = undefined
+  public readonly fewV2GraphBearerToken: string | undefined = undefined
 
   constructor(scope: Construct, name: string, props: RoutingCachingStackProps) {
     super(scope, name, props)
 
-    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken } = props
+    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken, fewV2SubgraphId, fewV2GraphBearerToken } = props
 
     const chatBotTopic = chatbotSNSArn ? aws_sns.Topic.fromTopicArn(this, 'ChatbotTopic', chatbotSNSArn) : undefined
 
@@ -56,6 +60,8 @@ export class RoutingCachingStack extends cdk.NestedStack {
     this.alchemyQueryKey2 = alchemyQueryKey2
     this.graphBaseV4SubgraphId = graphBaseV4SubgraphId
     this.graphBearerToken = graphBearerToken
+    this.fewV2SubgraphId = fewV2SubgraphId
+    this.fewV2GraphBearerToken = fewV2GraphBearerToken
     // TODO: Remove and swap to the new bucket below. Kept around for the rollout, but all requests will go to bucket 2.
     this.poolCacheBucket = new aws_s3.Bucket(this, 'PoolCacheBucket')
     this.poolCacheBucket2 = new aws_s3.Bucket(this, 'PoolCacheBucket2')
@@ -142,6 +148,8 @@ export class RoutingCachingStack extends cdk.NestedStack {
             ALCHEMY_QUERY_KEY_2: this.alchemyQueryKey2 ?? '',
             GRAPH_BASE_V4_SUBGRAPH_ID: this.graphBaseV4SubgraphId ?? '',
             GRAPH_BEARER_TOKEN: this.graphBearerToken ?? '',
+            FEWV2_SUBGRAPH_ID: this.fewV2SubgraphId ?? '',
+            FEWV2_GRAPH_BEARER_TOKEN: this.fewV2GraphBearerToken ?? '',
             chainId: chainId.toString(),
             protocol,
             timeout: timeout.toString(),
