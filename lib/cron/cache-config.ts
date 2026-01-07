@@ -133,7 +133,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.SEPOLIA:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-sepolia/api`
     case ChainId.MAINNET:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-mainnet/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu`
     case ChainId.ARBITRUM_ONE:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-arbitrum/api`
     case ChainId.POLYGON:
@@ -383,7 +383,8 @@ export const chainProtocols = [
       1000,
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
-      v2SubgraphUrlOverride(ChainId.MAINNET)
+      v2SubgraphUrlOverride(ChainId.MAINNET),
+      process.env.FEWV2_GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
   // FEWV2.
