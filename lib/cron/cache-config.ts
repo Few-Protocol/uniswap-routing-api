@@ -192,7 +192,7 @@ export const chainProtocols = [
     timeout: 90000,
     provider: new V3SubgraphProvider(
       ChainId.MAINNET,
-      3,
+      2,
       90000,
       true,
       v3TrackedEthThreshold,
@@ -378,7 +378,7 @@ export const chainProtocols = [
     timeout: 840000,
     provider: new V2SubgraphProvider(
       ChainId.MAINNET,
-      5,
+      2,
       900000,
       true,
       1000,
@@ -395,7 +395,7 @@ export const chainProtocols = [
     timeout: 840000,
     provider: new RingV2SubgraphProvider(
       ChainId.MAINNET,
-      5,
+      2,
       900000,
       true,
       1000,
@@ -608,7 +608,7 @@ export const chainProtocols = [
     timeout: 90000,
     provider: new V4SubgraphProvider(
       ChainId.SEPOLIA,
-      3,
+      1,
       90000,
       true,
       v4TrackedEthThreshold,
@@ -746,7 +746,7 @@ export const chainProtocols = [
     timeout: 90000,
     provider: new V4SubgraphProvider(
       ChainId.MAINNET,
-      3,
+      2,
       90000,
       true,
       v4TrackedEthThreshold,
@@ -758,7 +758,7 @@ export const chainProtocols = [
     ),
     eulerHooksProvider: new EulerSwapHooksSubgraphProvider(
       ChainId.MAINNET,
-      3,
+      2,
       90000,
       true,
       v4SubgraphUrlOverride(ChainId.MAINNET),
