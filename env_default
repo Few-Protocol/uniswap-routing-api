@@ -58,6 +58,12 @@ GRAPH_BEARER_TOKEN=
 GQL_URL=
 GQL_H_ORGN=
 
+# Optional: SNS Topic ARN for chatbot notifications (Slack/Telegram)
+# When configured, CloudWatch alarms will send notifications to the specified SNS topic
+# Format: arn:aws:sns:region:account-id:topic-name
+# See docs/chatbot-notification-setup.md for detailed setup instructions
+CHATBOT_SNS_ARN=
+
 # Optional: For end-to-end tests
 # ARCHIVE_NODE_RPC=
 UNISWAP_ROUTING_API=https://kkt5z5xhw3.execute-api.us-east-1.amazonaws.com/prod/quote
