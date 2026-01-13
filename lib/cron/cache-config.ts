@@ -111,6 +111,8 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-zora/api`
     case ChainId.SONEIUM:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-soneium-mainnet/api`
+    case ChainId.XLAYER_MAINNET:
+      return `https://gateway.thegraph.com/api/subgraphs/id/2LM2nhSfVsKVNW1EF6AgJHMGBKU2zR9rZcE3zzkFkwW1`
     default:
       return undefined
   }
@@ -158,6 +160,8 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-unichain-mainnet/api`
     case ChainId.SONEIUM:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-soneium-mainnet/api`
+    case ChainId.XLAYER_MAINNET:
+      return `https://gateway.thegraph.com/api/subgraphs/id/2qbpfuRSPQ5DJHNP7ZNjbBEqwPrX5vKPhRN5EBqNKKDB`
     default:
       return undefined
   }

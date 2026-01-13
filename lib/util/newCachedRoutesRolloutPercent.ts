@@ -40,4 +40,7 @@ export const NEW_CACHED_ROUTES_ROLLOUT_PERCENT: { [chain in ChainId]: number } =
   [ChainId.STORY_ODYSSEY]: 100,
   [ChainId.STORY_MAINNET]: 100,
   [ChainId.HYPER_MAINNET]: 100,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: 100,
 }
