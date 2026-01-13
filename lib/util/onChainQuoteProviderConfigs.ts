@@ -1187,6 +1187,9 @@ export const NEW_QUOTER_DEPLOY_BLOCK: { [chainId in ChainId]: number } = {
   [ChainId.STORY_ODYSSEY]: -1,
   [ChainId.STORY_MAINNET]: -1,
   [ChainId.HYPER_MAINNET]: -1,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: -1,
 }
 
 // 0 threshold means it's not deployed yet
@@ -1226,6 +1229,9 @@ export const LIKELY_OUT_OF_GAS_THRESHOLD: { [chainId in ChainId]: number } = {
   [ChainId.STORY_ODYSSEY]: 0,
   [ChainId.STORY_MAINNET]: 0,
   [ChainId.HYPER_MAINNET]: 0,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: 0,
 }
 
 // TODO: Move this new addresses to SOR
