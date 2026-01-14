@@ -122,7 +122,7 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
       return `https://${tokens[0]}.worldchain-mainnet.quiknode.pro/${tokens[1]}`
     }
     case 'QUICKNODE_196': {
-      return `https://${tokens[0]}.xlayer-mainnet.quiknode.pro/${tokens[1]}`
+      return `https://tame-cold-county.xlayer-mainnet.quiknode.pro/${tokens[0]}/`
     }
     // QuickNode RETH
     case 'QUICKNODERETH_1': {

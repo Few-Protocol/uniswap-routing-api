@@ -243,6 +243,7 @@ export class RoutingAPIPipeline extends Stack {
       // Ethereum
       // 'INFURA_1',
       // 'QUICKNODE_1',
+      'QUICKNODE_196',
       'ALCHEMY_1',
       // 'QUICKNODERETH_1',
       // Blast
@@ -389,6 +390,7 @@ const app = new cdk.App()
 const jsonRpcProviders = {
   ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
   ALCHEMY_1: process.env.ALCHEMY_1!,
+  QUICKNODE_196: process.env.QUICKNODE_196!,
   /*
   WEB3_RPC_1: process.env.WEB3_RPC_1!,
   WEB3_RPC_11155111: process.env.WEB3_RPC_11155111!,
