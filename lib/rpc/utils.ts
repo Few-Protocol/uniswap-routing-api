@@ -30,6 +30,8 @@ export function chainIdToNetworkName(networkId: ChainId): string {
       return 'unichain'
     case ChainId.SONEIUM:
       return 'soneium'
+    case ChainId.XLAYER_MAINNET:
+      return 'xlayer'
     default:
       return 'ethereum'
   }
@@ -118,6 +120,9 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
     }
     case 'QUICKNODE_480': {
       return `https://${tokens[0]}.worldchain-mainnet.quiknode.pro/${tokens[1]}`
+    }
+    case 'QUICKNODE_196': {
+      return `https://${tokens[0]}.xlayer-mainnet.quiknode.pro/${tokens[1]}`
     }
     // QuickNode RETH
     case 'QUICKNODERETH_1': {

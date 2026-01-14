@@ -121,6 +121,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   // ChainId.BASE_SEPOLIA,
   // ChainId.UNICHAIN,
   // ChainId.SONEIUM,
+  ChainId.XLAYER_MAINNET,
 ]
 const DEFAULT_TOKEN_LIST = 'https://raw.githubusercontent.com/RingProtocol/token-list/master/uniswap.tokenlist.json';//https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 

@@ -15,6 +15,21 @@
     ]
   },
   {
+    "chainId": 196,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "QUICKNODE_196"
+    ],
+    "providerNames": [
+      "QUIKNODE"
+    ]
+  },
+  {
     "chainId": 11155111,
     "useMultiProviderProb": 1,
     "latencyEvaluationSampleProb": 0,
