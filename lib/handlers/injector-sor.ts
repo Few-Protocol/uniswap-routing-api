@@ -386,7 +386,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
               Protocol.FEWV2,
               POOL_CACHE_BUCKET_3!,
               POOL_CACHE_GZIP_KEY!,
-              v2PoolProvider
+              fewV2PoolProvider
             )) as RingV2AWSSubgraphProvider,
           ])
 
@@ -703,7 +703,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
     protocol: Protocol,
     poolCacheBucket: string,
     poolCacheKey: string,
-    poolProvider: IV2PoolProvider | IV3PoolProvider | IV4PoolProvider,
+    poolProvider: IV2PoolProvider | IV3PoolProvider | IV4PoolProvider | IRingV2PoolProvider,
     v4PoolsParams?: Array<[number, number, string]>
   ) {
     try {
