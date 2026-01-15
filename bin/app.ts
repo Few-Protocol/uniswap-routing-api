@@ -41,6 +41,7 @@ export class RoutingAPIStage extends Stage {
       alchemyQueryKey2?: string
       graphBaseV4SubgraphId?: string
       graphBearerToken?: string
+      graphBearerToken_X_LAYER?: string
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -66,6 +67,7 @@ export class RoutingAPIStage extends Stage {
       alchemyQueryKey2,
       graphBaseV4SubgraphId,
       graphBearerToken,
+      graphBearerToken_X_LAYER,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -90,6 +92,7 @@ export class RoutingAPIStage extends Stage {
       alchemyQueryKey2,
       graphBaseV4SubgraphId,
       graphBearerToken,
+      graphBearerToken_X_LAYER,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     })
@@ -481,6 +484,7 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   alchemyQueryKey2: process.env.ALCHEMY_QUERY_KEY_2!,
   graphBaseV4SubgraphId: process.env.GRAPH_BASE_V4_SUBGRAPH_ID!,
   graphBearerToken: process.env.GRAPH_BEARER_TOKEN!,
+  graphBearerToken_X_LAYER: process.env.GRAPH_BEARER_TOKEN_X_LAYER!,
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {

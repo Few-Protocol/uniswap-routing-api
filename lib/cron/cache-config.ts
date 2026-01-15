@@ -205,21 +205,21 @@ export const chainProtocols = [
       process.env.GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
     ),
   },
-  {
-    protocol: Protocol.V3,
-    chainId: ChainId.XLAYER_MAINNET,
-    timeout: 90000,
-    provider: new V3SubgraphProvider(
-      ChainId.XLAYER_MAINNET,
-      2,
-      90000,
-      true,
-      v3TrackedEthThreshold,
-      v3UntrackedUsdThreshold,
-      v3SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
-      process.env.GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
-    ),
-  },
+  // {
+  //   protocol: Protocol.V3,
+  //   chainId: ChainId.XLAYER_MAINNET,
+  //   timeout: 90000,
+  //   provider: new V3SubgraphProvider(
+  //     ChainId.XLAYER_MAINNET,
+  //     2,
+  //     90000,
+  //     true,
+  //     v3TrackedEthThreshold,
+  //     v3UntrackedUsdThreshold,
+  //     v3SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
+  //     process.env.GRAPH_BEARER_TOKEN_X_LAYER // The Graph Gateway Authorization
+  //   ),
+  // },
   /*
   {
     protocol: Protocol.V3,
@@ -407,22 +407,22 @@ export const chainProtocols = [
       process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
-  {
-    protocol: Protocol.V2,
-    chainId: ChainId.XLAYER_MAINNET,
-    timeout: 840000,
-    provider: new V2SubgraphProvider(
-      ChainId.XLAYER_MAINNET,
-      2,
-      900000,
-      true,
-      1000,
-      v2TrackedEthThreshold,
-      v2UntrackedUsdThreshold,
-      v2SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
-      process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
-    ), // 1000 is the largest page size supported by thegraph
-  },
+  // {
+  //   protocol: Protocol.V2,
+  //   chainId: ChainId.XLAYER_MAINNET,
+  //   timeout: 840000,
+  //   provider: new V2SubgraphProvider(
+  //     ChainId.XLAYER_MAINNET,
+  //     2,
+  //     900000,
+  //     true,
+  //     1000,
+  //     v2TrackedEthThreshold,
+  //     v2UntrackedUsdThreshold,
+  //     v2SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
+  //     process.env.GRAPH_BEARER_TOKEN_X_LAYER  // The Graph Gateway Authorization
+  //   ), // 1000 is the largest page size supported by thegraph
+  // },
   // FEWV2.
   {
     protocol: Protocol.FEWV2,
