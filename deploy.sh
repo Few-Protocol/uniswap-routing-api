@@ -40,7 +40,7 @@ fi
 # 根据目标设置分支名
 if [ "$TARGET" == "beta" ]; then
   BRANCH="ring_main"
-  CDK_PROFILE=""
+  CDK_PROFILE="--profile tbbeta"
 elif [ "$TARGET" == "prod" ]; then
   BRANCH="ring_main_prod"
   CDK_PROFILE="--profile ringprod"
@@ -85,10 +85,8 @@ echo -e "${GREEN}✓ 构建完成${NC}"
 # 5. 部署
 echo -e "\n${YELLOW}[5/5] 部署到 AWS...${NC}"
 if [ -n "$CDK_PROFILE" ]; then
-  echo -e "${YELLOW}使用 AWS profile: ringprod${NC}"
+  echo -e "${YELLOW}使用 AWS profile: ${CDK_PROFILE}${NC}"
   cdk deploy RoutingAPIStack $CDK_PROFILE
-else
-  cdk deploy RoutingAPIStack
 fi
 
 echo -e "\n${GREEN}✓ 部署完成！${NC}"
