@@ -31,6 +31,8 @@ export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   graphBaseV4SubgraphId?: string
   graphBearerToken?: string
   graphBearerToken_X_LAYER?: string
+  graphBearerToken_HYPER?: string
+  graphBearerToken_BSC?: string
 }
 
 export class RoutingCachingStack extends cdk.NestedStack {
@@ -46,11 +48,13 @@ export class RoutingCachingStack extends cdk.NestedStack {
   public readonly graphBaseV4SubgraphId: string | undefined = undefined
   public readonly graphBearerToken: string | undefined = undefined
   public readonly graphBearerToken_X_LAYER: string | undefined = undefined
+  public readonly graphBearerToken_HYPER: string | undefined = undefined
+  public readonly graphBearerToken_BSC: string | undefined = undefined
 
   constructor(scope: Construct, name: string, props: RoutingCachingStackProps) {
     super(scope, name, props)
 
-    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken, graphBearerToken_X_LAYER } = props
+    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken, graphBearerToken_X_LAYER, graphBearerToken_HYPER, graphBearerToken_BSC } = props
 
     const chatBotTopic = chatbotSNSArn ? aws_sns.Topic.fromTopicArn(this, 'ChatbotTopic', chatbotSNSArn) : undefined
 
@@ -59,6 +63,8 @@ export class RoutingCachingStack extends cdk.NestedStack {
     this.graphBaseV4SubgraphId = graphBaseV4SubgraphId
     this.graphBearerToken = graphBearerToken
     this.graphBearerToken_X_LAYER = graphBearerToken_X_LAYER
+    this.graphBearerToken_HYPER = graphBearerToken_HYPER
+    this.graphBearerToken_BSC = graphBearerToken_BSC
     // TODO: Remove and swap to the new bucket below. Kept around for the rollout, but all requests will go to bucket 2.
     this.poolCacheBucket = new aws_s3.Bucket(this, 'PoolCacheBucket')
     this.poolCacheBucket2 = new aws_s3.Bucket(this, 'PoolCacheBucket2')
@@ -151,6 +157,8 @@ export class RoutingCachingStack extends cdk.NestedStack {
             GRAPH_BASE_V4_SUBGRAPH_ID: this.graphBaseV4SubgraphId ?? '',
             GRAPH_BEARER_TOKEN: chainId === ChainId.XLAYER_MAINNET ? this.graphBearerToken_X_LAYER ?? '' : this.graphBearerToken ?? '',
             GRAPH_BEARER_TOKEN_X_LAYER: this.graphBearerToken_X_LAYER ?? '',
+            GRAPH_BEARER_TOKEN_HYPER: chainId === ChainId.HYPER_MAINNET ? this.graphBearerToken_HYPER ?? '' : this.graphBearerToken ?? '',
+            GRAPH_BEARER_TOKEN_BSC: chainId === ChainId.BNB ? this.graphBearerToken_BSC ?? '' : this.graphBearerToken ?? '',
             chainId: chainId.toString(),
             protocol,
             timeout: timeout.toString(),

@@ -569,6 +569,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.UNICHAIN,
             ChainId.SONEIUM,
             ChainId.XLAYER_MAINNET,
+            ChainId.HYPER_MAINNET,
           ]
 
           const v4Supported = [
@@ -585,11 +586,14 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.BLAST,
             ChainId.MAINNET,
             ChainId.SONEIUM,
+            ChainId.HYPER_MAINNET,
           ]
 
           // https://linear.app/uniswap/issue/ROUTE-467/tenderly-simulation-during-caching-lambda
           const deleteCacheEnabledChains = [
             ChainId.MAINNET,
+            ChainId.XLAYER_MAINNET,
+            ChainId.HYPER_MAINNET,
             ChainId.GOERLI,
             ChainId.SEPOLIA,
             ChainId.OPTIMISM,
@@ -634,6 +638,8 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.WORLDCHAIN,
             ChainId.ZORA,
             ChainId.SONEIUM,
+            ChainId.XLAYER_MAINNET,
+            ChainId.HYPER_MAINNET,
           ]
           const mixedCrossLiquidityV3AgainstV4Supported: ChainId[] = [ChainId.BASE]
 

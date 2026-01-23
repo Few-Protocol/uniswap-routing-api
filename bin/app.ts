@@ -42,6 +42,8 @@ export class RoutingAPIStage extends Stage {
       graphBaseV4SubgraphId?: string
       graphBearerToken?: string
       graphBearerToken_X_LAYER?: string
+      graphBearerToken_HYPER?: string
+      graphBearerToken_BSC?: string
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -68,6 +70,8 @@ export class RoutingAPIStage extends Stage {
       graphBaseV4SubgraphId,
       graphBearerToken,
       graphBearerToken_X_LAYER,
+      graphBearerToken_HYPER,
+      graphBearerToken_BSC,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -93,6 +97,8 @@ export class RoutingAPIStage extends Stage {
       graphBaseV4SubgraphId,
       graphBearerToken,
       graphBearerToken_X_LAYER,
+      graphBearerToken_HYPER,
+      graphBearerToken_BSC,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     })
@@ -248,6 +254,8 @@ export class RoutingAPIPipeline extends Stack {
       // 'QUICKNODE_1',
       'QUICKNODE_196',
       'ALCHEMY_1',
+      'ALCHEMY_999',
+      'ALCHEMY_56',
       // 'QUICKNODERETH_1',
       // Blast
       // 'QUICKNODE_81457',
@@ -394,6 +402,8 @@ const jsonRpcProviders = {
   ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
   ALCHEMY_1: process.env.ALCHEMY_1!,
   QUICKNODE_196: process.env.QUICKNODE_196!,
+  ALCHEMY_56: process.env.WEB3_RPC_56!,
+  ALCHEMY_999: process.env.ALCHEMY_999!,
   /*
   WEB3_RPC_1: process.env.WEB3_RPC_1!,
   WEB3_RPC_11155111: process.env.WEB3_RPC_11155111!,
@@ -406,7 +416,6 @@ const jsonRpcProviders = {
   WEB3_RPC_137: process.env.WEB3_RPC_137!,
   WEB3_RPC_42220: process.env.WEB3_RPC_42220!,
   WEB3_RPC_43114: process.env.WEB3_RPC_43114!,
-  WEB3_RPC_56: process.env.WEB3_RPC_56!,
   WEB3_RPC_8453: process.env.WEB3_RPC_8453!,
   WEB3_RPC_324: process.env.WEB3_RPC_324!,
   // The followings are for RPC Gateway
@@ -485,6 +494,8 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBaseV4SubgraphId: process.env.GRAPH_BASE_V4_SUBGRAPH_ID!,
   graphBearerToken: process.env.GRAPH_BEARER_TOKEN!,
   graphBearerToken_X_LAYER: process.env.GRAPH_BEARER_TOKEN_X_LAYER!,
+  graphBearerToken_HYPER: process.env.GRAPH_BEARER_TOKEN_HYPER!,
+  graphBearerToken_BSC: process.env.GRAPH_BEARER_TOKEN_BSC!,
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {

@@ -75,6 +75,8 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBaseV4SubgraphId?: string
       graphBearerToken?: string
       graphBearerToken_X_LAYER?: string
+      graphBearerToken_HYPER?: string
+      graphBearerToken_BSC?: string
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -103,6 +105,8 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBaseV4SubgraphId,
       graphBearerToken,
       graphBearerToken_X_LAYER,
+      graphBearerToken_HYPER,
+      graphBearerToken_BSC,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -127,6 +131,8 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBaseV4SubgraphId,
       graphBearerToken,
       graphBearerToken_X_LAYER,
+      graphBearerToken_HYPER,
+      graphBearerToken_BSC,
     })
 
     const {
