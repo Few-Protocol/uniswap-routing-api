@@ -118,10 +118,15 @@ export class RoutingCachingStack extends cdk.NestedStack {
     // Spin up a new pool cache lambda for each config in chain X protocol
     for (let i = 0; i < chainProtocols.length; i++) {
       const { protocol, chainId, timeout } = chainProtocols[i]
+      // 使用简短易懂的函数名，避免被 AWS 截断
+      // 格式: PoolCache-Chain{chainId}-{protocol}
+      // 例如: PoolCache-Chain1-FEWV2, PoolCache-Chain1-V3
+      const functionName = `PoolCache-Chain${chainId}-${protocol}`
       const lambda = new aws_lambda_nodejs.NodejsFunction(
         this,
         `PoolCacheLambda-ChainId${chainId}-Protocol${protocol}`,
         {
+          functionName,
           role: lambdaRole,
           runtime: aws_lambda.Runtime.NODEJS_18_X,
           entry: path.join(__dirname, '../../lib/cron/cache-pools.ts'),
@@ -133,7 +138,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
             sourceMap: true,
             keepNames: true,
           },
-          description: `Pool Cache Lambda for Chain with ChainId ${chainId} and Protocol ${protocol}`,
+          description: `Pool Cache Lambda for Chain ${chainId} - ${protocol}`,
           layers: [lambdaLayerVersion],
           tracing: aws_lambda.Tracing.ACTIVE,
           environment: {

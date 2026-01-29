@@ -196,7 +196,7 @@ export const chainProtocols = [
     timeout: 90000,
     provider: new V3SubgraphProvider(
       ChainId.MAINNET,
-      2,
+      1,
       90000,
       true,
       v3TrackedEthThreshold,
@@ -397,7 +397,7 @@ export const chainProtocols = [
     timeout: 840000,
     provider: new V2SubgraphProvider(
       ChainId.MAINNET,
-      2,
+      1,
       900000,
       true,
       1000,
@@ -430,7 +430,7 @@ export const chainProtocols = [
     timeout: 840000,
     provider: new RingV2SubgraphProvider(
       ChainId.MAINNET,
-      2,
+      1,
       900000,
       true,
       1000,
@@ -439,6 +439,17 @@ export const chainProtocols = [
       fewV2SubgraphUrlOverride(ChainId.MAINNET),
       process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
+    providerFallback: new RingV2SubgraphProvider(
+      ChainId.MAINNET,
+      1,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      fewV2SubgraphUrlOverride(ChainId.MAINNET),
+      "8521b63080aa70555c181d45a4face12"  // The Graph Gateway Authorization
+    ),
   },
   // {
   //   protocol: Protocol.V2,
@@ -781,7 +792,7 @@ export const chainProtocols = [
     timeout: 90000,
     provider: new V4SubgraphProvider(
       ChainId.MAINNET,
-      2,
+      1,
       90000,
       true,
       v4TrackedEthThreshold,

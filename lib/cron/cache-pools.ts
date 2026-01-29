@@ -41,9 +41,12 @@ const handler: ScheduledHandler = metricScope((metrics) => async (event: EventBr
   const chainId: ChainId = parseInt(process.env.chainId!)
   const protocol = process.env.protocol! as Protocol
   // Don't retry for V2 as it will timeout and throw 500
-  const provider = chainProtocols.find(
+  const providerPrimary = chainProtocols.find(
     (element) => element.protocol == protocol && element.chainId == chainId
-  )!.provider
+  )!
+  const provider = providerPrimary.provider
+  const providerFallback = providerPrimary.providerFallback
+  //
   const eulerHooksProvider = chainProtocols.find(
     (element) => element.protocol == protocol && element.chainId == chainId
   )?.eulerHooksProvider
@@ -461,9 +464,15 @@ const handler: ScheduledHandler = metricScope((metrics) => async (event: EventBr
   }
 
   if (!pools || pools.length == 0) {
-    metric.putMetric(`${metricPrefix}.getPools.empty`, 1)
-    log.info(`No ${protocol} pools found from the subgraph for ${chainId.toString()}`)
-    return
+    if (providerFallback) {
+      log.info(`No FEWV2 pools found from the subgraph for ${chainId.toString()}. `, "Trying fallback provider for FewV2")
+      pools = await providerFallback.getPools()
+    }
+    if (!pools || pools.length == 0) {
+      metric.putMetric(`${metricPrefix}.getPools.empty`, 1)
+      log.info(`No ${protocol} pools found from the subgraph for ${chainId.toString()}`)
+      return
+    }
   }
 
   const beforeS3 = Date.now()
