@@ -59,7 +59,6 @@ export const DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB: { [chain in ChainId]: number } = 
   [ChainId.BLAST_SEPOLIA]: 30,
   [ChainId.STORY_ODYSSEY]: 30,
   [ChainId.STORY_MAINNET]: 30,
-  [ChainId.HYPER_MAINNET]: 30,
 
   // ring swap specific
   [ChainId.XLAYER_MAINNET]: 20,

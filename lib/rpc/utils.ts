@@ -156,10 +156,10 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
       return `https://unichain-sepolia.g.alchemy.com/v2/${tokens[0]}`
     }
     case 'ALCHEMY_999': {
-      return `https://eth-mainnet.g.alchemy.com/v2/${tokens[0]}`
+      return `https://hyperliquid-mainnet.g.alchemy.com/v2/${tokens[0]}`
     }
     case 'ALCHEMY_56': {
-      return `https://eth-mainnet.g.alchemy.com/v2/${tokens[0]}`
+      return `https://bnb-mainnet.g.alchemy.com/v2/v2/${tokens[0]}`
     }
   }
   throw new Error(`Unknown provider-chainId pair: ${key}`)
