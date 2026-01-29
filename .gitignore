@@ -10,3 +10,4 @@ lib/types
 cache
 .idea
 nouse
+scripts/*.log

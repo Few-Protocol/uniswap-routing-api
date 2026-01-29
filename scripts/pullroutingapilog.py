@@ -39,9 +39,7 @@ except ImportError:
         _setup_venv_and_reexec()
     import boto3
 
-LOG_GROUP = ["UnifiedRoutingStack-UnifiedRoutingAPIGAccessLogsF444275D-R8LbRvrwKbUB",
-"/aws/lambda/UnifiedRoutingStack-QuoteE2906A56-r6220qogMILP",
-"/aws/lambda/UnifiedRoutingStack-LogRetentionaae0aa3c5b4d4f87b0-s6ZeYbAD7fXn"]
+LOG_GROUP = ["/aws/lambda/RoutingAPIStack-RoutingLamb-RoutingLambda2C4DF0900-sB9DHepdxamz"]
 
 def fmt_event(e, i):
     ts = e.get("timestamp", 0)
@@ -125,10 +123,14 @@ def main():
 
     all_evts.sort(key=lambda x: x.get("timestamp", 0))
 
-    print(f"✅ 获取到 {len(all_evts)} 条匹配日志\n")
-    for i, e in enumerate(all_evts, 1):
-        print(fmt_event(e, i))
-    print(f"📈 总计: {len(all_evts)} 条")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    out_path = os.path.join(script_dir, f"{args.id}.log")
+    lines = [fmt_event(e, i) for i, e in enumerate(all_evts, 1)]
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(f"✅ 获取到 {len(all_evts)} 条匹配日志\n\n")
+        f.writelines(lines)
+        f.write(f"\n📈 总计: {len(all_evts)} 条\n")
+    print(f"✅ 获取到 {len(all_evts)} 条匹配日志，已保存到 {out_path}")
 
 if __name__ == "__main__":
     main()
