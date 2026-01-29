@@ -157,8 +157,14 @@ export class RoutingCachingStack extends cdk.NestedStack {
             GRAPH_BASE_V4_SUBGRAPH_ID: this.graphBaseV4SubgraphId ?? '',
             GRAPH_BEARER_TOKEN: chainId === ChainId.XLAYER_MAINNET ? this.graphBearerToken_X_LAYER ?? '' : this.graphBearerToken ?? '',
             GRAPH_BEARER_TOKEN_X_LAYER: this.graphBearerToken_X_LAYER ?? '',
-            GRAPH_BEARER_TOKEN_HYPER: chainId === ChainId.HYPER_MAINNET ? this.graphBearerToken_HYPER ?? '' : this.graphBearerToken ?? '',
-            GRAPH_BEARER_TOKEN_BSC: chainId === ChainId.BNB ? this.graphBearerToken_BSC ?? '' : this.graphBearerToken ?? '',
+            // HYPER 和 BSC 使用 GOLDSKY_API_KEY 作为 bearer token
+            // 在运行时，cache-config.ts 会优先使用 GOLDSKY_API_KEY，如果没有则使用 GRAPH_BEARER_TOKEN_HYPER/GRAPH_BEARER_TOKEN_BSC
+            GRAPH_BEARER_TOKEN_HYPER: this.graphBearerToken_HYPER ?? '',
+            GRAPH_BEARER_TOKEN_BSC: this.graphBearerToken_BSC ?? '',
+            // 设置 GOLDSKY_API_KEY 到 Lambda 环境变量，供运行时使用
+            // HYPER 和 BSC 共享同一个 GOLDSKY_API_KEY，优先使用 HYPER 的值（如果设置了）
+            GOLDSKY_API_KEY: this.graphBearerToken_HYPER || this.graphBearerToken_BSC || '',
+            GOLDSKY_PROJECT_ID: process.env.GOLDSKY_PROJECT_ID || '',
             chainId: chainId.toString(),
             protocol,
             timeout: timeout.toString(),
