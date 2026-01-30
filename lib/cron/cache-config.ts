@@ -80,7 +80,7 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
 
     // goldsky networks
     case ChainId.BNB:
-      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v4-bsc/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v4-bsc/1.0.0/gn`
     default:
       return undefined
   }
@@ -121,7 +121,7 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     
     // goldsky networks
     case ChainId.BNB:
-      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v3-bsc/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v3-bsc/1.0.0/gn`
       default:
       return undefined
   }
@@ -137,9 +137,9 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
 
     // goldsky networks
     case ChainId.BNB:
-      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/few-uniswap-v2-bsc/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/few-uniswap-v2-bsc/1.0.0/gn`
     case ChainId.HYPER_MAINNET:
-      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/few-uniswap-v2-hyper/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/few-uniswap-v2-hyper/1.0.0/gn`
       default:
       return undefined
   }
@@ -159,8 +159,6 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-optimism/api`
     case ChainId.AVALANCHE:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-avalanche/api`
-    case ChainId.HYPER_MAINNET:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-hyper/api`
     case ChainId.BLAST:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-blast/api`
     case ChainId.BASE:
@@ -178,9 +176,9 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/2qbpfuRSPQ5DJHNP7ZNjbBEqwPrX5vKPhRN5EBqNKKDB`
     case ChainId.BNB:
-      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v2/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2/1.0.0/gn`
     case ChainId.HYPER_MAINNET:
-      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v2-hyper/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2-hyper/1.0.0/gn`
     default:
       return undefined
   }
