@@ -15,6 +15,36 @@
     ]
   },
   {
+    "chainId": 999,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_999"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 56,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_56"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
     "chainId": 196,
     "useMultiProviderProb": 1,
     "latencyEvaluationSampleProb": 0,

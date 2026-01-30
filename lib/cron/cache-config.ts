@@ -66,8 +66,9 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-zora/api`
     case ChainId.UNICHAIN:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-unichain-mainnet/api`
-    case ChainId.BNB:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-bsc/api`
+
+    case ChainId.HYPER_MAINNET:
+      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-hyper/api`
     case ChainId.BLAST:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-blast/api`
     case ChainId.MAINNET:
@@ -76,6 +77,10 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-soneium-mainnet/api`
     case ChainId.OPTIMISM:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-optimism/api`
+
+    // goldsky networks
+    case ChainId.BNB:
+      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v4-bsc/1.0.0/gn`
     default:
       return undefined
   }
@@ -93,8 +98,8 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-optimism-ii/api`
     case ChainId.AVALANCHE:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-avalanche/api`
-    case ChainId.BNB:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-bsc-ii/api`
+    case ChainId.HYPER_MAINNET:
+      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-hyper/api`
     case ChainId.BLAST:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-blast/api`
     case ChainId.BASE:
@@ -113,7 +118,11 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-soneium-mainnet/api`
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/2LM2nhSfVsKVNW1EF6AgJHMGBKU2zR9rZcE3zzkFkwW1`
-    default:
+    
+    // goldsky networks
+    case ChainId.BNB:
+      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v3-bsc/1.0.0/gn`
+      default:
       return undefined
   }
 }
@@ -125,7 +134,13 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://gateway.thegraph.com/api/subgraphs/id/HMtLevwVwkYSSwXXUSmwxr3fiFSzcmyGywA9exPRHfcH`
     case ChainId.SEPOLIA:
       return `https://gateway.thegraph.com/api/subgraphs/id/HMtLevwVwkYSSwXXUSmwxr3fiFSzcmyGywA9exPRHfcH`
-    default:
+
+    // goldsky networks
+    case ChainId.BNB:
+      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/few-uniswap-v2-bsc/1.0.0/gn`
+    case ChainId.HYPER_MAINNET:
+      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/few-uniswap-v2-hyper/1.0.0/gn`
+      default:
       return undefined
   }
 }
@@ -144,8 +159,8 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-optimism/api`
     case ChainId.AVALANCHE:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-avalanche/api`
-    case ChainId.BNB:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-bsc/api`
+    case ChainId.HYPER_MAINNET:
+      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-hyper/api`
     case ChainId.BLAST:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-blast/api`
     case ChainId.BASE:
@@ -162,6 +177,10 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-soneium-mainnet/api`
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/2qbpfuRSPQ5DJHNP7ZNjbBEqwPrX5vKPhRN5EBqNKKDB`
+    case ChainId.BNB:
+      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v2/1.0.0/gn`
+    case ChainId.HYPER_MAINNET:
+      return `https://api.goldsky.com/api/private/${process.env.GOLDSKY_PROJECT_ID}/subgraphs/uniswap-v2-hyper/1.0.0/gn`
     default:
       return undefined
   }
@@ -203,6 +222,36 @@ export const chainProtocols = [
       v3UntrackedUsdThreshold,
       v3SubgraphUrlOverride(ChainId.MAINNET),
       process.env.GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
+    ),
+  },
+  {
+    protocol: Protocol.V3,
+    chainId: ChainId.BNB,
+    timeout: 90000,
+    provider: new V3SubgraphProvider(
+      ChainId.BNB,
+      3,
+      90000,
+      true,
+      v3TrackedEthThreshold,
+      v3UntrackedUsdThreshold,
+      v3SubgraphUrlOverride(ChainId.BNB),
+      process.env.GOLDSKY_API_KEY // Goldsky API Key for BSC
+    ),
+  },
+  {
+    protocol: Protocol.V3,
+    chainId: ChainId.HYPER_MAINNET,
+    timeout: 90000,
+    provider: new V3SubgraphProvider(
+      ChainId.HYPER_MAINNET,
+      3,
+      90000,
+      true,
+      v3TrackedEthThreshold,
+      v3UntrackedUsdThreshold,
+      v3SubgraphUrlOverride(ChainId.HYPER_MAINNET)
+      // HYPER V3 uses Satsuma, no bearer token needed
     ),
   },
   // {
@@ -407,6 +456,38 @@ export const chainProtocols = [
       process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
+  {
+    protocol: Protocol.V2,
+    chainId: ChainId.BNB,
+    timeout: 840000,
+    provider: new V2SubgraphProvider(
+      ChainId.BNB,
+      2,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      v2SubgraphUrlOverride(ChainId.BNB),
+      process.env.GOLDSKY_API_KEY // Goldsky API Key for BSC
+    ), // 1000 is the largest page size supported by thegraph
+  },
+  {
+    protocol: Protocol.V2,
+    chainId: ChainId.HYPER_MAINNET,
+    timeout: 840000,
+    provider: new V2SubgraphProvider(
+      ChainId.HYPER_MAINNET,
+      2,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      v2SubgraphUrlOverride(ChainId.HYPER_MAINNET),
+      process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
+    ), // 1000 is the largest page size supported by thegraph
+  },
   // {
   //   protocol: Protocol.V2,
   //   chainId: ChainId.XLAYER_MAINNET,
@@ -450,6 +531,38 @@ export const chainProtocols = [
       fewV2SubgraphUrlOverride(ChainId.MAINNET),
       "8521b63080aa70555c181d45a4face12"  // The Graph Gateway Authorization
     ),
+  },
+  {
+    protocol: Protocol.FEWV2,
+    chainId: ChainId.BNB,
+    timeout: 840000,
+    provider: new RingV2SubgraphProvider(
+      ChainId.BNB,
+      2,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      fewV2SubgraphUrlOverride(ChainId.BNB),
+      process.env.GOLDSKY_API_KEY // Goldsky API Key for BSC
+    ), // 1000 is the largest page size supported by thegraph
+  },
+  {
+    protocol: Protocol.FEWV2,
+    chainId: ChainId.HYPER_MAINNET,
+    timeout: 840000,
+    provider: new RingV2SubgraphProvider(
+      ChainId.HYPER_MAINNET,
+      2,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      fewV2SubgraphUrlOverride(ChainId.HYPER_MAINNET),
+      process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
+    ), // 1000 is the largest page size supported by thegraph
   },
   // {
   //   protocol: Protocol.V2,
@@ -809,6 +922,23 @@ export const chainProtocols = [
       true,
       v4SubgraphUrlOverride(ChainId.MAINNET),
       process.env.GRAPH_BEARER_TOKEN
+    ),
+  },
+  {
+    protocol: Protocol.V4,
+    chainId: ChainId.BNB,
+    timeout: 90000,
+    provider: new V4SubgraphProvider(
+      ChainId.BNB,
+      3,
+      90000,
+      true,
+      v4TrackedEthThreshold,
+      v4BaseZoraTrackedEthThreshold,
+      ZORA_HOOKS_FOR_V4_SUBGRAPH_FILTERING,
+      v4UntrackedUsdThreshold,
+      v4SubgraphUrlOverride(ChainId.BNB),
+      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BSC // Goldsky API Key for BSC
     ),
   },
   /*

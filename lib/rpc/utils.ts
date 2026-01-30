@@ -32,6 +32,8 @@ export function chainIdToNetworkName(networkId: ChainId): string {
       return 'soneium'
     case ChainId.XLAYER_MAINNET:
       return 'xlayer'
+    case ChainId.HYPER_MAINNET:
+      return 'hyper'
     default:
       return 'ethereum'
   }
@@ -152,6 +154,12 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
     }
     case 'ALCHEMY_1301': {
       return `https://unichain-sepolia.g.alchemy.com/v2/${tokens[0]}`
+    }
+    case 'ALCHEMY_999': {
+      return `https://hyperliquid-mainnet.g.alchemy.com/v2/${tokens[0]}`
+    }
+    case 'ALCHEMY_56': {
+      return `https://bnb-mainnet.g.alchemy.com/v2/v2/${tokens[0]}`
     }
   }
   throw new Error(`Unknown provider-chainId pair: ${key}`)
