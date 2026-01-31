@@ -139,7 +139,7 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.BNB:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/few-uniswap-v2-bsc/1.0.0/gn`
     case ChainId.HYPER_MAINNET:
-      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/few-uniswap-v2-hyper/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/1.0.0/gn`
       default:
       return undefined
   }
