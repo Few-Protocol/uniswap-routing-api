@@ -174,7 +174,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.SONEIUM:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-soneium-mainnet/api`
     case ChainId.XLAYER_MAINNET:
-      return `https://gateway.thegraph.com/api/subgraphs/id/2qbpfuRSPQ5DJHNP7ZNjbBEqwPrX5vKPhRN5EBqNKKDB`
+      return `https://gateway.thegraph.com/api/subgraphs/id/Hz6HejZme4ozdSvnp9oi3UafGRbNVrVVDGow9o6huLQ7`
     case ChainId.BNB:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2/1.0.0/gn`
     case ChainId.HYPER_MAINNET:
@@ -486,22 +486,22 @@ export const chainProtocols = [
       process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
     ), // 1000 is the largest page size supported by thegraph
   },
-  // {
-  //   protocol: Protocol.V2,
-  //   chainId: ChainId.XLAYER_MAINNET,
-  //   timeout: 840000,
-  //   provider: new V2SubgraphProvider(
-  //     ChainId.XLAYER_MAINNET,
-  //     2,
-  //     900000,
-  //     true,
-  //     1000,
-  //     v2TrackedEthThreshold,
-  //     v2UntrackedUsdThreshold,
-  //     v2SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
-  //     process.env.GRAPH_BEARER_TOKEN_X_LAYER  // The Graph Gateway Authorization
-  //   ), // 1000 is the largest page size supported by thegraph
-  // },
+  {
+    protocol: Protocol.V2,
+    chainId: ChainId.XLAYER_MAINNET,
+    timeout: 840000,
+    provider: new V2SubgraphProvider(
+      ChainId.XLAYER_MAINNET,
+      1,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      v2SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
+      process.env.GRAPH_BEARER_TOKEN_X_LAYER  // The Graph Gateway Authorization
+    ), // 1000 is the largest page size supported by thegraph
+  },
   // FEWV2.
   {
     protocol: Protocol.FEWV2,
