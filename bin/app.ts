@@ -44,6 +44,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_X_LAYER?: string
       graphBearerToken_HYPER?: string
       graphBearerToken_BSC?: string
+      graphBearerToken_BNB?: string
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -72,6 +73,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
+      graphBearerToken_BNB,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -99,6 +101,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
+      graphBearerToken_BNB,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     })
@@ -303,10 +306,10 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
-      // HYPER 和 BSC 使用 GOLDSKY_API_KEY 作为 bearer token
-      // 注意：需要在 AWS Secrets Manager 的 RoutingApiNewSecrets (arn:...RoutingApiNewSecrets-7EijpM) 中添加 'goldsky-api-key'
+      // HYPER 和 BSC 使用 GOLDSKY_API_KEY；BNB 使用 GRAPH_BEARER_TOKEN_BNB（与 BSC 同源，如需单独 BNB token 可在 Secret 中加 graph-bearer-token-bnb 并改此处）
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BSC: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -341,10 +344,10 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
-      // HYPER 和 BSC 使用 GOLDSKY_API_KEY 作为 bearer token
-      // 注意：需要在 AWS Secrets Manager 的 RoutingApiNewSecrets (arn:...RoutingApiNewSecrets-7EijpM) 中添加 'goldsky-api-key'
+      // HYPER 和 BSC 使用 GOLDSKY_API_KEY；BNB 使用 GRAPH_BEARER_TOKEN_BNB（与 BSC 同源）
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BSC: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -504,9 +507,10 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBaseV4SubgraphId: process.env.GRAPH_BASE_V4_SUBGRAPH_ID!,
   graphBearerToken: process.env.GRAPH_BEARER_TOKEN!,
   graphBearerToken_X_LAYER: process.env.GRAPH_BEARER_TOKEN_X_LAYER!,
-  // HYPER 和 BSC 使用 GOLDSKY_API_KEY 作为 bearer token
+  // HYPER 和 BSC 使用 GOLDSKY_API_KEY；BNB 可使用 GRAPH_BEARER_TOKEN_BNB 或 GOLDSKY_API_KEY
   graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BSC: process.env.GOLDSKY_API_KEY || '',
+  graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {

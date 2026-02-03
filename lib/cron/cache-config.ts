@@ -121,7 +121,7 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     
     // goldsky networks
     case ChainId.BNB:
-      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v3-bsc/1.0.0/gn`
+      return `https://gateway.thegraph.com/api/subgraphs/id/F85MNzUGYqgSHSHRGgeVMNsdnW1KtZSVgFULumXRZTw2`
       default:
       return undefined
   }
@@ -176,7 +176,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/Hz6HejZme4ozdSvnp9oi3UafGRbNVrVVDGow9o6huLQ7`
     case ChainId.BNB:
-      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2/1.0.0/gn`
+      return `https://gateway.thegraph.com/api/subgraphs/id/6jkbFySYhSvJLbQmpcDwUsoMS3Fn6LTBmbeJhHJh7Gyz`
     case ChainId.HYPER_MAINNET:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2-hyper/1.0.0/gn`
     default:
@@ -234,7 +234,7 @@ export const chainProtocols = [
       v3TrackedEthThreshold,
       v3UntrackedUsdThreshold,
       v3SubgraphUrlOverride(ChainId.BNB),
-      process.env.GOLDSKY_API_KEY // Goldsky API Key for BSC
+      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ),
   },
   {
@@ -467,7 +467,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       v2SubgraphUrlOverride(ChainId.BNB),
-      process.env.GOLDSKY_API_KEY // Goldsky API Key for BSC
+      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ), // 1000 is the largest page size supported by thegraph
   },
   {
@@ -543,7 +543,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       fewV2SubgraphUrlOverride(ChainId.BNB),
-      process.env.GOLDSKY_API_KEY // Goldsky API Key for BSC
+      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ), // 1000 is the largest page size supported by thegraph
   },
   {
@@ -936,7 +936,7 @@ export const chainProtocols = [
       ZORA_HOOKS_FOR_V4_SUBGRAPH_FILTERING,
       v4UntrackedUsdThreshold,
       v4SubgraphUrlOverride(ChainId.BNB),
-      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BSC // Goldsky API Key for BSC
+      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ),
   },
   /*
