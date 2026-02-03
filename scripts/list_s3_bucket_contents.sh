@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
-# Bucket: routingapistack-routingca-poolcachebucket3c1337d0e-2kapdiffybqe
+# 列出指定 bucket 中的 pool cache 文件（使用预配置 bucket，速度快）
+#
+# Usage:
+#   ./list_s3_bucket_contents.sh                    # 使用 tbbeta (默认)
+#   ./list_s3_bucket_contents.sh --profile ringprod # 使用 ringprod
+#   ./list_s3_bucket_contents.sh --prefix poolCacheGzip.json-196  # 按前缀过滤
+#
+# Buckets:
+#   tbbeta:   routingapistack-routingca-poolcachebucket3c1337d0e-2kapdiffybqe
+#   ringprod: routingapistack-routingca-poolcachebucket3c1337d0e-xhjxawoitnvr
 
 set -euo pipefail
 REGION="us-east-1"
 PROFILE="tbbeta"
 PREFIX=""
 BUCKETS=()
-# DEFAULT_BUCKETS=("routingapistack-routingc-poolcachebucket20a883daa-1e3c2gbw9fwzs" "routingapistack-routingc-poolcachebucket20a883daa-1jdxj5uikw2hz" "routingapistack-routingc-poolcachebucket20a883daa-1lwgiqvfvrdmk" "routingapistack-routingc-poolcachebucket20a883daa-1v5jxkwwuux6z" "routingapistack-routingc-poolcachebucket20a883daa-gm6q14cyf2r6" "routingapistack-routingc-poolcachebucket20a883daa-jukrkfsio6sp" "routingapistack-routingc-poolcachebucket20a883daa-zi6e7lii7qj0" "routingapistack-routingca-poolcachebucket3c1337d0e-2kapdiffybqe" "routingapistack-routingca-poolcachebucketd80d665f-19d76ybo7317q" "routingapistack-routingca-poolcachebucketd80d665f-1b85bvzx4o1d7" "routingapistack-routingca-poolcachebucketd80d665f-1hhkdrp0a3rib" "routingapistack-routingca-poolcachebucketd80d665f-1r43a05tqyy0x" "routingapistack-routingca-poolcachebucketd80d665f-7ueogyzqq49" "routingapistack-routingca-poolcachebucketd80d665f-ae31g3b26hwu" "routingapistack-routingca-poolcachebucketd80d665f-qg8fwl38r0qj")
-DEFAULT_BUCKETS=("routingapistack-routingca-poolcachebucket3c1337d0e-2kapdiffybqe")
+
+# tbbeta buckets
+TBBETA_BUCKETS=("routingapistack-routingca-poolcachebucket3c1337d0e-2kapdiffybqe")
+
+# ringprod buckets
+RINGPROD_BUCKETS=("routingapistack-routingca-poolcachebucket3c1337d0e-xhjxawoitnvr")
+
+DEFAULT_BUCKETS=("${TBBETA_BUCKETS[@]}")
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -17,8 +32,14 @@ while [[ $# -gt 0 ]]; do
     *) BUCKETS+=("$1"); shift ;;
   esac
 done
+
+# Select default buckets based on profile if no buckets specified
 if [[ ${#BUCKETS[@]} -eq 0 ]]; then
-  BUCKETS=("${DEFAULT_BUCKETS[@]}")
+  case "$PROFILE" in
+    ringprod) BUCKETS=("${RINGPROD_BUCKETS[@]}") ;;
+    tbbeta)   BUCKETS=("${TBBETA_BUCKETS[@]}") ;;
+    *)        BUCKETS=("${DEFAULT_BUCKETS[@]}") ;;
+  esac
 fi
 for bucket in "${BUCKETS[@]}"; do
   echo "Bucket: ${bucket}"

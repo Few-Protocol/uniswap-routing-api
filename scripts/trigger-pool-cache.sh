@@ -14,7 +14,7 @@
 
 # ========== 配置区域 ==========
 REGION="us-east-1"          # AWS 区域
-PROFILE="tbbeta"            # AWS CLI Profile，留空则使用默认 profile
+PROFILE="ringprod"            # AWS CLI Profile，留空则使用默认 profile
 # ==============================
 
 set -e

@@ -6,6 +6,15 @@ import os
 import time
 from datetime import datetime, timedelta
 
+# # 使用 tbbeta (默认)
+# python3 pullroutingapilog.py -id abc123
+
+# # 使用 ringprod
+# python3 pullroutingapilog.py -id abc123 --profile ringprod
+
+# # 回溯更长时间
+# python3 pullroutingapilog.py -id abc123 --profile ringprod --hours 48
+
 def _install_boto3():
     cmds = [
         [sys.executable, "-m", "pip", "install", "boto3"],
@@ -39,7 +48,8 @@ except ImportError:
         _setup_venv_and_reexec()
     import boto3
 
-LOG_GROUP = ["/aws/lambda/RoutingAPIStack-RoutingLamb-RoutingLambda2C4DF0900-sB9DHepdxamz"]
+TBBETA_LOG_GROUP = ["/aws/lambda/RoutingAPIStack-RoutingLamb-RoutingLambda2C4DF0900-sB9DHepdxamz"]
+RINGPROD_LOG_GROUP = ["/aws/lambda/RoutingAPIStack-RoutingLamb-RoutingLambda2C4DF0900-1ncIZdVcoakJ"]
 
 def fmt_event(e, i):
     ts = e.get("timestamp", 0)
@@ -76,27 +86,42 @@ def fetch_logs(session, log_group, keyword, hours_back, limit):
     return events
 
 def main():
-    parser = argparse.ArgumentParser(description="拉取RoutingAPI Lambda日志，支持 -id 模糊匹配")
+    parser = argparse.ArgumentParser(
+        description="拉取RoutingAPI Lambda日志，支持 -id 模糊匹配",
+        epilog="""
+示例:
+  %(prog)s -id abc123                    # 使用 tbbeta (默认)
+  %(prog)s -id abc123 --profile ringprod # 使用 ringprod
+  %(prog)s -id abc123 --hours 48         # 回溯 48 小时
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("-id", "--id", required=True, help="模糊匹配关键词（如请求ID片段）")
     parser.add_argument("--hours", type=int, default=24, help="回溯小时数，默认24小时")
     parser.add_argument("--limit", type=int, default=1000, help="最多获取日志条数，默认1000")
-    parser.add_argument("--profile", help="AWS CLI profile 名称")
+    parser.add_argument("--profile", default="tbbeta", choices=["tbbeta", "ringprod"],
+                        help="AWS CLI profile 名称 (默认: tbbeta)")
     parser.add_argument("--region", help="AWS 区域", default="us-east-1")
     args = parser.parse_args()
 
-    session_kwargs = {}
-    if args.profile:
-        session_kwargs["profile_name"] = args.profile
-    else:
-        session_kwargs["profile_name"] = "tbbeta"
-    if args.region:
-        session_kwargs["region_name"] = args.region
+    # 根据 profile 选择对应的 log group
+    log_groups = {
+        "tbbeta": TBBETA_LOG_GROUP,
+        "ringprod": RINGPROD_LOG_GROUP,
+    }
+    LOG_GROUP = log_groups.get(args.profile, TBBETA_LOG_GROUP)
+
+    session_kwargs = {
+        "profile_name": args.profile,
+        "region_name": args.region,
+    }
     session = boto3.Session(**session_kwargs)
 
     sts = session.client("sts")
     identity = sts.get_caller_identity()
     print("🚀 RoutingAPI 日志拉取")
     print("==============================================")
+    print(f"Profile: {args.profile}")
     print(f"账户ID: {identity['Account']}")
     print(f"用户ARN: {identity['Arn']}")
     print(f"区域: {session.region_name}")
