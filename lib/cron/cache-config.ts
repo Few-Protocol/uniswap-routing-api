@@ -137,7 +137,7 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
 
     // goldsky networks
     case ChainId.BNB:
-      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/few-uniswap-v2-bsc/1.0.0/gn`
+      return `https://gateway.thegraph.com/api/subgraphs/id/6jkbFySYhSvJLbQmpcDwUsoMS3Fn6LTBmbeJhHJh7Gyz`
     case ChainId.HYPER_MAINNET:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/1.0.0/gn`
       default:
@@ -176,7 +176,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/Hz6HejZme4ozdSvnp9oi3UafGRbNVrVVDGow9o6huLQ7`
     case ChainId.BNB:
-      return `https://gateway.thegraph.com/api/subgraphs/id/6jkbFySYhSvJLbQmpcDwUsoMS3Fn6LTBmbeJhHJh7Gyz`
+      return `https://gateway.thegraph.com/api/subgraphs/id/8EjCaWZumyAfN3wyB4QnibeeXaYS8i4sp1PiWT91AGrt`
     case ChainId.HYPER_MAINNET:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2-hyper/1.0.0/gn`
     default:
