@@ -415,7 +415,7 @@ const jsonRpcProviders = {
   ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
   ALCHEMY_1: process.env.ALCHEMY_1!,
   QUICKNODE_196: process.env.QUICKNODE_196!,
-  ALCHEMY_56: process.env.WEB3_RPC_56!,
+  ALCHEMY_56: process.env.ALCHEMY_56!,
   ALCHEMY_999: process.env.ALCHEMY_999!,
   /*
   WEB3_RPC_1: process.env.WEB3_RPC_1!,
