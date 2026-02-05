@@ -55,9 +55,9 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.SEPOLIA:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-sepolia-test/api`
     case ChainId.ARBITRUM_ONE:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-arbitrum/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/G5TsTKNi8yhPSV7kycaE23oWbqv9zzNqR49FoEQjzq1r`
     case ChainId.BASE:
-      return `https://gateway.thegraph.com/api/subgraphs/id/${process.env.GRAPH_BASE_V4_SUBGRAPH_ID}`
+      return `https://gateway.thegraph.com/api/subgraphs/id/Gqm2b5J85n1bhCyDMpGbtbVn4935EvvdyHdHrx3dibyj`
     case ChainId.POLYGON:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-polygon/api`
     case ChainId.WORLDCHAIN:
@@ -65,7 +65,7 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.ZORA:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-zora/api`
     case ChainId.UNICHAIN:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-unichain-mainnet/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/aa3YpPCxatg4LaBbLFuv2iBC8Jvs9u3hwt5GTpS4Kit`
 
     case ChainId.HYPER_MAINNET:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-hyper/api`
@@ -76,7 +76,7 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.SONEIUM:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-soneium-mainnet/api`
     case ChainId.OPTIMISM:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v4-optimism/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/6RBtsmGUYfeLeZsYyxyKSUiaA6WpuC69shMEQ1Cfuj9u`
 
     // goldsky networks
     case ChainId.BNB:
@@ -93,11 +93,11 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV`
     case ChainId.ARBITRUM_ONE:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-arbitrum-ii/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/FbCGRftH4a3yZugY7TnbYgPJVEv2LvMT6oF1fxPe9aJM`
     case ChainId.POLYGON:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-polygon/api`
     case ChainId.OPTIMISM:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-optimism-ii/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/Cghf4LfVqPiFw6fp6Y5X5Ubc8UpmUhSfJL82zwiBFLaj`
     case ChainId.AVALANCHE:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-avalanche/api`
     case ChainId.HYPER_MAINNET:
@@ -105,7 +105,7 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.BLAST:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-blast/api`
     case ChainId.BASE:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-base/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/43Hwfi3dJSoGpyas9VwNoDAv55yjgGrPpNSmbQZArzMG`
     case ChainId.CELO:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-celo/api`
     case ChainId.WORLDCHAIN:
@@ -113,7 +113,7 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.UNICHAIN_SEPOLIA:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-astrochain-sepolia/api`
     case ChainId.UNICHAIN:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-unichain-mainnet/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/BCfy6Vw9No3weqVq9NhyGo4FkVCJep1ZN9RMJj5S32fX`
     case ChainId.ZORA:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-zora/api`
     case ChainId.SONEIUM:
@@ -156,7 +156,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/EYCKATKGBKLWvSfwvBjzfCBmGwYNdVkduYXVivCsLRFu`
     case ChainId.ARBITRUM_ONE:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-arbitrum/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/CStW6CSQbHoXsgKuVCrk3uShGA4JX3CAzzv2x9zaGf8w`
     case ChainId.POLYGON:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-polygon/api`
     case ChainId.OPTIMISM:
@@ -166,7 +166,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.BLAST:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-blast/api`
     case ChainId.BASE:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-base/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/D31gzGUtVNhHNdnxeELUBdch5rzDRm5cddvae9GzhCLu`
     case ChainId.WORLDCHAIN:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-worldchain/api`
     case ChainId.UNICHAIN_SEPOLIA:
@@ -174,7 +174,7 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.MONAD_TESTNET:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-monad-testnet/api`
     case ChainId.UNICHAIN:
-      return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-unichain-mainnet/api`
+      return `https://gateway.thegraph.com/api/subgraphs/id/8vvhJXc9Fi2xpc3wXtRpYrWVYfcxThU973HhBukmFh83`
     case ChainId.SONEIUM:
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY}/uniswap/uniswap-v2-soneium-mainnet/api`
     case ChainId.XLAYER_MAINNET:

@@ -45,7 +45,14 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER?: string
       graphBearerToken_BSC?: string
       graphBearerToken_BNB?: string
+<<<<<<< HEAD
       graphBearerToken_MEGAETH?: string
+=======
+      // Extra per-chain Graph bearer tokens
+      graphBearerToken_ARB?: string
+      graphBearerToken_BASE?: string
+      graphBearerToken_UNICHAIN?: string
+>>>>>>> 7174bde (feat: support base arb unichain)
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -75,7 +82,13 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
       graphBearerToken_BNB,
+<<<<<<< HEAD
       graphBearerToken_MEGAETH,
+=======
+      graphBearerToken_ARB,
+      graphBearerToken_BASE,
+      graphBearerToken_UNICHAIN,
+>>>>>>> 7174bde (feat: support base arb unichain)
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -104,7 +117,13 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
       graphBearerToken_BNB,
+<<<<<<< HEAD
       graphBearerToken_MEGAETH,
+=======
+      graphBearerToken_ARB,
+      graphBearerToken_BASE,
+      graphBearerToken_UNICHAIN,
+>>>>>>> 7174bde (feat: support base arb unichain)
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     })
@@ -262,7 +281,14 @@ export class RoutingAPIPipeline extends Stack {
       'ALCHEMY_1',
       'ALCHEMY_999',
       'ALCHEMY_56',
+<<<<<<< HEAD
       'ALCHEMY_4326',
+=======
+      'INFURA_42161',
+      'INFURA_8453',
+      'INFURA_130',
+      'INFURA_10',
+>>>>>>> 7174bde (feat: support base arb unichain)
       // 'QUICKNODERETH_1',
       // Blast
       // 'QUICKNODE_81457',
@@ -424,19 +450,23 @@ const jsonRpcProviders = {
   ALCHEMY_56: process.env.ALCHEMY_56!,
   ALCHEMY_4326: process.env.ALCHEMY_4326!,
   ALCHEMY_999: process.env.ALCHEMY_999!,
+  INFURA_42161: process.env.INFURA_42161!,
+  INFURA_8453: process.env.INFURA_8453!,
+  INFURA_130: process.env.INFURA_130!,
+  INFURA_10: process.env.INFURA_10!,
   /*
   WEB3_RPC_1: process.env.WEB3_RPC_1!,
   WEB3_RPC_11155111: process.env.WEB3_RPC_11155111!,
   WEB3_RPC_44787: process.env.WEB3_RPC_44787!,
   WEB3_RPC_80001: process.env.WEB3_RPC_80001!,
   WEB3_RPC_81457: process.env.WEB3_RPC_81457!,
-  WEB3_RPC_42161: process.env.WEB3_RPC_42161!,
-  WEB3_RPC_421613: process.env.WEB3_RPC_421613!,
-  WEB3_RPC_10: process.env.WEB3_RPC_10!,
+  INFURA_42161: process.env.INFURA_42161!,
+  INFURA_421613: process.env.INFURA_421613!,
+  INFURA_10: process.env.INFURA_10!,
   WEB3_RPC_137: process.env.WEB3_RPC_137!,
   WEB3_RPC_42220: process.env.WEB3_RPC_42220!,
   WEB3_RPC_43114: process.env.WEB3_RPC_43114!,
-  WEB3_RPC_8453: process.env.WEB3_RPC_8453!,
+  INFURA_8453: process.env.INFURA_8453!,
   WEB3_RPC_324: process.env.WEB3_RPC_324!,
   // The followings are for RPC Gateway
   // Optimism
@@ -518,7 +548,14 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BSC: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
+<<<<<<< HEAD
   graphBearerToken_MEGAETH: process.env.GRAPH_BEARER_TOKEN_MEGAETH || process.env.GOLDSKY_API_KEY || '',
+=======
+  // Extra per-chain Graph bearer tokens (optional)
+  graphBearerToken_ARB: process.env.GRAPH_BEARER_TOKEN_ARB || '',
+  graphBearerToken_BASE: process.env.GRAPH_BEARER_TOKEN_BASE || '',
+  graphBearerToken_UNICHAIN: process.env.GRAPH_BEARER_TOKEN_UNICHAIN || '',
+>>>>>>> 7174bde (feat: support base arb unichain)
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {
