@@ -45,6 +45,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER?: string
       graphBearerToken_BSC?: string
       graphBearerToken_BNB?: string
+      graphBearerToken_MEGAETH?: string
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -74,6 +75,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
       graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -102,6 +104,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
       graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     })
@@ -259,6 +262,7 @@ export class RoutingAPIPipeline extends Stack {
       'ALCHEMY_1',
       'ALCHEMY_999',
       'ALCHEMY_56',
+      'ALCHEMY_4326',
       // 'QUICKNODERETH_1',
       // Blast
       // 'QUICKNODE_81457',
@@ -310,6 +314,7 @@ export class RoutingAPIPipeline extends Stack {
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BSC: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -348,6 +353,7 @@ export class RoutingAPIPipeline extends Stack {
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BSC: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -416,6 +422,7 @@ const jsonRpcProviders = {
   ALCHEMY_1: process.env.ALCHEMY_1!,
   QUICKNODE_196: process.env.QUICKNODE_196!,
   ALCHEMY_56: process.env.ALCHEMY_56!,
+  ALCHEMY_4326: process.env.ALCHEMY_4326!,
   ALCHEMY_999: process.env.ALCHEMY_999!,
   /*
   WEB3_RPC_1: process.env.WEB3_RPC_1!,
@@ -511,6 +518,7 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BSC: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
+  graphBearerToken_MEGAETH: process.env.GRAPH_BEARER_TOKEN_MEGAETH || process.env.GOLDSKY_API_KEY || '',
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {
