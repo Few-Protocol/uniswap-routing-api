@@ -34,6 +34,7 @@ export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   graphBearerToken_HYPER?: string
   graphBearerToken_BSC?: string
   graphBearerToken_BNB?: string
+  graphBearerToken_MEGAETH?: string
 }
 
 export class RoutingCachingStack extends cdk.NestedStack {
@@ -52,11 +53,12 @@ export class RoutingCachingStack extends cdk.NestedStack {
   public readonly graphBearerToken_HYPER: string | undefined = undefined
   public readonly graphBearerToken_BSC: string | undefined = undefined
   public readonly graphBearerToken_BNB: string | undefined = undefined
+  public readonly graphBearerToken_MEGAETH: string | undefined = undefined
 
   constructor(scope: Construct, name: string, props: RoutingCachingStackProps) {
     super(scope, name, props)
 
-    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken, graphBearerToken_X_LAYER, graphBearerToken_HYPER, graphBearerToken_BSC, graphBearerToken_BNB } = props
+    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken, graphBearerToken_X_LAYER, graphBearerToken_HYPER, graphBearerToken_BSC, graphBearerToken_BNB, graphBearerToken_MEGAETH } = props
 
     const chatBotTopic = chatbotSNSArn ? aws_sns.Topic.fromTopicArn(this, 'ChatbotTopic', chatbotSNSArn) : undefined
 
@@ -68,6 +70,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
     this.graphBearerToken_HYPER = graphBearerToken_HYPER
     this.graphBearerToken_BSC = graphBearerToken_BSC
     this.graphBearerToken_BNB = graphBearerToken_BNB
+    this.graphBearerToken_MEGAETH = graphBearerToken_MEGAETH
     // TODO: Remove and swap to the new bucket below. Kept around for the rollout, but all requests will go to bucket 2.
     this.poolCacheBucket = new aws_s3.Bucket(this, 'PoolCacheBucket')
     this.poolCacheBucket2 = new aws_s3.Bucket(this, 'PoolCacheBucket2')
@@ -165,6 +168,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
             GRAPH_BEARER_TOKEN_HYPER: this.graphBearerToken_HYPER ?? '',
             GRAPH_BEARER_TOKEN_BSC: this.graphBearerToken_BSC ?? '',
             GRAPH_BEARER_TOKEN_BNB: this.graphBearerToken_BNB ?? this.graphBearerToken_BSC ?? '',
+            GRAPH_BEARER_TOKEN_MEGAETH: this.graphBearerToken_MEGAETH ?? '',
             // 设置 GOLDSKY_API_KEY 到 Lambda 环境变量，供运行时使用
             // HYPER 和 BSC 共享同一个 GOLDSKY_API_KEY，优先使用 HYPER 的值（如果设置了）
             GOLDSKY_API_KEY: this.graphBearerToken_HYPER || this.graphBearerToken_BSC || '',

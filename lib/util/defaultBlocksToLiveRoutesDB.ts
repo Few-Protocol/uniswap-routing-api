@@ -30,6 +30,7 @@ export const DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB: { [chain in ChainId]: number } = 
   // - start with 0.5 mins: (0.5 minutes) / (1 seconds) = 30
   [ChainId.UNICHAIN]: 30,
   [ChainId.HYPER_MAINNET]: 30,
+  [ChainId.MEGAETH_MAINNET]: 30,
   [ChainId.MONAD_TESTNET]: 60,
   // (1 minute) / (250 milliseconds) = 240
   [ChainId.ARBITRUM_ONE]: 240,
