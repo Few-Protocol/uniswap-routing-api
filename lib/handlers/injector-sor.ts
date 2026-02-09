@@ -163,7 +163,8 @@ export type ContainerDependencies = {
   ringV2QuoteProvider: RingV2QuoteProvider
   simulator: Simulator
   routeCachingProvider?: IRouteCachingProvider
-  tokenValidatorProvider: TokenValidatorProvider
+  /** 仅在有 TokenValidator 合约的链上注入；未部署的链（如 MEGAETH 4326）不注入，避免链上 validate revert */
+  tokenValidatorProvider?: TokenValidatorProvider
   tokenPropertiesProvider: ITokenPropertiesProvider
   v2Supported: ChainId[]
   v4Supported?: ChainId[]
@@ -325,11 +326,15 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             },
           })
 
-          const tokenValidatorProvider = new TokenValidatorProvider(
-            chainId,
-            multicall2Provider,
-            new NodeJSCache(new NodeCache({ stdTTL: 30000, useClones: false }))
-          )
+          // 仅对已部署 TokenValidator 合约的链创建 TokenValidatorProvider；未部署的链（如 MEGAETH 4326）不创建，避免 validate() revert
+          const CHAINS_WITH_TOKEN_VALIDATOR: ChainId[] = [ChainId.MAINNET]
+          const tokenValidatorProvider = CHAINS_WITH_TOKEN_VALIDATOR.includes(chainId)
+            ? new TokenValidatorProvider(
+                chainId,
+                multicall2Provider,
+                new NodeJSCache(new NodeCache({ stdTTL: 30000, useClones: false }))
+              )
+            : undefined
           const tokenPropertiesProvider = new TokenPropertiesProvider(
             chainId,
             new NodeJSCache(new NodeCache({ stdTTL: 30000, useClones: false })),
