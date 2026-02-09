@@ -164,7 +164,8 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
       return `https://bnb-mainnet.g.alchemy.com/v2/${tokens[0]}`
     }
     case 'ALCHEMY_4326': {
-      return `https://megaeth-mainnet.g.alchemy.com/v2/${tokens[0]}`
+      // MEGAETH 官方 RPC（可改为 Alchemy: https://megaeth-mainnet.g.alchemy.com/v2/${tokens[0]}）
+      return 'https://mainnet.megaeth.com/rpc'
     }
   }
   throw new Error(`Unknown provider-chainId pair: ${key}`)
