@@ -507,22 +507,22 @@ export const chainProtocols = [
       process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
     ), // 1000 is the largest page size supported by thegraph
   },
-  {
-    protocol: Protocol.V2,
-    chainId: ChainId.MEGAETH_MAINNET,
-    timeout: 840000,
-    provider: new V2SubgraphProvider(
-      ChainId.MEGAETH_MAINNET,
-      2,
-      900000,
-      true,
-      1000,
-      v2TrackedEthThreshold,
-      v2UntrackedUsdThreshold,
-      v2SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
-      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
-    ), // 1000 is the largest page size supported by thegraph
-  },
+  // {
+  //   protocol: Protocol.V2,
+  //   chainId: ChainId.MEGAETH_MAINNET,
+  //   timeout: 840000,
+  //   provider: new V2SubgraphProvider(
+  //     ChainId.MEGAETH_MAINNET,
+  //     2,
+  //     900000,
+  //     true,
+  //     1000,
+  //     v2TrackedEthThreshold,
+  //     v2UntrackedUsdThreshold,
+  //     v2SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
+  //     process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
+  //   ), // 1000 is the largest page size supported by thegraph
+  // },
   {
     protocol: Protocol.V2,
     chainId: ChainId.XLAYER_MAINNET,
@@ -976,23 +976,23 @@ export const chainProtocols = [
       process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ),
   },
-  {
-    protocol: Protocol.V4,
-    chainId: ChainId.MEGAETH_MAINNET,
-    timeout: 90000,
-    provider: new V4SubgraphProvider(
-      ChainId.MEGAETH_MAINNET,
-      3,
-      90000,
-      true,
-      v4TrackedEthThreshold,
-      v4BaseZoraTrackedEthThreshold,
-      ZORA_HOOKS_FOR_V4_SUBGRAPH_FILTERING,
-      v4UntrackedUsdThreshold,
-      v4SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
-      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
-    ),
-  },
+  // {
+  //   protocol: Protocol.V4,
+  //   chainId: ChainId.MEGAETH_MAINNET,
+  //   timeout: 90000,
+  //   provider: new V4SubgraphProvider(
+  //     ChainId.MEGAETH_MAINNET,
+  //     3,
+  //     90000,
+  //     true,
+  //     v4TrackedEthThreshold,
+  //     v4BaseZoraTrackedEthThreshold,
+  //     ZORA_HOOKS_FOR_V4_SUBGRAPH_FILTERING,
+  //     v4UntrackedUsdThreshold,
+  //     v4SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
+  //     process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
+  //   ),
+  // },
   /*
   {
     protocol: Protocol.V4,
