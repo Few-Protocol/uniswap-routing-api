@@ -452,7 +452,10 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                       ? MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId]
                       : MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId]
                     : protocol === Protocol.V3
-                      ? QUOTER_V2_ADDRESSES[chainId]
+                      ? // XLayer 196: use RING quoter (0x9761...) so API matches CLI; QUOTER_V2 (0x5A6f...) can differ
+                        (chainId === ChainId.XLAYER_MAINNET
+                          ? NEW_QUOTER_V2_ADDRESSES[chainId]
+                          : QUOTER_V2_ADDRESSES[chainId])
                       : PROTOCOL_V4_QUOTER_ADDRESSES[chainId]
               )
               const targetQuoteProvider = new OnChainQuoteProvider(
