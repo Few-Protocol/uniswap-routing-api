@@ -273,21 +273,21 @@ export const chainProtocols = [
       process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
     ),
   },
-  // {
-  //   protocol: Protocol.V3,
-  //   chainId: ChainId.XLAYER_MAINNET,
-  //   timeout: 90000,
-  //   provider: new V3SubgraphProvider(
-  //     ChainId.XLAYER_MAINNET,
-  //     2,
-  //     90000,
-  //     true,
-  //     v3TrackedEthThreshold,
-  //     v3UntrackedUsdThreshold,
-  //     v3SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
-  //     process.env.GRAPH_BEARER_TOKEN_X_LAYER // The Graph Gateway Authorization
-  //   ),
-  // },
+  {
+    protocol: Protocol.V3,
+    chainId: ChainId.XLAYER_MAINNET,
+    timeout: 90000,
+    provider: new V3SubgraphProvider(
+      ChainId.XLAYER_MAINNET,
+      2,
+      90000,
+      true,
+      v3TrackedEthThreshold,
+      v3UntrackedUsdThreshold,
+      v3SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
+      process.env.GRAPH_BEARER_TOKEN_X_LAYER // The Graph Gateway Authorization
+    ),
+  },
   /*
   {
     protocol: Protocol.V3,
