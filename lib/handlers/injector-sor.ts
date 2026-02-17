@@ -104,7 +104,7 @@ import { TENDERLY_NEW_ENDPOINT_ROLLOUT_PERCENT } from '../util/tenderlyNewEndpoi
 export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MAINNET,
   // ChainId.OPTIMISM,
-  // ChainId.ARBITRUM_ONE,
+  ChainId.ARBITRUM_ONE,
   // ChainId.POLYGON,
   ChainId.SEPOLIA,
   // ChainId.CELO,
@@ -113,7 +113,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.HYPER_MAINNET,
   ChainId.MEGAETH_MAINNET,
   // ChainId.AVALANCHE,
-  // ChainId.BASE,
+  ChainId.BASE,
   // ChainId.BLAST,
   // ChainId.ZORA,
   // ChainId.ZKSYNC,
@@ -121,7 +121,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   // ChainId.UNICHAIN_SEPOLIA,
   // ChainId.MONAD_TESTNET,
   // ChainId.BASE_SEPOLIA,
-  // ChainId.UNICHAIN,
+  ChainId.UNICHAIN,
   // ChainId.SONEIUM,
   ChainId.XLAYER_MAINNET,
 ]
