@@ -32,7 +32,6 @@ export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   graphBearerToken?: string
   graphBearerToken_X_LAYER?: string
   graphBearerToken_HYPER?: string
-  graphBearerToken_BSC?: string
   graphBearerToken_BNB?: string
   graphBearerToken_MEGAETH?: string
   // Optional per-chain Graph bearer tokens for future use
@@ -55,7 +54,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
   public readonly graphBearerToken: string | undefined = undefined
   public readonly graphBearerToken_X_LAYER: string | undefined = undefined
   public readonly graphBearerToken_HYPER: string | undefined = undefined
-  public readonly graphBearerToken_BSC: string | undefined = undefined
   public readonly graphBearerToken_BNB: string | undefined = undefined
   public readonly graphBearerToken_MEGAETH: string | undefined = undefined
   public readonly graphBearerToken_ARB: string | undefined = undefined
@@ -73,7 +71,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
       graphBearerToken,
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
-      graphBearerToken_BSC,
       graphBearerToken_BNB,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
@@ -89,7 +86,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
     this.graphBearerToken = graphBearerToken
     this.graphBearerToken_X_LAYER = graphBearerToken_X_LAYER
     this.graphBearerToken_HYPER = graphBearerToken_HYPER
-    this.graphBearerToken_BSC = graphBearerToken_BSC
     this.graphBearerToken_BNB = graphBearerToken_BNB
     this.graphBearerToken_MEGAETH = graphBearerToken_MEGAETH
     this.graphBearerToken_ARB = graphBearerToken_ARB
@@ -187,19 +183,17 @@ export class RoutingCachingStack extends cdk.NestedStack {
             GRAPH_BASE_V4_SUBGRAPH_ID: this.graphBaseV4SubgraphId ?? '',
             GRAPH_BEARER_TOKEN: chainId === ChainId.XLAYER_MAINNET ? this.graphBearerToken_X_LAYER ?? '' : this.graphBearerToken ?? '',
             GRAPH_BEARER_TOKEN_X_LAYER: this.graphBearerToken_X_LAYER ?? '',
-            // HYPER 和 BSC 使用 GOLDSKY_API_KEY 作为 bearer token
+            // HYPER 使用 GOLDSKY_API_KEY 作为 bearer token
             // BNB 可使用 GOLDSKY_API_KEY 或 GRAPH_BEARER_TOKEN_BNB；cache-config 中优先 GOLDSKY_API_KEY，否则用 GRAPH_BEARER_TOKEN_BNB
             GRAPH_BEARER_TOKEN_HYPER: this.graphBearerToken_HYPER ?? '',
-            GRAPH_BEARER_TOKEN_BSC: this.graphBearerToken_BSC ?? '',
-            GRAPH_BEARER_TOKEN_BNB: this.graphBearerToken_BNB ?? this.graphBearerToken_BSC ?? '',
+            GRAPH_BEARER_TOKEN_BNB: this.graphBearerToken_BNB ?? '',
             GRAPH_BEARER_TOKEN_MEGAETH: this.graphBearerToken_MEGAETH ?? '',
             // Extra per-chain bearer tokens for future extension
             GRAPH_BEARER_TOKEN_ARB: this.graphBearerToken_ARB ?? '',
             GRAPH_BEARER_TOKEN_BASE: this.graphBearerToken_BASE ?? '',
             GRAPH_BEARER_TOKEN_UNICHAIN: this.graphBearerToken_UNICHAIN ?? '',
             // 设置 GOLDSKY_API_KEY 到 Lambda 环境变量，供运行时使用
-            // HYPER 和 BSC 共享同一个 GOLDSKY_API_KEY，优先使用 HYPER 的值（如果设置了）
-            GOLDSKY_API_KEY: this.graphBearerToken_HYPER || this.graphBearerToken_BSC || '',
+            GOLDSKY_API_KEY: this.graphBearerToken_HYPER || '',
             GOLDSKY_PROJECT_ID: process.env.GOLDSKY_PROJECT_ID || '',
             chainId: chainId.toString(),
             protocol,

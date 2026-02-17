@@ -43,7 +43,6 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken?: string
       graphBearerToken_X_LAYER?: string
       graphBearerToken_HYPER?: string
-      graphBearerToken_BSC?: string
       graphBearerToken_BNB?: string
       graphBearerToken_MEGAETH?: string
       // Extra per-chain Graph bearer tokens
@@ -77,7 +76,6 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken,
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
-      graphBearerToken_BSC,
       graphBearerToken_BNB,
       graphBearerToken_MEGAETH,
       graphBearerToken_ARB,
@@ -109,7 +107,6 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken,
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
-      graphBearerToken_BSC,
       graphBearerToken_BNB,
       graphBearerToken_MEGAETH,
       graphBearerToken_ARB,
@@ -324,9 +321,8 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
-      // HYPER 和 BSC 使用 GOLDSKY_API_KEY；BNB 使用 GRAPH_BEARER_TOKEN_BNB（与 BSC 同源，如需单独 BNB token 可在 Secret 中加 graph-bearer-token-bnb 并改此处）
+      // HYPER 使用 GOLDSKY_API_KEY；BNB 可使用 goldsky-api-key 或单独配置 graph-bearer-token-bnb
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
-      graphBearerToken_BSC: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
@@ -363,9 +359,8 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
-      // HYPER 和 BSC 使用 GOLDSKY_API_KEY；BNB 使用 GRAPH_BEARER_TOKEN_BNB（与 BSC 同源）
+      // HYPER 使用 GOLDSKY_API_KEY；BNB 可使用 goldsky-api-key 或单独配置 graph-bearer-token-bnb
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
-      graphBearerToken_BSC: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
@@ -532,9 +527,8 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBaseV4SubgraphId: process.env.GRAPH_BASE_V4_SUBGRAPH_ID!,
   graphBearerToken: process.env.GRAPH_BEARER_TOKEN!,
   graphBearerToken_X_LAYER: process.env.GRAPH_BEARER_TOKEN_X_LAYER!,
-  // HYPER 和 BSC 使用 GOLDSKY_API_KEY；BNB 可使用 GRAPH_BEARER_TOKEN_BNB 或 GOLDSKY_API_KEY
+  // HYPER 使用 GOLDSKY_API_KEY；BNB 可使用 GRAPH_BEARER_TOKEN_BNB 或 GOLDSKY_API_KEY
   graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
-  graphBearerToken_BSC: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_MEGAETH: process.env.GRAPH_BEARER_TOKEN_MEGAETH || process.env.GOLDSKY_API_KEY || '',
   // Extra per-chain Graph bearer tokens (optional)
