@@ -121,7 +121,7 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/2LM2nhSfVsKVNW1EF6AgJHMGBKU2zR9rZcE3zzkFkwW1`
     case ChainId.MEGAETH_MAINNET:
-      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/kumbaya-v3-subgraph-megaeth/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/kumbaya-v3-subgraph-pool-megaeth/1.0.0/gn`
     
     // goldsky networks
     case ChainId.BNB:
