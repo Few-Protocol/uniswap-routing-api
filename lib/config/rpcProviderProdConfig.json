@@ -60,6 +60,66 @@
     ]
   },
   {
+    "chainId": 42161,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "INFURA_42161"
+    ],
+    "providerNames": [
+      "INFURA"
+    ]
+  },
+  {
+    "chainId": 8453,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "INFURA_8453"
+    ],
+    "providerNames": [
+      "INFURA"
+    ]
+  },
+  {
+    "chainId": 130,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "INFURA_130"
+    ],
+    "providerNames": [
+      "INFURA"
+    ]
+  },
+  {
+    "chainId": 10,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "INFURA_10"
+    ],
+    "providerNames": [
+      "INFURA"
+    ]
+  },
+  {
     "chainId": 196,
     "useMultiProviderProb": 1,
     "latencyEvaluationSampleProb": 0,

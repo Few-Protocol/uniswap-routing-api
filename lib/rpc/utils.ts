@@ -57,6 +57,9 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
     case 'INFURA_10': {
       return `https://optimism-mainnet.infura.io/v3/${tokens[0]}`
     }
+    case 'INFURA_130': {
+      return `https://unichain-mainnet.infura.io/v3/${tokens[0]}`
+    }
     case 'INFURA_42220': {
       return `https://celo-mainnet.infura.io/v3/${tokens[0]}`
     }
