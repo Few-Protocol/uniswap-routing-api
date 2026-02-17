@@ -45,14 +45,11 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER?: string
       graphBearerToken_BSC?: string
       graphBearerToken_BNB?: string
-<<<<<<< HEAD
       graphBearerToken_MEGAETH?: string
-=======
       // Extra per-chain Graph bearer tokens
       graphBearerToken_ARB?: string
       graphBearerToken_BASE?: string
       graphBearerToken_UNICHAIN?: string
->>>>>>> 7174bde (feat: support base arb unichain)
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -82,13 +79,10 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
       graphBearerToken_BNB,
-<<<<<<< HEAD
       graphBearerToken_MEGAETH,
-=======
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
->>>>>>> 7174bde (feat: support base arb unichain)
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -117,13 +111,10 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BSC,
       graphBearerToken_BNB,
-<<<<<<< HEAD
       graphBearerToken_MEGAETH,
-=======
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
->>>>>>> 7174bde (feat: support base arb unichain)
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     })
@@ -281,14 +272,11 @@ export class RoutingAPIPipeline extends Stack {
       'ALCHEMY_1',
       'ALCHEMY_999',
       'ALCHEMY_56',
-<<<<<<< HEAD
       'ALCHEMY_4326',
-=======
       'INFURA_42161',
       'INFURA_8453',
       'INFURA_130',
       'INFURA_10',
->>>>>>> 7174bde (feat: support base arb unichain)
       // 'QUICKNODERETH_1',
       // Blast
       // 'QUICKNODE_81457',
@@ -548,14 +536,11 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BSC: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
-<<<<<<< HEAD
   graphBearerToken_MEGAETH: process.env.GRAPH_BEARER_TOKEN_MEGAETH || process.env.GOLDSKY_API_KEY || '',
-=======
   // Extra per-chain Graph bearer tokens (optional)
   graphBearerToken_ARB: process.env.GRAPH_BEARER_TOKEN_ARB || '',
   graphBearerToken_BASE: process.env.GRAPH_BEARER_TOKEN_BASE || '',
   graphBearerToken_UNICHAIN: process.env.GRAPH_BEARER_TOKEN_UNICHAIN || '',
->>>>>>> 7174bde (feat: support base arb unichain)
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {

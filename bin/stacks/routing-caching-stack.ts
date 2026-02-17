@@ -65,7 +65,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
   constructor(scope: Construct, name: string, props: RoutingCachingStackProps) {
     super(scope, name, props)
 
-    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken, graphBearerToken_X_LAYER, graphBearerToken_HYPER, graphBearerToken_BSC, graphBearerToken_BNB, graphBearerToken_MEGAETH } = props
     const {
       chatbotSNSArn,
       alchemyQueryKey,
@@ -79,6 +78,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
+      graphBearerToken_MEGAETH,
     } = props
 
     const chatBotTopic = chatbotSNSArn ? aws_sns.Topic.fromTopicArn(this, 'ChatbotTopic', chatbotSNSArn) : undefined
