@@ -79,7 +79,7 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://gateway.thegraph.com/api/subgraphs/id/6RBtsmGUYfeLeZsYyxyKSUiaA6WpuC69shMEQ1Cfuj9u`
 
     case ChainId.BNB:
-      return process.env.BNB_V4_SUBGRAPH_URL
+      return `https://gateway.thegraph.com/api/subgraphs/id/EAq1nJKgjnuKH6Gj4RFjCW7LcL7E2uipbncdwV7TTWkX`
     default:
       return undefined
   }
@@ -135,7 +135,7 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/6jkbFySYhSvJLbQmpcDwUsoMS3Fn6LTBmbeJhHJh7Gyz`
     case ChainId.HYPER_MAINNET:
-      return process.env.HYPER_FEWV2_SUBGRAPH_URL
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/1.0.0/gn`
       default:
       return undefined
   }
@@ -173,8 +173,8 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://gateway.thegraph.com/api/subgraphs/id/Hz6HejZme4ozdSvnp9oi3UafGRbNVrVVDGow9o6huLQ7`
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/8EjCaWZumyAfN3wyB4QnibeeXaYS8i4sp1PiWT91AGrt`
-    case ChainId.HYPER_MAINNET:
-      return process.env.HYPER_V2_SUBGRAPH_URL
+    // case ChainId.HYPER_MAINNET:
+    //   return process.env.HYPER_V2_SUBGRAPH_URL
     default:
       return undefined
   }
