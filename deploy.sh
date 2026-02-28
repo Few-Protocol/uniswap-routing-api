@@ -86,7 +86,7 @@ echo -e "${GREEN}✓ 构建完成${NC}"
 echo -e "\n${YELLOW}[5/5] 部署到 AWS...${NC}"
 if [ -n "$CDK_PROFILE" ]; then
   echo -e "${YELLOW}使用 AWS profile: ${CDK_PROFILE}${NC}"
-  cdk deploy RoutingAPIStack $CDK_PROFILE
+  npx cdk deploy RoutingAPIStack $CDK_PROFILE
 fi
 
 echo -e "\n${GREEN}✓ 部署完成！${NC}"
