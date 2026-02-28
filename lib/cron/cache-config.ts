@@ -466,22 +466,22 @@ export const chainProtocols = [
       process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ), // 1000 is the largest page size supported by thegraph
   },
-  {
-    protocol: Protocol.V2,
-    chainId: ChainId.HYPER_MAINNET,
-    timeout: 840000,
-    provider: new V2SubgraphProvider(
-      ChainId.HYPER_MAINNET,
-      2,
-      900000,
-      true,
-      1000,
-      v2TrackedEthThreshold,
-      v2UntrackedUsdThreshold,
-      v2SubgraphUrlOverride(ChainId.HYPER_MAINNET),
-      process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
-    ), // 1000 is the largest page size supported by thegraph
-  },
+  // {
+  //   protocol: Protocol.V2,
+  //   chainId: ChainId.HYPER_MAINNET,
+  //   timeout: 840000,
+  //   provider: new V2SubgraphProvider(
+  //     ChainId.HYPER_MAINNET,
+  //     2,
+  //     900000,
+  //     true,
+  //     1000,
+  //     v2TrackedEthThreshold,
+  //     v2UntrackedUsdThreshold,
+  //     v2SubgraphUrlOverride(ChainId.HYPER_MAINNET),
+  //     process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
+  //   ), // 1000 is the largest page size supported by thegraph
+  // },
   // {
   {
     protocol: Protocol.V2,
