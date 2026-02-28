@@ -111,7 +111,6 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   // ChainId.CELO_ALFAJORES,
   ChainId.BNB,
   ChainId.HYPER_MAINNET,
-  ChainId.MEGAETH_MAINNET,
   // ChainId.AVALANCHE,
   ChainId.BASE,
   // ChainId.BLAST,
@@ -163,7 +162,7 @@ export type ContainerDependencies = {
   ringV2QuoteProvider: RingV2QuoteProvider
   simulator: Simulator
   routeCachingProvider?: IRouteCachingProvider
-  /** 仅在有 TokenValidator 合约的链上注入；未部署的链（如 MEGAETH 4326）不注入，避免链上 validate revert */
+  /** 仅在有 TokenValidator 合约的链上注入；未部署的链不注入，避免链上 validate revert */
   tokenValidatorProvider?: TokenValidatorProvider
   tokenPropertiesProvider: ITokenPropertiesProvider
   v2Supported: ChainId[]
@@ -326,7 +325,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             },
           })
 
-          // 仅对已部署 TokenValidator 合约的链创建 TokenValidatorProvider；未部署的链（如 MEGAETH 4326）不创建，避免 validate() revert
+          // 仅对已部署 TokenValidator 合约的链创建 TokenValidatorProvider；未部署的链不创建，避免 validate() revert
           const CHAINS_WITH_TOKEN_VALIDATOR: ChainId[] = [ChainId.MAINNET]
           const tokenValidatorProvider = CHAINS_WITH_TOKEN_VALIDATOR.includes(chainId)
             ? new TokenValidatorProvider(
@@ -580,7 +579,6 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.SONEIUM,
             ChainId.XLAYER_MAINNET,
             ChainId.HYPER_MAINNET,
-            ChainId.MEGAETH_MAINNET,
           ]
 
           const v4Supported = [
@@ -598,7 +596,6 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.MAINNET,
             ChainId.SONEIUM,
             ChainId.HYPER_MAINNET,
-            ChainId.MEGAETH_MAINNET,
           ]
 
           // https://linear.app/uniswap/issue/ROUTE-467/tenderly-simulation-during-caching-lambda
@@ -606,7 +603,6 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.MAINNET,
             ChainId.XLAYER_MAINNET,
             ChainId.HYPER_MAINNET,
-            ChainId.MEGAETH_MAINNET,
             ChainId.GOERLI,
             ChainId.SEPOLIA,
             ChainId.OPTIMISM,
@@ -653,7 +649,6 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.SONEIUM,
             ChainId.XLAYER_MAINNET,
             ChainId.HYPER_MAINNET,
-            ChainId.MEGAETH_MAINNET,
           ]
           const mixedCrossLiquidityV3AgainstV4Supported: ChainId[] = [ChainId.BASE]
 

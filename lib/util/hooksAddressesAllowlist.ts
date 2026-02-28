@@ -174,7 +174,6 @@ export const HOOKS_ADDRESSES_ALLOWLIST: { [chain in ChainId]: Array<string> } = 
   [ChainId.STORY_ODYSSEY]: [ADDRESS_ZERO],
   [ChainId.STORY_MAINNET]: [ADDRESS_ZERO],
   [ChainId.HYPER_MAINNET]: [ADDRESS_ZERO],
-  [ChainId.MEGAETH_MAINNET]: [ADDRESS_ZERO],
 
   // ring swap specific
   [ChainId.XLAYER_MAINNET]: [ADDRESS_ZERO],
