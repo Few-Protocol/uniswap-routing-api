@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 # # 使用 tbbeta (默认)
 # python3 pullroutingapilog.py -id abc123
 
+# python3 scripts/pullroutingapilog.py -id '"2026-02-17T12"' --profile tbbeta
+
 # # 使用 ringprod
 # python3 pullroutingapilog.py -id abc123 --profile ringprod
 
