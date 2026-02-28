@@ -33,7 +33,6 @@ export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   graphBearerToken_X_LAYER?: string
   graphBearerToken_HYPER?: string
   graphBearerToken_BNB?: string
-  graphBearerToken_MEGAETH?: string
   // Optional per-chain Graph bearer tokens for future use
   graphBearerToken_ARB?: string
   graphBearerToken_BASE?: string
@@ -55,7 +54,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
   public readonly graphBearerToken_X_LAYER: string | undefined = undefined
   public readonly graphBearerToken_HYPER: string | undefined = undefined
   public readonly graphBearerToken_BNB: string | undefined = undefined
-  public readonly graphBearerToken_MEGAETH: string | undefined = undefined
   public readonly graphBearerToken_ARB: string | undefined = undefined
   public readonly graphBearerToken_BASE: string | undefined = undefined
   public readonly graphBearerToken_UNICHAIN: string | undefined = undefined
@@ -75,7 +73,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
-      graphBearerToken_MEGAETH,
     } = props
 
     const chatBotTopic = chatbotSNSArn ? aws_sns.Topic.fromTopicArn(this, 'ChatbotTopic', chatbotSNSArn) : undefined
@@ -87,7 +84,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
     this.graphBearerToken_X_LAYER = graphBearerToken_X_LAYER
     this.graphBearerToken_HYPER = graphBearerToken_HYPER
     this.graphBearerToken_BNB = graphBearerToken_BNB
-    this.graphBearerToken_MEGAETH = graphBearerToken_MEGAETH
     this.graphBearerToken_ARB = graphBearerToken_ARB
     this.graphBearerToken_BASE = graphBearerToken_BASE
     this.graphBearerToken_UNICHAIN = graphBearerToken_UNICHAIN
@@ -183,11 +179,8 @@ export class RoutingCachingStack extends cdk.NestedStack {
             GRAPH_BASE_V4_SUBGRAPH_ID: this.graphBaseV4SubgraphId ?? '',
             GRAPH_BEARER_TOKEN: chainId === ChainId.XLAYER_MAINNET ? this.graphBearerToken_X_LAYER ?? '' : this.graphBearerToken ?? '',
             GRAPH_BEARER_TOKEN_X_LAYER: this.graphBearerToken_X_LAYER ?? '',
-            // HYPER 使用 GOLDSKY_API_KEY 作为 bearer token
-            // BNB 可使用 GOLDSKY_API_KEY 或 GRAPH_BEARER_TOKEN_BNB；cache-config 中优先 GOLDSKY_API_KEY，否则用 GRAPH_BEARER_TOKEN_BNB
             GRAPH_BEARER_TOKEN_HYPER: this.graphBearerToken_HYPER ?? '',
             GRAPH_BEARER_TOKEN_BNB: this.graphBearerToken_BNB ?? '',
-            GRAPH_BEARER_TOKEN_MEGAETH: this.graphBearerToken_MEGAETH ?? '',
             // Extra per-chain bearer tokens for future extension
             GRAPH_BEARER_TOKEN_ARB: this.graphBearerToken_ARB ?? '',
             GRAPH_BEARER_TOKEN_BASE: this.graphBearerToken_BASE ?? '',

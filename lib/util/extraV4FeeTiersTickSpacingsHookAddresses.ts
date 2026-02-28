@@ -55,7 +55,6 @@ export const EXTRA_V4_FEE_TICK_SPACINGS_HOOK_ADDRESSES: { [chain in ChainId]: Ar
   [ChainId.STORY_ODYSSEY]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.STORY_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.HYPER_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
-  [ChainId.MEGAETH_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
 
   // ring swap specific
   [ChainId.XLAYER_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,

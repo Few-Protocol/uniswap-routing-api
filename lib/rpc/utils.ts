@@ -34,8 +34,6 @@ export function chainIdToNetworkName(networkId: ChainId): string {
       return 'xlayer'
     case ChainId.HYPER_MAINNET:
       return 'hyper'
-    case ChainId.MEGAETH_MAINNET:
-      return 'megaeth'
     default:
       return 'ethereum'
   }
@@ -165,9 +163,6 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
     }
     case 'ALCHEMY_56': {
       return `https://bnb-mainnet.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_4326': {
-      return `https://megaeth-mainnet.g.alchemy.com/v2/${tokens[0]}`
     }
   }
   throw new Error(`Unknown provider-chainId pair: ${key}`)
