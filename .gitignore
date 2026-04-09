@@ -11,3 +11,4 @@ cache
 .idea
 nouse
 scripts/*.log
+.omc/

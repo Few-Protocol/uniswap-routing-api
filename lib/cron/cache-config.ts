@@ -78,8 +78,9 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.OPTIMISM:
       return `https://gateway.thegraph.com/api/subgraphs/id/6RBtsmGUYfeLeZsYyxyKSUiaA6WpuC69shMEQ1Cfuj9u`
 
+    // goldsky networks
     case ChainId.BNB:
-      return `https://gateway.thegraph.com/api/subgraphs/id/EAq1nJKgjnuKH6Gj4RFjCW7LcL7E2uipbncdwV7TTWkX`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v4-bsc/1.0.0/gn`
     default:
       return undefined
   }
@@ -117,6 +118,7 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-soneium-mainnet/api`
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/2LM2nhSfVsKVNW1EF6AgJHMGBKU2zR9rZcE3zzkFkwW1`
+    // goldsky networks
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/F85MNzUGYqgSHSHRGgeVMNsdnW1KtZSVgFULumXRZTw2`
       default:
@@ -132,6 +134,7 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.SEPOLIA:
       return `https://gateway.thegraph.com/api/subgraphs/id/HMtLevwVwkYSSwXXUSmwxr3fiFSzcmyGywA9exPRHfcH`
 
+    // goldsky networks
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/6jkbFySYhSvJLbQmpcDwUsoMS3Fn6LTBmbeJhHJh7Gyz`
     case ChainId.HYPER_MAINNET:
@@ -173,8 +176,8 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://gateway.thegraph.com/api/subgraphs/id/Hz6HejZme4ozdSvnp9oi3UafGRbNVrVVDGow9o6huLQ7`
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/8EjCaWZumyAfN3wyB4QnibeeXaYS8i4sp1PiWT91AGrt`
-    // case ChainId.HYPER_MAINNET:
-    //   return process.env.HYPER_V2_SUBGRAPH_URL
+    case ChainId.HYPER_MAINNET:
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2-hyper/1.0.0/gn`
     default:
       return undefined
   }
@@ -466,23 +469,38 @@ export const chainProtocols = [
       process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ), // 1000 is the largest page size supported by thegraph
   },
+  {
+    protocol: Protocol.V2,
+    chainId: ChainId.HYPER_MAINNET,
+    timeout: 840000,
+    provider: new V2SubgraphProvider(
+      ChainId.HYPER_MAINNET,
+      2,
+      900000,
+      true,
+      1000,
+      v2TrackedEthThreshold,
+      v2UntrackedUsdThreshold,
+      v2SubgraphUrlOverride(ChainId.HYPER_MAINNET),
+      process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
+    ), // 1000 is the largest page size supported by thegraph
+  },
   // {
   //   protocol: Protocol.V2,
-  //   chainId: ChainId.HYPER_MAINNET,
+  //   chainId: ChainId.MEGAETH_MAINNET,
   //   timeout: 840000,
   //   provider: new V2SubgraphProvider(
-  //     ChainId.HYPER_MAINNET,
+  //     ChainId.MEGAETH_MAINNET,
   //     2,
   //     900000,
   //     true,
   //     1000,
   //     v2TrackedEthThreshold,
   //     v2UntrackedUsdThreshold,
-  //     v2SubgraphUrlOverride(ChainId.HYPER_MAINNET),
-  //     process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
+  //     v2SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
+  //     process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
   //   ), // 1000 is the largest page size supported by thegraph
   // },
-  // {
   {
     protocol: Protocol.V2,
     chainId: ChainId.XLAYER_MAINNET,

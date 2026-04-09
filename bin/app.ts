@@ -44,6 +44,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_X_LAYER?: string
       graphBearerToken_HYPER?: string
       graphBearerToken_BNB?: string
+      graphBearerToken_MEGAETH?: string
       // Extra per-chain Graph bearer tokens
       graphBearerToken_ARB?: string
       graphBearerToken_BASE?: string
@@ -76,6 +77,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
@@ -106,6 +108,7 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
@@ -266,6 +269,7 @@ export class RoutingAPIPipeline extends Stack {
       'ALCHEMY_1',
       'ALCHEMY_999',
       'ALCHEMY_56',
+      'ALCHEMY_4326',
       'INFURA_42161',
       'INFURA_8453',
       'INFURA_130',
@@ -317,6 +321,9 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
+      graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -351,6 +358,9 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
+      graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -419,6 +429,7 @@ const jsonRpcProviders = {
   ALCHEMY_1: process.env.ALCHEMY_1!,
   QUICKNODE_196: process.env.QUICKNODE_196!,
   ALCHEMY_56: process.env.ALCHEMY_56!,
+  ALCHEMY_4326: process.env.ALCHEMY_4326!,
   ALCHEMY_999: process.env.ALCHEMY_999!,
   INFURA_42161: process.env.INFURA_42161!,
   INFURA_8453: process.env.INFURA_8453!,
@@ -514,8 +525,9 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBaseV4SubgraphId: process.env.GRAPH_BASE_V4_SUBGRAPH_ID!,
   graphBearerToken: process.env.GRAPH_BEARER_TOKEN!,
   graphBearerToken_X_LAYER: process.env.GRAPH_BEARER_TOKEN_X_LAYER!,
-  graphBearerToken_HYPER: process.env.GRAPH_BEARER_TOKEN_HYPER || '',
-  graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || '',
+  graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
+  graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
+  graphBearerToken_MEGAETH: process.env.GRAPH_BEARER_TOKEN_MEGAETH || process.env.GOLDSKY_API_KEY || '',
   // Extra per-chain Graph bearer tokens (optional)
   graphBearerToken_ARB: process.env.GRAPH_BEARER_TOKEN_ARB || '',
   graphBearerToken_BASE: process.env.GRAPH_BEARER_TOKEN_BASE || '',

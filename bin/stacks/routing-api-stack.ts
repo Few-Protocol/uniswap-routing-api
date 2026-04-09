@@ -77,6 +77,7 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBearerToken_X_LAYER?: string
       graphBearerToken_HYPER?: string
       graphBearerToken_BNB?: string
+      graphBearerToken_MEGAETH?: string
       // Extra per-chain Graph bearer tokens
       graphBearerToken_ARB?: string
       graphBearerToken_BASE?: string
@@ -111,6 +112,7 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
@@ -140,6 +142,7 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBearerToken_X_LAYER,
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
