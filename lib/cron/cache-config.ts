@@ -81,6 +81,8 @@ export const v4SubgraphUrlOverride = (chainId: ChainId) => {
     // goldsky networks
     case ChainId.BNB:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v4-bsc/1.0.0/gn`
+    // case ChainId.MEGAETH_MAINNET:
+    //   return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/kumbaya-v4-subgraph-megaeth/1.0.0/gn`
     default:
       return undefined
   }
@@ -118,6 +120,9 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://subgraph.satsuma-prod.com/${process.env.ALCHEMY_QUERY_KEY_2}/uniswap-2/uniswap-v3-soneium-mainnet/api`
     case ChainId.XLAYER_MAINNET:
       return `https://gateway.thegraph.com/api/subgraphs/id/2LM2nhSfVsKVNW1EF6AgJHMGBKU2zR9rZcE3zzkFkwW1`
+    case ChainId.MEGAETH_MAINNET:
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/kumbaya-v3-subgraph-pool-megaeth/1.0.0/gn`
+
     // goldsky networks
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/F85MNzUGYqgSHSHRGgeVMNsdnW1KtZSVgFULumXRZTw2`
@@ -178,6 +183,8 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://gateway.thegraph.com/api/subgraphs/id/8EjCaWZumyAfN3wyB4QnibeeXaYS8i4sp1PiWT91AGrt`
     case ChainId.HYPER_MAINNET:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2-hyper/1.0.0/gn`
+    // case ChainId.MEGAETH_MAINNET:
+    //   return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/kumbaya-v2-subgraph-megaeth/1.0.0/gn`
     default:
       return undefined
   }
@@ -249,6 +256,21 @@ export const chainProtocols = [
       v3UntrackedUsdThreshold,
       v3SubgraphUrlOverride(ChainId.HYPER_MAINNET)
       // HYPER V3 uses Satsuma, no bearer token needed
+    ),
+  },
+  {
+    protocol: Protocol.V3,
+    chainId: ChainId.MEGAETH_MAINNET,
+    timeout: 90000,
+    provider: new V3SubgraphProvider(
+      ChainId.MEGAETH_MAINNET,
+      3,
+      90000,
+      true,
+      v3TrackedEthThreshold,
+      v3UntrackedUsdThreshold,
+      v3SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
+      process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
     ),
   },
   {
@@ -954,6 +976,23 @@ export const chainProtocols = [
       process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_BNB // Goldsky API Key or The Graph Bearer for BNB
     ),
   },
+  // {
+  //   protocol: Protocol.V4,
+  //   chainId: ChainId.MEGAETH_MAINNET,
+  //   timeout: 90000,
+  //   provider: new V4SubgraphProvider(
+  //     ChainId.MEGAETH_MAINNET,
+  //     3,
+  //     90000,
+  //     true,
+  //     v4TrackedEthThreshold,
+  //     v4BaseZoraTrackedEthThreshold,
+  //     ZORA_HOOKS_FOR_V4_SUBGRAPH_FILTERING,
+  //     v4UntrackedUsdThreshold,
+  //     v4SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
+  //     process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH // Goldsky for MEGAETH
+  //   ),
+  // },
   /*
   {
     protocol: Protocol.V4,
