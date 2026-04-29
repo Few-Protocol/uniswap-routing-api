@@ -126,7 +126,9 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     // goldsky networks
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/F85MNzUGYqgSHSHRGgeVMNsdnW1KtZSVgFULumXRZTw2`
-      default:
+      case ChainId.TRON_MAINNET:
+      return `PLACEHOLDER_TRON_V3_SUBGRAPH`
+    default:
       return undefined
   }
 }
@@ -185,6 +187,8 @@ export const v2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/uniswap-v2-hyper/1.0.0/gn`
     // case ChainId.MEGAETH_MAINNET:
     //   return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/kumbaya-v2-subgraph-megaeth/1.0.0/gn`
+    case ChainId.TRON_MAINNET:
+      return `PLACEHOLDER_TRON_V2_SUBGRAPH`
     default:
       return undefined
   }

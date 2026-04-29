@@ -36,6 +36,7 @@ export const TENDERLY_NEW_ENDPOINT_ROLLOUT_PERCENT: { [chain in ChainId]: number
   [ChainId.STORY_ODYSSEY]: 0,
   [ChainId.STORY_MAINNET]: 0,
   [ChainId.HYPER_MAINNET]: 0,
+  [ChainId.TRON_MAINNET]: 0,
   [ChainId.MEGAETH_MAINNET]: 0,
 
   // ring swap specific

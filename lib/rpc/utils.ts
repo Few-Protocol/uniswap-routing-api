@@ -36,6 +36,11 @@ export function chainIdToNetworkName(networkId: ChainId): string {
       return 'hyper'
     case ChainId.MEGAETH_MAINNET:
       return 'megaeth'
+    case ChainId.TRON_MAINNET:
+      return 'tron'
+    case 'QUICKNODE_728126428': {
+      return `https://${tokens[0]}.tron-mainnet.quiknode.pro/${tokens[1]}`
+    }
     default:
       return 'ethereum'
   }

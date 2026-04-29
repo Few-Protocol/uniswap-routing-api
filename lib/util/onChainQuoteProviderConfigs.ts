@@ -1187,6 +1187,7 @@ export const NEW_QUOTER_DEPLOY_BLOCK: { [chainId in ChainId]: number } = {
   [ChainId.STORY_ODYSSEY]: -1,
   [ChainId.STORY_MAINNET]: -1,
   [ChainId.HYPER_MAINNET]: -1,
+  [ChainId.TRON_MAINNET]: -1,
   [ChainId.MEGAETH_MAINNET]: -1,
 
   // ring swap specific
