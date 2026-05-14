@@ -1,5 +1,12 @@
 import { Protocol } from '@ring-protocol/router-sdk'
-import { V2SubgraphProvider, V3SubgraphProvider, V4SubgraphProvider, RingV2SubgraphProvider } from '@ring-protocol/smart-order-router'
+import {
+  IRingV2SubgraphProvider,
+  RingV2SubgraphPool,
+  RingV2SubgraphProvider,
+  V2SubgraphProvider,
+  V3SubgraphProvider,
+  V4SubgraphProvider,
+} from '@ring-protocol/smart-order-router'
 import { ChainId } from '@ring-protocol/sdk-core'
 import { EulerSwapHooksSubgraphProvider } from '@ring-protocol/smart-order-router/'
 import {
@@ -126,7 +133,7 @@ export const v3SubgraphUrlOverride = (chainId: ChainId) => {
     // goldsky networks
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/F85MNzUGYqgSHSHRGgeVMNsdnW1KtZSVgFULumXRZTw2`
-      default:
+    default:
       return undefined
   }
 }
@@ -144,7 +151,9 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://gateway.thegraph.com/api/subgraphs/id/6jkbFySYhSvJLbQmpcDwUsoMS3Fn6LTBmbeJhHJh7Gyz`
     case ChainId.HYPER_MAINNET:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/1.0.0/gn`
-      default:
+    case ChainId.MEGAETH_MAINNET:
+      return process.env.MEGAETH_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_MEGAETH
+    default:
       return undefined
   }
 }
@@ -203,11 +212,17 @@ export const v2TrackedEthThreshold = 0.025 // Pairs need at least 0.025 of track
 export const v2BaseTrackedEthThreshold = 0.1 // Pairs on Base need at least 0.1 of trackedEth to be selected
 const v2UntrackedUsdThreshold = Number.MAX_VALUE // Pairs need untracked TVL higher than this value to be selected (for metrics only). Currently excludes all V2 pools with untracked TVL.
 
+class EmptyRingV2SubgraphProvider implements IRingV2SubgraphProvider {
+  public async getPools(): Promise<RingV2SubgraphPool[]> {
+    return []
+  }
+}
+
 export interface ChainProtocol {
   protocol: Protocol
   chainId: ChainId
   timeout: number
-  provider: V2SubgraphProvider | V3SubgraphProvider | V4SubgraphProvider | RingV2SubgraphProvider
+  provider: V2SubgraphProvider | V3SubgraphProvider | V4SubgraphProvider | IRingV2SubgraphProvider
   eulerHooksProvider?: EulerSwapHooksSubgraphProvider
 }
 
@@ -472,7 +487,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       v2SubgraphUrlOverride(ChainId.MAINNET),
-      process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
+      process.env.GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
   {
@@ -536,7 +551,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       v2SubgraphUrlOverride(ChainId.XLAYER_MAINNET),
-      process.env.GRAPH_BEARER_TOKEN_X_LAYER  // The Graph Gateway Authorization
+      process.env.GRAPH_BEARER_TOKEN_X_LAYER // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
   },
   // FEWV2.
@@ -553,7 +568,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       fewV2SubgraphUrlOverride(ChainId.MAINNET),
-      process.env.GRAPH_BEARER_TOKEN  // The Graph Gateway Authorization
+      process.env.GRAPH_BEARER_TOKEN // The Graph Gateway Authorization
     ), // 1000 is the largest page size supported by thegraph
     providerFallback: new RingV2SubgraphProvider(
       ChainId.MAINNET,
@@ -564,7 +579,7 @@ export const chainProtocols = [
       v2TrackedEthThreshold,
       v2UntrackedUsdThreshold,
       fewV2SubgraphUrlOverride(ChainId.MAINNET),
-      "8521b63080aa70555c181d45a4face12"  // The Graph Gateway Authorization
+      '8521b63080aa70555c181d45a4face12' // The Graph Gateway Authorization
     ),
   },
   {
@@ -598,6 +613,24 @@ export const chainProtocols = [
       fewV2SubgraphUrlOverride(ChainId.HYPER_MAINNET),
       process.env.GOLDSKY_API_KEY // Goldsky API Key for Hyper
     ), // 1000 is the largest page size supported by thegraph
+  },
+  {
+    protocol: Protocol.FEWV2,
+    chainId: ChainId.MEGAETH_MAINNET,
+    timeout: 840000,
+    provider: fewV2SubgraphUrlOverride(ChainId.MEGAETH_MAINNET)
+      ? new RingV2SubgraphProvider(
+          ChainId.MEGAETH_MAINNET,
+          2,
+          900000,
+          true,
+          1000,
+          v2TrackedEthThreshold,
+          v2UntrackedUsdThreshold,
+          fewV2SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
+          process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH
+        )
+      : new EmptyRingV2SubgraphProvider(),
   },
   // {
   //   protocol: Protocol.V2,
