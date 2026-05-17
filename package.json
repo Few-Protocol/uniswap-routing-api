@@ -85,7 +85,7 @@
     "@ring-protocol/permit2-sdk": "0.1.4",
     "@ring-protocol/router-sdk": "0.1.44",
     "@ring-protocol/sdk-core": "0.1.7",
-    "@ring-protocol/smart-order-router": "0.5.40",
+    "@ring-protocol/smart-order-router": "0.5.41",
     "@typechain/ethers-v5": "^7.0.1",
     "@types/async-retry": "^1.4.2",
     "@types/chai-subset": "^1.3.3",
