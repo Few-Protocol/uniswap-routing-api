@@ -77,6 +77,54 @@ describe('evaluateSusdrRisk', () => {
     expect(result.signals[0].id).toEqual('INSUFFICIENT_INSTANT_LIQUIDITY')
   })
 
+  it('uses live source APY quotes when they are provided', () => {
+    const result = evaluateSusdrRisk({
+      sourceApyByAssetId: {
+        'aave-usdc': {
+          sourceApyBps: 420,
+          sourceApyKind: 'live',
+          sourceApySource: 'aave-v3-usdc-current-liquidity-rate',
+          sourceApyUpdatedAtMs: 1_780_000_000_000,
+        },
+        sUSDat: {
+          sourceApyBps: 1515,
+          sourceApyKind: 'live',
+          sourceApySource: 'saturn-susdat-onchain',
+          sourceApyUpdatedAtMs: 1_780_000_000_000,
+        },
+        apyUSD: {
+          sourceApyBps: 1116,
+          sourceApyKind: 'live',
+          sourceApySource: 'apyx-rate-view',
+          sourceApyUpdatedAtMs: 1_780_000_000_000,
+        },
+      },
+    })
+
+    expect(result.reservePolicy).toMatchObject({
+      reserveYieldBps: 749,
+      subsidyApyBps: 200,
+      targetApyBps: 949,
+    })
+    expect(result.reservePolicy.assets.find((asset) => asset.id === 'sUSDat')).toMatchObject({
+      sourceApyBps: 1515,
+      sourceApyKind: 'live',
+      sourceApySource: 'saturn-susdat-onchain',
+    })
+  })
+
+  it('warns when source APY falls back to static values', () => {
+    const result = evaluateSusdrRisk({
+      sourceApyFallbackAssetIds: ['apyUSD'],
+    })
+
+    expect(result.level).toEqual('watch')
+    expect(result.signals[0]).toMatchObject({
+      id: 'SOURCE_APY_FALLBACK',
+      value: 'apyUSD',
+    })
+  })
+
   it('keeps the highest risk level when multiple signals fire', () => {
     const result = evaluateSusdrRisk({
       requestedAmountRaw: '101',

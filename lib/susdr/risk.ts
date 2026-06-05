@@ -7,6 +7,7 @@ import {
   SusdrRiskReport,
   SusdrRiskSignal,
   SusdrRiskThresholds,
+  SusdrYieldQuote,
 } from './types'
 
 export const DEFAULT_SUSDR_RISK_THRESHOLDS: SusdrRiskThresholds = {
@@ -27,10 +28,25 @@ const RISK_LEVEL_RANK: Record<SusdrRiskLevel, number> = {
 }
 
 const RING_SUBSIDY_APY_BPS = 200
-const SOURCE_APY_BPS_BY_ASSET_ID = {
-  'aave-usdc': 400,
-  sUSDat: 967,
-  apyUSD: 1_032,
+export const DEFAULT_SUSDR_SOURCE_APY_QUOTES_BY_ASSET_ID: Record<string, SusdrYieldQuote> = {
+  'aave-usdc': {
+    sourceApyBps: 400,
+    sourceApyKind: 'fallback',
+    sourceApySource: 'static-fallback',
+    sourceApyDetail: 'Fallback until Aave V3 read succeeds',
+  },
+  sUSDat: {
+    sourceApyBps: 967,
+    sourceApyKind: 'fallback',
+    sourceApySource: 'static-fallback',
+    sourceApyDetail: 'Fallback until Saturn on-chain read succeeds',
+  },
+  apyUSD: {
+    sourceApyBps: 1_032,
+    sourceApyKind: 'fallback',
+    sourceApySource: 'static-fallback',
+    sourceApyDetail: 'Fallback until Apyx RateView read succeeds',
+  },
 }
 
 function maxLevel(current: SusdrRiskLevel, next: SusdrRiskLevel): SusdrRiskLevel {
@@ -46,6 +62,21 @@ function calculateReserveYieldBps(assets: SusdrReserveAsset[]): number {
   return Math.round(
     assets.reduce((total, asset) => total + (asset.targetWeightBps * asset.sourceApyBps) / 10_000, 0)
   )
+}
+
+function getSourceApyQuote(input: SusdrRiskInput, assetId: string): SusdrYieldQuote {
+  return input.sourceApyByAssetId?.[assetId] ?? DEFAULT_SUSDR_SOURCE_APY_QUOTES_BY_ASSET_ID[assetId]
+}
+
+function getSourceApyFields(input: SusdrRiskInput, assetId: string): SusdrYieldQuote {
+  const quote = getSourceApyQuote(input, assetId)
+  return {
+    sourceApyBps: quote.sourceApyBps,
+    sourceApyKind: quote.sourceApyKind,
+    sourceApySource: quote.sourceApySource,
+    sourceApyUpdatedAtMs: quote.sourceApyUpdatedAtMs,
+    sourceApyDetail: quote.sourceApyDetail,
+  }
 }
 
 function isApyUsdRecoveryReady(input: SusdrRiskInput, thresholds: SusdrRiskThresholds): boolean {
@@ -70,7 +101,7 @@ function buildApyUsdAsset(input: SusdrRiskInput, thresholds: SusdrRiskThresholds
       label: 'Apyx apyUSD',
       targetWeightBps: 1_000,
       maxWeightBps: 2_000,
-      sourceApyBps: SOURCE_APY_BPS_BY_ASSET_ID.apyUSD,
+      ...getSourceApyFields(input, 'apyUSD'),
       status: 'watch',
       reason: 'Recovery conditions passed; eligible for capped gray allocation',
       priceBps: input.apxUsdPriceBps,
@@ -90,7 +121,7 @@ function buildApyUsdAsset(input: SusdrRiskInput, thresholds: SusdrRiskThresholds
     label: 'Apyx apyUSD',
     targetWeightBps: 0,
     maxWeightBps: 0,
-    sourceApyBps: SOURCE_APY_BPS_BY_ASSET_ID.apyUSD,
+    ...getSourceApyFields(input, 'apyUSD'),
     status: 'paused',
     reason,
     priceBps: input.apxUsdPriceBps,
@@ -110,7 +141,7 @@ function buildReservePolicy(input: SusdrRiskInput, thresholds: SusdrRiskThreshol
           label: 'Aave USDC',
           targetWeightBps: 5_000,
           maxWeightBps: 8_000,
-          sourceApyBps: SOURCE_APY_BPS_BY_ASSET_ID['aave-usdc'],
+          ...getSourceApyFields(input, 'aave-usdc'),
           status: 'active',
           reason: 'Primary cash buffer and instant-redemption source',
         },
@@ -119,7 +150,7 @@ function buildReservePolicy(input: SusdrRiskInput, thresholds: SusdrRiskThreshol
           label: 'Saturn sUSDat',
           targetWeightBps: 4_000,
           maxWeightBps: 4_000,
-          sourceApyBps: SOURCE_APY_BPS_BY_ASSET_ID.sUSDat,
+          ...getSourceApyFields(input, 'sUSDat'),
           status: 'active',
           reason: 'First STRC wrapper allocation after Aave-only test',
         },
@@ -131,7 +162,7 @@ function buildReservePolicy(input: SusdrRiskInput, thresholds: SusdrRiskThreshol
           label: 'Aave USDC',
           targetWeightBps: 7_000,
           maxWeightBps: 10_000,
-          sourceApyBps: SOURCE_APY_BPS_BY_ASSET_ID['aave-usdc'],
+          ...getSourceApyFields(input, 'aave-usdc'),
           status: 'active',
           reason: 'Primary cash buffer and instant-redemption source',
         },
@@ -140,7 +171,7 @@ function buildReservePolicy(input: SusdrRiskInput, thresholds: SusdrRiskThreshol
           label: 'Saturn sUSDat',
           targetWeightBps: 3_000,
           maxWeightBps: 4_000,
-          sourceApyBps: SOURCE_APY_BPS_BY_ASSET_ID.sUSDat,
+          ...getSourceApyFields(input, 'sUSDat'),
           status: 'active',
           reason: 'First STRC wrapper allocation after Aave-only test',
         },
@@ -224,6 +255,18 @@ export function evaluateSusdrRisk(
         id: 'MARKET_PRICE_UNAVAILABLE',
         level: 'watch',
         message: 'External market price feed is unavailable; keep wrapper allocation conservative',
+      })
+    )
+  }
+
+  if (input.sourceApyFallbackAssetIds !== undefined && input.sourceApyFallbackAssetIds.length > 0) {
+    level = maxLevel(
+      level,
+      addSignal(signals, {
+        id: 'SOURCE_APY_FALLBACK',
+        level: 'watch',
+        message: 'One or more APY sources are using fallback values',
+        value: input.sourceApyFallbackAssetIds.join(', '),
       })
     )
   }

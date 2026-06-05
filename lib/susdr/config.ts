@@ -80,6 +80,14 @@ function parseEnabled(value: unknown): boolean | undefined {
   return typeof value === 'boolean' ? value : undefined
 }
 
+function firstNonEmptyEnvValue(...values: Array<string | undefined>): string | undefined {
+  return values.find((value) => value !== undefined && value.trim() !== '')
+}
+
+export function isSusdrAutoRingV2PoolsEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
+  return env.SUSDR_AUTO_RING_V2_POOLS !== 'false'
+}
+
 function parseLiquiditySourceKind(value: unknown, index: number): SusdrLiquiditySourceKind {
   if (typeof value !== 'string' || !LIQUIDITY_SOURCE_KINDS.has(value as SusdrLiquiditySourceKind)) {
     throw new Error(`Invalid kind for sUSDR liquidity source config at index ${index}`)
@@ -187,7 +195,13 @@ export function parseSusdrLiquiditySourceConfigs(rawConfig: string | undefined):
 }
 
 export function getSusdrRpcUrl(chainId: number, env: NodeJS.ProcessEnv = process.env): string | undefined {
-  return env[`SUSDR_RPC_URL_${chainId}`] ?? env[`WEB3_RPC_${chainId}`] ?? env.SUSDR_RPC_URL
+  return firstNonEmptyEnvValue(
+    env[`SUSDR_RPC_URL_${chainId}`],
+    env[`WEB3_RPC_${chainId}`],
+    env.SUSDR_RPC_URL,
+    env.ETH_RPC_URL,
+    env.RPC_URL
+  )
 }
 
 export function buildSusdrReadOnlyProvider(
@@ -234,7 +248,8 @@ export function buildSusdrReadinessReport({
 }): SusdrReadinessReport {
   const rpcReady = Boolean(getSusdrRpcUrl(chainId, env))
   const liquidityReady = liquiditySourceConfigs.length > 0
-  const poolsReady = v2PoolConfigs.length > 0
+  const autoV2PoolsReady = isSusdrAutoRingV2PoolsEnabled(env) && chainId === 1 && rpcReady
+  const poolsReady = v2PoolConfigs.length > 0 || autoV2PoolsReady
   const marketDataReady = env.SUSDR_DISABLE_MARKET_DATA !== 'true'
   const checks = [
     readinessCheck(
@@ -242,7 +257,7 @@ export function buildSusdrReadinessReport({
       'Read-only RPC',
       rpcReady,
       `RPC configured for chain ${chainId}`,
-      `Missing SUSDR_RPC_URL_${chainId}, WEB3_RPC_${chainId}, or SUSDR_RPC_URL`
+      `Missing SUSDR_RPC_URL_${chainId}, WEB3_RPC_${chainId}, SUSDR_RPC_URL, ETH_RPC_URL, or RPC_URL`
     ),
     readinessCheck(
       'liquidity-sources',
@@ -255,8 +270,8 @@ export function buildSusdrReadinessReport({
       'v2-pools',
       'Ring LP pools',
       poolsReady,
-      `${v2PoolConfigs.length} V2 pool config(s)`,
-      'Missing SUSDR_V2_POOLS_JSON: pool address / capacity mode'
+      v2PoolConfigs.length > 0 ? `${v2PoolConfigs.length} V2 pool config(s)` : 'Auto-discover Ring mainnet V2 pools',
+      'Missing SUSDR_V2_POOLS_JSON or Ring mainnet auto-discovery RPC'
     ),
     readinessCheck(
       'market-data',

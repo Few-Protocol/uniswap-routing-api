@@ -18,6 +18,7 @@ export type SusdrRedeemSimQueryParams = {
 }
 
 export type SusdrStatusQueryParams = {
+  chainId?: number
   requestedAmountRaw?: string
   instantCapacityRaw?: string
   usdrPriceBps?: number
@@ -65,6 +66,7 @@ export const SusdrRedeemSimQueryParamsJoi = Joi.object().keys({
 })
 
 export const SusdrStatusQueryParamsJoi = Joi.object().keys({
+  chainId: Joi.number().integer().min(1).optional(),
   requestedAmountRaw: rawAmount.optional(),
   instantCapacityRaw: rawAmount.optional(),
   usdrPriceBps: Joi.number().integer().min(0).max(20_000).optional(),
@@ -142,6 +144,10 @@ export const SusdrRiskReportSchemaJoi = Joi.object()
               targetWeightBps: Joi.number().required(),
               maxWeightBps: Joi.number().required(),
               sourceApyBps: Joi.number().required(),
+              sourceApyKind: Joi.string().valid('live', 'fallback').required(),
+              sourceApySource: Joi.string().required(),
+              sourceApyUpdatedAtMs: Joi.number().optional(),
+              sourceApyDetail: Joi.string().optional(),
               status: Joi.string().valid('active', 'paused', 'watch').required(),
               reason: Joi.string().required(),
               priceBps: Joi.number().optional(),

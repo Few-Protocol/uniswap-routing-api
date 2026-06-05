@@ -88,6 +88,24 @@ describe('sUSDR config', () => {
     ).toEqual('https://susdr-mainnet.example')
   })
 
+  it('uses local ETH RPC env names when sUSDR-specific RPC is absent', () => {
+    expect(
+      getSusdrRpcUrl(1, {
+        ETH_RPC_URL: 'https://eth-rpc.example',
+        RPC_URL: 'https://rpc.example',
+      })
+    ).toEqual('https://eth-rpc.example')
+  })
+
+  it('skips empty RPC env values', () => {
+    expect(
+      getSusdrRpcUrl(1, {
+        WEB3_RPC_1: '',
+        ETH_RPC_URL: 'https://eth-rpc.example',
+      })
+    ).toEqual('https://eth-rpc.example')
+  })
+
   it('parses read-only liquidity source configs', () => {
     const configs = parseSusdrLiquiditySourceConfigs(
       JSON.stringify([
@@ -129,10 +147,26 @@ describe('sUSDR config', () => {
     expect(report.strictReady).toEqual(false)
     expect(report.liveConfigReady).toEqual(false)
     expect(report.missing).toEqual([
-      'Missing SUSDR_RPC_URL_1, WEB3_RPC_1, or SUSDR_RPC_URL',
+      'Missing SUSDR_RPC_URL_1, WEB3_RPC_1, SUSDR_RPC_URL, ETH_RPC_URL, or RPC_URL',
       'Missing SUSDR_LIQUIDITY_SOURCES_JSON: vault / holder / Aave owner addresses',
-      'Missing SUSDR_V2_POOLS_JSON: pool address / capacity mode',
+      'Missing SUSDR_V2_POOLS_JSON or Ring mainnet auto-discovery RPC',
     ])
+  })
+
+  it('treats Ring mainnet V2 auto-discovery as pool-ready when RPC is configured', () => {
+    const report = buildSusdrReadinessReport({
+      chainId: 1,
+      env: { ETH_RPC_URL: 'https://mainnet.example' },
+      liquiditySourceConfigs: [],
+      nowMs: 1_780_000_000_000,
+      v2PoolConfigs: [],
+    })
+
+    expect(report.checks.find((check) => check.id === 'v2-pools')).toMatchObject({
+      status: 'ready',
+      detail: 'Auto-discover Ring mainnet V2 pools',
+    })
+    expect(report.missing).toEqual(['Missing SUSDR_LIQUIDITY_SOURCES_JSON: vault / holder / Aave owner addresses'])
   })
 
   it('reports strict-ready when RPC, liquidity sources, and pools are configured', () => {

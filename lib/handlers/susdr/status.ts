@@ -3,12 +3,29 @@ import { MetricLoggerUnit } from '@ring-protocol/smart-order-router'
 import { APIGLambdaHandler, HandleRequestParams, Response } from '../handler'
 import { SusdrContainerInjected, SusdrRequestInjected } from './injector'
 import { SusdrRiskReportSchemaJoi, SusdrStatusQueryParams, SusdrStatusQueryParamsJoi } from './schema'
-import { evaluateSusdrRisk, readSusdrMarketRiskInput, SusdrRiskInput, SusdrRiskReport } from '../../susdr'
+import {
+  evaluateSusdrRisk,
+  readSusdrMarketRiskInput,
+  readSusdrYieldRiskInput,
+  SusdrRiskInput,
+  SusdrRiskReport,
+} from '../../susdr'
 
-function mergeRiskInputs(marketRiskInput: SusdrRiskInput, queryRiskInput: SusdrStatusQueryParams): SusdrRiskInput {
+function queryToRiskInput(queryRiskInput: SusdrStatusQueryParams): SusdrRiskInput {
+  const riskInput = { ...queryRiskInput } as SusdrRiskInput & { chainId?: number }
+  delete riskInput.chainId
+  return riskInput
+}
+
+function mergeRiskInputs(
+  marketRiskInput: SusdrRiskInput,
+  yieldRiskInput: SusdrRiskInput,
+  queryRiskInput: SusdrStatusQueryParams
+): SusdrRiskInput {
   return {
     ...marketRiskInput,
-    ...queryRiskInput,
+    ...yieldRiskInput,
+    ...queryToRiskInput(queryRiskInput),
   }
 }
 
@@ -27,8 +44,12 @@ export class SusdrStatusHandler extends APIGLambdaHandler<
     params: HandleRequestParams<SusdrContainerInjected, SusdrRequestInjected, void, SusdrStatusQueryParams>
   ): Promise<Response<SusdrRiskReport>> {
     const queryRiskInput = params.requestQueryParams ?? {}
-    const marketRiskInput = shouldReadMarketRiskInput(queryRiskInput) ? await readSusdrMarketRiskInput() : {}
-    const riskReport = evaluateSusdrRisk(mergeRiskInputs(marketRiskInput, queryRiskInput))
+    const chainId = queryRiskInput.chainId ?? 1
+    const [marketRiskInput, yieldRiskInput] = await Promise.all([
+      shouldReadMarketRiskInput(queryRiskInput) ? readSusdrMarketRiskInput() : Promise.resolve({}),
+      readSusdrYieldRiskInput(chainId),
+    ])
+    const riskReport = evaluateSusdrRisk(mergeRiskInputs(marketRiskInput, yieldRiskInput, queryRiskInput))
 
     params.requestInjected.metric.putMetric(
       `SUSDR_RISK_LEVEL_${riskReport.level.toUpperCase()}`,

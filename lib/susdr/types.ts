@@ -82,6 +82,21 @@ export type SusdrRiskSignal = {
   threshold?: string
 }
 
+export type SusdrYieldSourceKind = 'live' | 'fallback'
+
+export type SusdrYieldQuote = {
+  sourceApyBps: number
+  sourceApyKind: SusdrYieldSourceKind
+  sourceApySource: string
+  sourceApyUpdatedAtMs?: number
+  sourceApyDetail?: string
+}
+
+export type SusdrYieldInput = {
+  sourceApyByAssetId?: Record<string, SusdrYieldQuote>
+  sourceApyFallbackAssetIds?: string[]
+}
+
 export type SusdrRiskThresholds = {
   minUsdrPriceBps: number
   maxUsdrPriceBps: number
@@ -107,6 +122,8 @@ export type SusdrRiskInput = {
   marketPriceUnavailable?: boolean
   coreRoleChangeDetected?: boolean
   pausedExternalAssetCount?: number
+  sourceApyByAssetId?: Record<string, SusdrYieldQuote>
+  sourceApyFallbackAssetIds?: string[]
 }
 
 export type SusdrReserveAssetStatus = 'active' | 'paused' | 'watch'
@@ -117,6 +134,10 @@ export type SusdrReserveAsset = {
   targetWeightBps: number
   maxWeightBps: number
   sourceApyBps: number
+  sourceApyKind: SusdrYieldSourceKind
+  sourceApySource: string
+  sourceApyUpdatedAtMs?: number
+  sourceApyDetail?: string
   status: SusdrReserveAssetStatus
   reason: string
   priceBps?: number

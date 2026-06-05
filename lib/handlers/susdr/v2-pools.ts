@@ -1,9 +1,17 @@
 import Joi from '@hapi/joi'
+import { Provider } from '@ethersproject/providers'
 import { MetricLoggerUnit } from '@ring-protocol/smart-order-router'
 import { APIGLambdaHandler, ErrorResponse, HandleRequestParams, Response } from '../handler'
 import { SusdrContainerInjected, SusdrRequestInjected } from './injector'
 import { SusdrV2PoolsQueryParams, SusdrV2PoolsQueryParamsJoi, SusdrV2PoolsReportSchemaJoi } from './schema'
-import { buildSusdrReadOnlyProvider, readV2PoolSnapshot, SusdrV2PoolConfig, SusdrV2PoolsReport } from '../../susdr'
+import {
+  buildSusdrReadOnlyProvider,
+  isSusdrAutoRingV2PoolsEnabled,
+  readV2PoolSnapshot,
+  resolveDefaultSusdrV2PoolConfigs,
+  SusdrV2PoolConfig,
+  SusdrV2PoolsReport,
+} from '../../susdr'
 
 function parseAddressList(raw: string | undefined): string[] {
   if (!raw) {
@@ -43,7 +51,17 @@ export class SusdrV2PoolsHandler extends APIGLambdaHandler<
   ): Promise<Response<SusdrV2PoolsReport> | ErrorResponse> {
     const query = params.requestQueryParams ?? { chainId: 1 }
     const directConfig = directPoolConfig(query)
-    const configs = directConfig ? [directConfig] : params.containerInjected.v2PoolConfigs
+    let provider: Provider | undefined
+    let configs = directConfig ? [directConfig] : params.containerInjected.v2PoolConfigs
+
+    if (!directConfig && configs.length === 0 && isSusdrAutoRingV2PoolsEnabled()) {
+      try {
+        provider = buildSusdrReadOnlyProvider(query.chainId)
+        configs = await resolveDefaultSusdrV2PoolConfigs(provider, query.chainId)
+      } catch {
+        configs = []
+      }
+    }
 
     if (configs.length === 0) {
       return {
@@ -57,8 +75,8 @@ export class SusdrV2PoolsHandler extends APIGLambdaHandler<
     }
 
     try {
-      const provider = buildSusdrReadOnlyProvider(query.chainId)
-      const pools = await Promise.all(configs.map((config) => readV2PoolSnapshot(provider, config)))
+      const activeProvider = provider ?? buildSusdrReadOnlyProvider(query.chainId)
+      const pools = await Promise.all(configs.map((config) => readV2PoolSnapshot(activeProvider, config)))
       params.requestInjected.metric.putMetric('SUSDR_V2_POOLS_READ_SUCCESS', 1, MetricLoggerUnit.Count)
 
       return {
