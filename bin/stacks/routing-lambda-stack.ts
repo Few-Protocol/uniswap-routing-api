@@ -45,6 +45,11 @@ export interface RoutingLambdaStackProps extends cdk.NestedStackProps {
 export class RoutingLambdaStack extends cdk.NestedStack {
   public readonly routingLambda: aws_lambda_nodejs.NodejsFunction
   public readonly routingLambdaAlias: aws_lambda.Alias
+  public readonly susdrStatusLambda: aws_lambda_nodejs.NodejsFunction
+  public readonly susdrRedeemSimLambda: aws_lambda_nodejs.NodejsFunction
+  public readonly susdrV2PoolsLambda: aws_lambda_nodejs.NodejsFunction
+  public readonly susdrLiquidityLambda: aws_lambda_nodejs.NodejsFunction
+  public readonly susdrReadinessLambda: aws_lambda_nodejs.NodejsFunction
 
   constructor(scope: Construct, name: string, props: RoutingLambdaStackProps) {
     super(scope, name, props)
@@ -89,6 +94,14 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         aws_iam.ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess'),
       ],
     })
+    const susdrReadOnlyLambdaRole = new aws_iam.Role(this, 'SusdrReadOnlyLambdaRole', {
+      assumedBy: new aws_iam.ServicePrincipal('lambda.amazonaws.com'),
+      managedPolicies: [
+        aws_iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+        aws_iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchLambdaInsightsExecutionRolePolicy'),
+        aws_iam.ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess'),
+      ],
+    })
     poolCacheBucket.grantRead(lambdaRole)
     poolCacheBucket2.grantRead(lambdaRole)
     poolCacheBucket3.grantRead(lambdaRole)
@@ -104,6 +117,13 @@ export class RoutingLambdaStack extends cdk.NestedStack {
     rpcProviderHealthStateDynamoDb.grantReadWriteData(lambdaRole)
 
     const region = cdk.Stack.of(this).region
+    const susdrReadOnlyEnvironment = {
+      VERSION: '1',
+      NODE_OPTIONS: '--enable-source-maps',
+      SUSDR_V2_POOLS_JSON: process.env.SUSDR_V2_POOLS_JSON ?? '[]',
+      SUSDR_LIQUIDITY_SOURCES_JSON: process.env.SUSDR_LIQUIDITY_SOURCES_JSON ?? '[]',
+      ...jsonRpcProviders,
+    }
 
     const cachingRoutingLambda = new aws_lambda_nodejs.NodejsFunction(this, 'CachingRoutingLambda', {
       role: lambdaRole,
@@ -298,6 +318,65 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       tracing: aws_lambda.Tracing.ACTIVE,
       logRetention: RetentionDays.ONE_WEEK,
     })
+
+    const createSusdrReadOnlyLambda = (id: string, handler: string, description: string, layerId: string) =>
+      new aws_lambda_nodejs.NodejsFunction(this, id, {
+        role: susdrReadOnlyLambdaRole,
+        runtime: aws_lambda.Runtime.NODEJS_18_X,
+        entry: path.join(__dirname, '../../lib/handlers/susdr/index.ts'),
+        handler,
+        timeout: cdk.Duration.seconds(5),
+        memorySize: 512,
+        deadLetterQueueEnabled: true,
+        bundling: {
+          minify: true,
+          sourceMap: true,
+          keepNames: true,
+        },
+        awsSdkConnectionReuse: true,
+        description,
+        environment: susdrReadOnlyEnvironment,
+        layers: [
+          aws_lambda.LayerVersion.fromLayerVersionArn(
+            this,
+            layerId,
+            `arn:aws:lambda:${region}:580247275435:layer:LambdaInsightsExtension:14`
+          ),
+        ],
+        tracing: aws_lambda.Tracing.ACTIVE,
+        logRetention: RetentionDays.ONE_WEEK,
+      })
+
+    this.susdrStatusLambda = createSusdrReadOnlyLambda(
+      'SusdrStatusLambda',
+      'susdrStatusHandler',
+      'sUSDR read-only risk status Lambda',
+      'SusdrStatusInsightsLayer'
+    )
+    this.susdrRedeemSimLambda = createSusdrReadOnlyLambda(
+      'SusdrRedeemSimLambda',
+      'susdrRedeemSimHandler',
+      'sUSDR instant redemption simulator Lambda',
+      'SusdrRedeemSimInsightsLayer'
+    )
+    this.susdrV2PoolsLambda = createSusdrReadOnlyLambda(
+      'SusdrV2PoolsLambda',
+      'susdrV2PoolsHandler',
+      'sUSDR read-only V2 pool snapshot Lambda',
+      'SusdrV2PoolsInsightsLayer'
+    )
+    this.susdrLiquidityLambda = createSusdrReadOnlyLambda(
+      'SusdrLiquidityLambda',
+      'susdrLiquidityHandler',
+      'sUSDR read-only liquidity source Lambda',
+      'SusdrLiquidityInsightsLayer'
+    )
+    this.susdrReadinessLambda = createSusdrReadOnlyLambda(
+      'SusdrReadinessLambda',
+      'susdrReadinessHandler',
+      'sUSDR read-only config readiness Lambda',
+      'SusdrReadinessInsightsLayer'
+    )
 
     const cachingLambdaAlarmErrorRate = new aws_cloudwatch.Alarm(this, 'CachingRoutingAPI-LambdaErrorRate', {
       metric: new aws_cloudwatch.MathExpression({

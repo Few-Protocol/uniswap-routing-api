@@ -86,6 +86,23 @@ fields will still be included, however they will be heuristics rather then Tende
 
 ### Testing
 
+#### sUSDR local API
+
+Run the read-only sUSDR endpoints locally:
+
+```
+SUSDR_RPC_URL_1='<mainnet rpc>' \
+SUSDR_V2_POOLS_JSON='[...]' \
+SUSDR_LIQUIDITY_SOURCES_JSON='[]' \
+npm run susdr:local-api
+```
+
+Smoke test:
+
+```
+npm run susdr:smoke
+```
+
 #### Unit Tests
 
 Unit tests are invoked by running `npm run test:unit` in the root directory. A 'watch' mode is also supported by running `npm run test:unit:watch`.

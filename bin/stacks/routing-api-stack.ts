@@ -160,7 +160,15 @@ export class RoutingAPIStack extends cdk.Stack {
       rpcProviderHealthStateDynamoDb,
     } = new RoutingDatabaseStack(this, 'RoutingDatabaseStack', {})
 
-    const { routingLambda, routingLambdaAlias } = new RoutingLambdaStack(this, 'RoutingLambdaStack', {
+    const {
+      routingLambda,
+      routingLambdaAlias,
+      susdrStatusLambda,
+      susdrRedeemSimLambda,
+      susdrV2PoolsLambda,
+      susdrLiquidityLambda,
+      susdrReadinessLambda,
+    } = new RoutingLambdaStack(this, 'RoutingLambdaStack', {
       poolCacheBucket,
       poolCacheBucket2,
       poolCacheBucket3,
@@ -303,6 +311,11 @@ export class RoutingAPIStack extends cdk.Stack {
     new RpcGatewayFallbackStack(this, 'RpcGatewayFallbackStack', { rpcProviderHealthStateDynamoDb })
 
     const lambdaIntegration = new aws_apigateway.LambdaIntegration(routingLambdaAlias)
+    const susdrStatusIntegration = new aws_apigateway.LambdaIntegration(susdrStatusLambda)
+    const susdrRedeemSimIntegration = new aws_apigateway.LambdaIntegration(susdrRedeemSimLambda)
+    const susdrV2PoolsIntegration = new aws_apigateway.LambdaIntegration(susdrV2PoolsLambda)
+    const susdrLiquidityIntegration = new aws_apigateway.LambdaIntegration(susdrLiquidityLambda)
+    const susdrReadinessIntegration = new aws_apigateway.LambdaIntegration(susdrReadinessLambda)
 
     const quote = api.root.addResource('quote', {
       defaultCorsPreflightOptions: {
@@ -311,6 +324,49 @@ export class RoutingAPIStack extends cdk.Stack {
       },
     })
     quote.addMethod('GET', lambdaIntegration)
+
+    const susdr = api.root.addResource('susdr', {
+      defaultCorsPreflightOptions: {
+        allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+        allowMethods: aws_apigateway.Cors.ALL_METHODS,
+      },
+    })
+    const susdrStatus = susdr.addResource('status', {
+      defaultCorsPreflightOptions: {
+        allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+        allowMethods: aws_apigateway.Cors.ALL_METHODS,
+      },
+    })
+    const susdrRedeemSim = susdr.addResource('redeem-sim', {
+      defaultCorsPreflightOptions: {
+        allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+        allowMethods: aws_apigateway.Cors.ALL_METHODS,
+      },
+    })
+    const susdrV2Pools = susdr.addResource('v2-pools', {
+      defaultCorsPreflightOptions: {
+        allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+        allowMethods: aws_apigateway.Cors.ALL_METHODS,
+      },
+    })
+    const susdrLiquidity = susdr.addResource('liquidity', {
+      defaultCorsPreflightOptions: {
+        allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+        allowMethods: aws_apigateway.Cors.ALL_METHODS,
+      },
+    })
+    const susdrReadiness = susdr.addResource('readiness', {
+      defaultCorsPreflightOptions: {
+        allowOrigins: aws_apigateway.Cors.ALL_ORIGINS,
+        allowMethods: aws_apigateway.Cors.ALL_METHODS,
+      },
+    })
+
+    susdrStatus.addMethod('GET', susdrStatusIntegration)
+    susdrRedeemSim.addMethod('GET', susdrRedeemSimIntegration)
+    susdrV2Pools.addMethod('GET', susdrV2PoolsIntegration)
+    susdrLiquidity.addMethod('GET', susdrLiquidityIntegration)
+    susdrReadiness.addMethod('GET', susdrReadinessIntegration)
 
     const enable_alarm = false;
     if (!enable_alarm || process.env.ENABLE_ALARMS === 'false') {
