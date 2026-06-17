@@ -58,7 +58,7 @@ ALCHEMY_QUERY_KEY_2=
 GRAPH_BASE_V4_SUBGRAPH_ID=
 GRAPH_BEARER_TOKEN=
 # Optional: per-chain Graph/Goldsky bearer (e.g. GRAPH_BEARER_TOKEN_MEGAETH=)
-# Optional: use the real MegaETH FEWV2 subgraph after it is deployed; empty falls back to runtime pool lookup.
+# Optional: override the default deployed MegaETH FEWV2 Goldsky subgraph.
 MEGAETH_FEWV2_SUBGRAPH_URL=
 
 # Uniswap GraphQL configuration
