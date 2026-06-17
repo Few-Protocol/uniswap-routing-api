@@ -28,6 +28,9 @@ import {
   ZORA_POST_HOOK_ON_BASE_v2_3_0,
 } from '../util/hooksAddressesAllowlist'
 
+export const MEGAETH_FEWV2_SUBGRAPH_URL =
+  'https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-megaeth/1.0.0/gn'
+
 // during local cdk stack update, the env vars are not populated
 // make sure to fill in the env vars below
 // we have two alchemy accounts to split the load, v3 and v4 subgraphs are on
@@ -152,7 +155,7 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.HYPER_MAINNET:
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/1.0.0/gn`
     case ChainId.MEGAETH_MAINNET:
-      return process.env.MEGAETH_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_MEGAETH
+      return process.env.MEGAETH_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_MEGAETH || MEGAETH_FEWV2_SUBGRAPH_URL
     default:
       return undefined
   }
@@ -210,6 +213,7 @@ const v3UntrackedUsdThreshold = 25000 // Pools need at least 25K USD (untracked)
 
 export const v2TrackedEthThreshold = 0.025 // Pairs need at least 0.025 of trackedEth to be selected
 export const v2BaseTrackedEthThreshold = 0.1 // Pairs on Base need at least 0.1 of trackedEth to be selected
+export const megaethFewV2TrackedEthThreshold = 0.005 // Current MegaETH FEWV2 pool has 0.01 tracked ETH.
 const v2UntrackedUsdThreshold = Number.MAX_VALUE // Pairs need untracked TVL higher than this value to be selected (for metrics only). Currently excludes all V2 pools with untracked TVL.
 
 class EmptyRingV2SubgraphProvider implements IRingV2SubgraphProvider {
@@ -625,7 +629,7 @@ export const chainProtocols = [
           900000,
           true,
           1000,
-          v2TrackedEthThreshold,
+          megaethFewV2TrackedEthThreshold,
           v2UntrackedUsdThreshold,
           fewV2SubgraphUrlOverride(ChainId.MEGAETH_MAINNET),
           process.env.GOLDSKY_API_KEY || process.env.GRAPH_BEARER_TOKEN_MEGAETH
