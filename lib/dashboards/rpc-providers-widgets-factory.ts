@@ -16,7 +16,6 @@ const ID_TO_PROVIDER = (id: ChainId): string => {
     case ChainId.ARBITRUM_GOERLI:
     case ChainId.AVALANCHE:
     case ChainId.GOERLI:
-      return ProviderName.INFURA
     case ChainId.CELO:
     case ChainId.BNB:
     case ChainId.BASE:
@@ -24,12 +23,11 @@ const ID_TO_PROVIDER = (id: ChainId): string => {
     case ChainId.UNICHAIN_SEPOLIA:
     case ChainId.MONAD_TESTNET:
     case ChainId.UNICHAIN:
-      return ProviderName.QUIKNODE
-    case ChainId.CELO_ALFAJORES:
-      return ProviderName.FORNO
     case ChainId.WORLDCHAIN:
     case ChainId.SONEIUM:
       return ProviderName.ALCHEMY
+    case ChainId.CELO_ALFAJORES:
+      return ProviderName.FORNO
     default:
       return ProviderName.UNKNOWN
   }

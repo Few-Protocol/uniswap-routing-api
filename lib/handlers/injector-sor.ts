@@ -404,7 +404,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             new TokenProvider(chainId, multicall2Provider)
           )
 
-          // Some providers like Infura set a gas limit per call of 10x block gas which is approx 150m
+          // Some RPC providers set a gas limit per call of 10x block gas which is approx 150m
           // 200*725k < 150m
           let quoteProvider: IOnChainQuoteProvider | undefined = undefined
           switch (chainId) {

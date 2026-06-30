@@ -63,7 +63,7 @@ export class FallbackHandler {
   }
 
   readAlarmEvent(event: any): AlarmEvent {
-    // Example alarm name: "RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-QUIKNODE"
+    // Example alarm name: "RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-ALCHEMY"
     const alarmName: string = event.alarmData.alarmName
     const alarmNameTokens = alarmName.split('-')
     const chainId: ChainId = parseInt(alarmNameTokens[4]) as ChainId
