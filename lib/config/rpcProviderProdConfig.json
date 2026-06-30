@@ -68,10 +68,10 @@
       1
     ],
     "providerUrls": [
-      "INFURA_42161"
+      "ALCHEMY_42161"
     ],
     "providerNames": [
-      "INFURA"
+      "ALCHEMY"
     ]
   },
   {
@@ -83,10 +83,10 @@
       1
     ],
     "providerUrls": [
-      "INFURA_8453"
+      "ALCHEMY_8453"
     ],
     "providerNames": [
-      "INFURA"
+      "ALCHEMY"
     ]
   },
   {
@@ -98,10 +98,10 @@
       1
     ],
     "providerUrls": [
-      "INFURA_130"
+      "ALCHEMY_130"
     ],
     "providerNames": [
-      "INFURA"
+      "ALCHEMY"
     ]
   },
   {
@@ -113,10 +113,10 @@
       1
     ],
     "providerUrls": [
-      "INFURA_10"
+      "ALCHEMY_10"
     ],
     "providerNames": [
-      "INFURA"
+      "ALCHEMY"
     ]
   },
   {
@@ -128,10 +128,10 @@
       1
     ],
     "providerUrls": [
-      "QUICKNODE_196"
+      "ALCHEMY_196"
     ],
     "providerNames": [
-      "QUIKNODE"
+      "ALCHEMY"
     ]
   },
   {

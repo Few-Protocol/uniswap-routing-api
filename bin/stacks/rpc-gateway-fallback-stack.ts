@@ -62,14 +62,13 @@ export class RpcGatewayFallbackStack extends cdk.NestedStack {
     // Add error rate alarms for each {chainId, provider} pair.
     for (const [chainId, providerNames] of getRpcGatewayEnabledChains()) {
       for (const providerName of providerNames) {
-        const providerNameFix = providerName === 'QUICKNODE' ? 'QUIKNODE' : providerName
-        const alarmName = `RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-${chainId}-Provider-${providerNameFix}`
+        const alarmName = `RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-${chainId}-Provider-${providerName}`
         const metric = new MathExpression({
           expression: '100*(callFails/(callSuccesses+callFails))',
           usingMetrics: {
             callSuccesses: new aws_cloudwatch.Metric({
               namespace: 'Uniswap',
-              metricName: `RPC_GATEWAY_${chainId}_${providerNameFix}_SUCCESS`,
+              metricName: `RPC_GATEWAY_${chainId}_${providerName}_SUCCESS`,
               dimensionsMap: { Service: 'RoutingAPI' },
               unit: aws_cloudwatch.Unit.COUNT,
               period: cdk.Duration.minutes(5),
@@ -77,7 +76,7 @@ export class RpcGatewayFallbackStack extends cdk.NestedStack {
             }),
             callFails: new aws_cloudwatch.Metric({
               namespace: 'Uniswap',
-              metricName: `RPC_GATEWAY_${chainId}_${providerNameFix}_FAILED`,
+              metricName: `RPC_GATEWAY_${chainId}_${providerName}_FAILED`,
               dimensionsMap: { Service: 'RoutingAPI' },
               unit: aws_cloudwatch.Unit.COUNT,
               period: cdk.Duration.minutes(5),
@@ -94,7 +93,7 @@ export class RpcGatewayFallbackStack extends cdk.NestedStack {
           evaluationPeriods: 1,
         })
 
-        const lambdaAliasName = `ErrorRate-${chainId}-${providerNameFix}`
+        const lambdaAliasName = `ErrorRate-${chainId}-${providerName}`
         const lambdaAlias = new aws_lambda.Alias(this, lambdaAliasName, {
           aliasName: lambdaAliasName,
           version: providerFallbackLambda.currentVersion,
@@ -108,14 +107,13 @@ export class RpcGatewayFallbackStack extends cdk.NestedStack {
     // Add latency alarms for each {chainId, provider} pair.
     for (const [chainId, providerNames] of getRpcGatewayEnabledChains()) {
       for (const providerName of providerNames) {
-        const providerNameFix = providerName === 'QUICKNODE' ? 'QUIKNODE' : providerName
-        const alarmName = `RoutingAPI-RpcGateway-LatencyAlarm-ChainId-${chainId}-Provider-${providerNameFix}`
+        const alarmName = `RoutingAPI-RpcGateway-LatencyAlarm-ChainId-${chainId}-Provider-${providerName}`
         const metric = new MathExpression({
           expression: 'p50Latency',
           usingMetrics: {
             p50Latency: new aws_cloudwatch.Metric({
               namespace: 'Uniswap',
-              metricName: `RPC_GATEWAY_${chainId}_${providerNameFix}_evaluated_latency_getBlockNumber`,
+              metricName: `RPC_GATEWAY_${chainId}_${providerName}_evaluated_latency_getBlockNumber`,
               dimensionsMap: { Service: 'RoutingAPI' },
               unit: aws_cloudwatch.Unit.NONE,
               period: cdk.Duration.minutes(5),
@@ -132,7 +130,7 @@ export class RpcGatewayFallbackStack extends cdk.NestedStack {
           evaluationPeriods: 1,
         })
 
-        const lambdaAliasName = `Latency-${chainId}-${providerNameFix}`
+        const lambdaAliasName = `Latency-${chainId}-${providerName}`
         const lambdaAlias = new aws_lambda.Alias(this, lambdaAliasName, {
           aliasName: lambdaAliasName,
           version: providerFallbackLambda.currentVersion,

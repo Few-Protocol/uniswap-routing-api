@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { getRpcGatewayEnabledChains, ProdConfig, ProdConfigJoi } from '../../../../lib/rpc/ProdConfig'
 import TEST_PROD_CONFIG from './rpcProviderTestProdConfig.json'
 import PROD_CONFIG from '../../../../lib/config/rpcProviderProdConfig.json'
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 
 describe('ProdConfig', () => {
   it('test generate json string from ProdConfig', () => {
@@ -78,16 +78,16 @@ describe('ProdConfig', () => {
 
   it('test getRpcGatewayEnabledChainIdProviderNamePairs', () => {
     const enabledChains: Map<ChainId, string[]> = getRpcGatewayEnabledChains(TEST_PROD_CONFIG)
-    expect(enabledChains.get(ChainId.CELO)).to.have.members(['QUICKNODE', 'INFURA'])
-    expect(enabledChains.get(ChainId.AVALANCHE)).to.have.members(['INFURA', 'QUICKNODE'])
-    expect(enabledChains.get(ChainId.BNB)).to.have.members(['QUICKNODE'])
-    expect(enabledChains.get(ChainId.OPTIMISM)).to.have.members(['INFURA', 'QUICKNODE', 'ALCHEMY'])
-    expect(enabledChains.get(ChainId.SEPOLIA)).to.have.members(['INFURA', 'ALCHEMY'])
-    expect(enabledChains.get(ChainId.POLYGON)).to.have.members(['QUICKNODE', 'INFURA', 'ALCHEMY'])
-    expect(enabledChains.get(ChainId.ARBITRUM_ONE)).to.have.members(['QUICKNODE', 'INFURA', 'ALCHEMY'])
-    expect(enabledChains.get(ChainId.BASE)).to.have.members(['QUICKNODE', 'INFURA', 'ALCHEMY'])
-    expect(enabledChains.get(ChainId.MAINNET)).to.have.members(['QUICKNODE', 'INFURA', 'ALCHEMY', 'UNIRPC'])
-    expect(enabledChains.get(ChainId.BLAST)).to.have.members(['QUICKNODE', 'INFURA'])
+    expect(enabledChains.get(ChainId.CELO)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.AVALANCHE)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.BNB)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.OPTIMISM)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.SEPOLIA)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.POLYGON)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.ARBITRUM_ONE)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.BASE)).to.have.members(['ALCHEMY'])
+    expect(enabledChains.get(ChainId.MAINNET)).to.have.members(['ALCHEMY', 'UNIRPC'])
+    expect(enabledChains.get(ChainId.BLAST)).to.have.members(['ALCHEMY'])
   })
 
   it('validates prod config', () => {
