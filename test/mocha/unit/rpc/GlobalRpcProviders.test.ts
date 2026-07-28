@@ -247,7 +247,7 @@ describe('GlobalRpcProviders', () => {
       ALCHEMY_42220: 'key6',
       ALCHEMY_56: 'key8',
       ALCHEMY_137: 'key11',
-      ALCHEMY_8453: 'key14',
+      ALCHEMY_8453: '',
       ALCHEMY_11155111: 'key17',
       ALCHEMY_42161: 'key21',
       ALCHEMY_1: 'key25',
@@ -288,7 +288,7 @@ describe('GlobalRpcProviders', () => {
       SINGLE_PROVIDER_TEST_CONFIG,
       TEST_PROD_CONFIG
     ).get(ChainId.BASE)!!
-    expect(baseRpcProvider['providers'][0].url).equal('https://base-mainnet.g.alchemy.com/v2/key14')
+    expect(baseRpcProvider['providers'][0].url).equal('https://base-mainnet.g.alchemy.com/v2/key25')
 
     const ethRpcProvider = GlobalRpcProviders.getGlobalUniRpcProviders(
       log,
