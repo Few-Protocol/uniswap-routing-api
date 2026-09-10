@@ -47,6 +47,9 @@ The best way to develop and test the API is to deploy your own instance to AWS.
    ```
    npm install && npm run build
    ```
+
+   Robinhood mainnet uses chain ID `4663` and the existing `WEB3_RPC_4663` environment variable pattern. Keep private RPC URLs in local environment configuration or the deployment's RPC secret. The standard SOR static providers discover V2, V3, V4, and FewV2 candidates when no indexed source is configured; pool providers still check actual on-chain state. An optional FewV2 indexer can be configured with `ROBINHOOD_FEWV2_SUBGRAPH_URL` and, if required, `GRAPH_BEARER_TOKEN_ROBINHOOD`.
+
 4. To deploy the API run:
    ```
    cdk deploy RoutingAPIStack
