@@ -51,7 +51,8 @@ import {
   RingFewCachingV2PoolProvider,
   IRingV2PoolProvider,
   IRingV2SubgraphProvider,
-  RingV2QuoteProvider
+  RingV2QuoteProvider,
+  RingFewStaticV2SubgraphProvider
 } from '@ring-protocol/smart-order-router'
 import { TokenList } from '@uniswap/token-lists'
 import { default as bunyan, default as Logger } from 'bunyan'
@@ -111,6 +112,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   // ChainId.CELO_ALFAJORES,
   ChainId.BNB,
   ChainId.HYPER_MAINNET,
+  ChainId.ROBINHOOD,
   ChainId.MEGAETH_MAINNET,
   // ChainId.AVALANCHE,
   ChainId.BASE,
@@ -580,6 +582,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.SONEIUM,
             ChainId.XLAYER_MAINNET,
             ChainId.HYPER_MAINNET,
+            ChainId.ROBINHOOD,
             ChainId.MEGAETH_MAINNET,
           ]
 
@@ -598,6 +601,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.MAINNET,
             ChainId.SONEIUM,
             ChainId.HYPER_MAINNET,
+            ChainId.ROBINHOOD,
             ChainId.MEGAETH_MAINNET,
           ]
 
@@ -653,6 +657,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.SONEIUM,
             ChainId.XLAYER_MAINNET,
             ChainId.HYPER_MAINNET,
+            ChainId.ROBINHOOD,
             ChainId.MEGAETH_MAINNET,
           ]
           const mixedCrossLiquidityV3AgainstV4Supported: ChainId[] = [ChainId.BASE]
@@ -735,6 +740,8 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
       if (!chainProtocol) {
         throw new Error(`Chain protocol not found for chain ${chainId} and protocol ${protocol}`)
       }
+      // A configured static source produces candidates; pool providers still read actual state.
+      if (chainProtocol.provider instanceof RingFewStaticV2SubgraphProvider) return chainProtocol.provider
 
       switch (protocol) {
         case Protocol.V4:

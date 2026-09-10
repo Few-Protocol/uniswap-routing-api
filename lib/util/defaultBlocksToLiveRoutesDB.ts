@@ -7,6 +7,7 @@ import { ChainId } from '@ring-protocol/sdk-core'
 // changing to this way with ChainId enum as key indexing, so that we wont forgot to add new chain tuned blocks-to-live
 // those are only gonna be enabled with DynamoRouteCachingProvider.newCachedRoutesRolloutPercent anyway
 export const DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB: { [chain in ChainId]: number } = {
+  [ChainId.ROBINHOOD]: 0, // Do not reuse routes from earlier blocks until cache rollout is enabled.
   // (1 minute) / (12 seconds)= 5
   [ChainId.MAINNET]: 5,
   [ChainId.GOERLI]: 5,

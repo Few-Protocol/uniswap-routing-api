@@ -13,6 +13,7 @@ export const emptyV4FeeTickSpacingsHookAddresses: Array<[number, number, string]
 // There are 10k fee tiers (0 - 100% with increment of 0.01%) and 32766 tick spacings (min 1, max 32767)
 // so roughly 32mil v4 pools without hooks
 export const EXTRA_V4_FEE_TICK_SPACINGS_HOOK_ADDRESSES: { [chain in ChainId]: Array<[number, number, string]> } = {
+  [ChainId.ROBINHOOD]: [], // No additional hooks configured; ordinary no-hook V4 pools use the standard defaults.
   [ChainId.MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.GOERLI]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.SEPOLIA]: [
