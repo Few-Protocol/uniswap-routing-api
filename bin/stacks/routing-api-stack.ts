@@ -78,6 +78,8 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBearerToken_HYPER?: string
       graphBearerToken_BNB?: string
       graphBearerToken_MEGAETH?: string
+      robinhoodFewV2SubgraphUrl?: string
+      graphBearerToken_ROBINHOOD?: string
       // Extra per-chain Graph bearer tokens
       graphBearerToken_ARB?: string
       graphBearerToken_BASE?: string
@@ -113,6 +115,8 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
       graphBearerToken_MEGAETH,
+      robinhoodFewV2SubgraphUrl,
+      graphBearerToken_ROBINHOOD,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
@@ -143,6 +147,8 @@ export class RoutingAPIStack extends cdk.Stack {
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
       graphBearerToken_MEGAETH,
+      robinhoodFewV2SubgraphUrl,
+      graphBearerToken_ROBINHOOD,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
@@ -167,6 +173,8 @@ export class RoutingAPIStack extends cdk.Stack {
       poolCacheKey,
       poolCacheGzipKey,
       jsonRpcProviders,
+      robinhoodFewV2SubgraphUrl,
+      graphBearerToken_ROBINHOOD,
       tokenListCacheBucket,
       provisionedConcurrency,
       ethGasStationInfoUrl,

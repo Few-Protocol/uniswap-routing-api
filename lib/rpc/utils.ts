@@ -34,6 +34,8 @@ export function chainIdToNetworkName(networkId: ChainId): string {
       return 'xlayer'
     case ChainId.HYPER_MAINNET:
       return 'hyper'
+    case ChainId.ROBINHOOD:
+      return 'robinhood'
     case ChainId.MEGAETH_MAINNET:
       return 'megaeth'
     default:
