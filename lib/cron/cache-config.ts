@@ -3,7 +3,6 @@ import {
   IRingV2SubgraphProvider,
   RingV2SubgraphPool,
   RingV2SubgraphProvider,
-  RingFewStaticV2SubgraphProvider,
   V2SubgraphProvider,
   V3SubgraphProvider,
   V4SubgraphProvider,
@@ -154,8 +153,6 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
       return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/1.0.0/gn`
     case ChainId.MEGAETH_MAINNET:
       return process.env.MEGAETH_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_MEGAETH
-    case ChainId.ROBINHOOD:
-      return process.env.ROBINHOOD_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_ROBINHOOD
     default:
       return undefined
   }
@@ -621,14 +618,7 @@ export const chainProtocols = [
     protocol: Protocol.FEWV2,
     chainId: ChainId.ROBINHOOD,
     timeout: 840000,
-    provider: fewV2SubgraphUrlOverride(ChainId.ROBINHOOD)
-      ? new RingV2SubgraphProvider(
-          ChainId.ROBINHOOD, 2, 900000, true, 1000,
-          v2TrackedEthThreshold, v2UntrackedUsdThreshold,
-          fewV2SubgraphUrlOverride(ChainId.ROBINHOOD),
-          process.env.GRAPH_BEARER_TOKEN_ROBINHOOD
-        )
-      : new RingFewStaticV2SubgraphProvider(ChainId.ROBINHOOD),
+    provider: new EmptyRingV2SubgraphProvider(),
   },
   {
     protocol: Protocol.FEWV2,

@@ -34,8 +34,6 @@ export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   graphBearerToken_HYPER?: string
   graphBearerToken_BNB?: string
   graphBearerToken_MEGAETH?: string
-  robinhoodFewV2SubgraphUrl?: string
-  graphBearerToken_ROBINHOOD?: string
   // Optional per-chain Graph bearer tokens for future use
   graphBearerToken_ARB?: string
   graphBearerToken_BASE?: string
@@ -78,8 +76,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
       graphBearerToken_MEGAETH,
-      robinhoodFewV2SubgraphUrl,
-      graphBearerToken_ROBINHOOD,
     } = props
 
     const chatBotTopic = chatbotSNSArn ? aws_sns.Topic.fromTopicArn(this, 'ChatbotTopic', chatbotSNSArn) : undefined
@@ -190,10 +186,6 @@ export class RoutingCachingStack extends cdk.NestedStack {
             GRAPH_BEARER_TOKEN_HYPER: this.graphBearerToken_HYPER ?? '',
             GRAPH_BEARER_TOKEN_BNB: this.graphBearerToken_BNB ?? '',
             GRAPH_BEARER_TOKEN_MEGAETH: this.graphBearerToken_MEGAETH ?? '',
-            ...(chainId === ChainId.ROBINHOOD && robinhoodFewV2SubgraphUrl ? {
-              ROBINHOOD_FEWV2_SUBGRAPH_URL: robinhoodFewV2SubgraphUrl,
-              ...(graphBearerToken_ROBINHOOD ? { GRAPH_BEARER_TOKEN_ROBINHOOD: graphBearerToken_ROBINHOOD } : {}),
-            } : {}),
             // Extra per-chain bearer tokens for future extension
             GRAPH_BEARER_TOKEN_ARB: this.graphBearerToken_ARB ?? '',
             GRAPH_BEARER_TOKEN_BASE: this.graphBearerToken_BASE ?? '',

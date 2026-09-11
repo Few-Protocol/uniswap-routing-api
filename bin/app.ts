@@ -45,8 +45,6 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER?: string
       graphBearerToken_BNB?: string
       graphBearerToken_MEGAETH?: string
-      robinhoodFewV2SubgraphUrl?: string
-      graphBearerToken_ROBINHOOD?: string
       // Extra per-chain Graph bearer tokens
       graphBearerToken_ARB?: string
       graphBearerToken_BASE?: string
@@ -80,8 +78,6 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
       graphBearerToken_MEGAETH,
-      robinhoodFewV2SubgraphUrl,
-      graphBearerToken_ROBINHOOD,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
@@ -113,8 +109,6 @@ export class RoutingAPIStage extends Stage {
       graphBearerToken_HYPER,
       graphBearerToken_BNB,
       graphBearerToken_MEGAETH,
-      robinhoodFewV2SubgraphUrl,
-      graphBearerToken_ROBINHOOD,
       graphBearerToken_ARB,
       graphBearerToken_BASE,
       graphBearerToken_UNICHAIN,
@@ -135,19 +129,10 @@ export class RoutingAPIPipeline extends Stack {
         'arn:aws:codestar-connections:us-east-1:513278913266:connection/4806faf1-c31e-4ea2-a5bf-c6fc1fa79487',
     })
 
-    const robinhoodFewV2SubgraphUrl = process.env.ROBINHOOD_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_ROBINHOOD
-    const robinhoodGraphSecretName = process.env.GRAPH_BEARER_TOKEN_ROBINHOOD_SECRET_NAME
-
     const synthStep = new CodeBuildStep('Synth', {
       input: code,
       buildEnvironment: {
         environmentVariables: {
-          ...(robinhoodFewV2SubgraphUrl ? {
-            ROBINHOOD_FEWV2_SUBGRAPH_URL: { value: robinhoodFewV2SubgraphUrl },
-            ...(robinhoodGraphSecretName ? {
-              GRAPH_BEARER_TOKEN_ROBINHOOD_SECRET_NAME: { value: robinhoodGraphSecretName },
-            } : {}),
-          } : {}),
           NPM_TOKEN: {
             value: 'npm-private-repo-access-token',
             type: BuildEnvironmentVariableType.SECRETS_MANAGER,
@@ -266,11 +251,6 @@ export class RoutingAPIPipeline extends Stack {
       })
     }
 
-    // Optional private-subgraph credentials remain a Secrets Manager reference.
-    const graphBearerToken_ROBINHOOD = robinhoodFewV2SubgraphUrl && robinhoodGraphSecretName
-      ? sm.Secret.fromSecretNameV2(this, 'RobinhoodFewV2SubgraphToken', robinhoodGraphSecretName).secretValue.toString()
-      : undefined
-
     // Beta us-east-1
     const betaUsEast2Stage = new RoutingAPIStage(this, 'beta-us-east-1', {
       env: { account: '513278913266'/*145079444317*/, region: 'us-east-1' },
@@ -297,8 +277,6 @@ export class RoutingAPIPipeline extends Stack {
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
-      robinhoodFewV2SubgraphUrl,
-      graphBearerToken_ROBINHOOD,
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -336,8 +314,6 @@ export class RoutingAPIPipeline extends Stack {
       graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
       graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
-      robinhoodFewV2SubgraphUrl,
-      graphBearerToken_ROBINHOOD,
       graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
@@ -402,7 +378,7 @@ export class RoutingAPIPipeline extends Stack {
 const app = new cdk.App()
 
 const jsonRpcProviders = {
-  ...(process.env.WEB3_RPC_4663 ? { WEB3_RPC_4663: process.env.WEB3_RPC_4663 } : {}),
+  WEB3_RPC_4663: process.env.WEB3_RPC_4663!,
   ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
   ALCHEMY_1: process.env.ALCHEMY_1!,
   ALCHEMY_56: process.env.ALCHEMY_56!,
@@ -443,8 +419,6 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
   graphBearerToken_MEGAETH: process.env.GRAPH_BEARER_TOKEN_MEGAETH || process.env.GOLDSKY_API_KEY || '',
-  robinhoodFewV2SubgraphUrl: process.env.ROBINHOOD_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_ROBINHOOD,
-  graphBearerToken_ROBINHOOD: process.env.GRAPH_BEARER_TOKEN_ROBINHOOD,
   // Extra per-chain Graph bearer tokens (optional)
   graphBearerToken_ARB: process.env.GRAPH_BEARER_TOKEN_ARB || '',
   graphBearerToken_BASE: process.env.GRAPH_BEARER_TOKEN_BASE || '',

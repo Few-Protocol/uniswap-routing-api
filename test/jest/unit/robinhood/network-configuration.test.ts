@@ -1,7 +1,6 @@
 import { ChainId } from '@ring-protocol/sdk-core'
 import { Protocol } from '@ring-protocol/router-sdk'
 import {
-  RingFewStaticV2SubgraphProvider,
   StaticV2SubgraphProvider,
   StaticV3SubgraphProvider,
   StaticV4SubgraphProvider,
@@ -9,11 +8,12 @@ import {
 } from '@ring-protocol/smart-order-router'
 import { UniGraphQLProvider } from '../../../../lib/graphql/graphql-provider'
 import { QuoteHandlerInjector } from '../../../../lib/handlers/quote/injector'
+import { RingV2AWSSubgraphProvider } from '../../../../lib/handlers/router-entities/aws-subgraph-provider'
+import { chainProtocols } from '../../../../lib/cron/cache-config'
 import { v4HooksPoolsFiltering } from '../../../../lib/util/v4HooksPoolsFiltering'
 
 describe('network configuration', () => {
   test.each([
-    [Protocol.FEWV2, RingFewStaticV2SubgraphProvider],
     [Protocol.V2, StaticV2SubgraphProvider],
     [Protocol.V3, StaticV3SubgraphProvider],
     [Protocol.V4, StaticV4SubgraphProvider],
@@ -23,6 +23,29 @@ describe('network configuration', () => {
       ChainId.ROBINHOOD, protocol, undefined, undefined, undefined
     )
     expect(provider).toBeInstanceOf(Provider)
+  })
+
+  test.each([ChainId.BNB, ChainId.HYPER_MAINNET, ChainId.ROBINHOOD])(
+    'uses the existing FewV2 cache provider on chain %s', async chainId => {
+      const cached = new RingV2AWSSubgraphProvider(chainId, 'test-bucket', 'test-key')
+      const eagerBuild = jest.spyOn(RingV2AWSSubgraphProvider, 'EagerBuild').mockResolvedValue(cached)
+      try {
+        const injector = new QuoteHandlerInjector('network-configuration-test')
+        const provider = await (injector as any).instantiateSubgraphProvider(
+          chainId, Protocol.FEWV2, 'test-bucket', 'test-key', undefined
+        )
+        expect(provider).toBe(cached)
+        expect(eagerBuild).toHaveBeenCalledWith('test-bucket', 'test-key', chainId)
+      } finally {
+        eagerBuild.mockRestore()
+      }
+    }
+  )
+
+  test('keeps the Robinhood FewV2 index empty until its indexer is deployed', async () => {
+    const source = chainProtocols.find(config => config.chainId === ChainId.ROBINHOOD && config.protocol === Protocol.FEWV2)
+    expect(source).toBeDefined()
+    expect(await source!.provider.getPools()).toEqual([])
   })
 
   test.each([
