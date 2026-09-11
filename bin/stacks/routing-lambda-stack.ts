@@ -21,8 +21,6 @@ export interface RoutingLambdaStackProps extends cdk.NestedStackProps {
   poolCacheKey: string
   poolCacheGzipKey: string
   jsonRpcProviders: { [chainName: string]: string }
-  robinhoodFewV2SubgraphUrl?: string
-  graphBearerToken_ROBINHOOD?: string
   tokenListCacheBucket: aws_s3.Bucket
   provisionedConcurrency: number
   ethGasStationInfoUrl: string
@@ -56,8 +54,6 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       poolCacheBucket3,
       poolCacheGzipKey,
       jsonRpcProviders,
-      robinhoodFewV2SubgraphUrl,
-      graphBearerToken_ROBINHOOD,
       tokenListCacheBucket,
       provisionedConcurrency,
       ethGasStationInfoUrl,
@@ -161,10 +157,6 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         GQL_URL: uniGraphQLEndpoint,
         GQL_H_ORGN: uniGraphQLHeaderOrigin,
         ...jsonRpcProviders,
-        ...(robinhoodFewV2SubgraphUrl ? {
-          ROBINHOOD_FEWV2_SUBGRAPH_URL: robinhoodFewV2SubgraphUrl,
-          ...(graphBearerToken_ROBINHOOD ? { GRAPH_BEARER_TOKEN_ROBINHOOD: graphBearerToken_ROBINHOOD } : {}),
-        } : {}),
       },
       layers: [
         aws_lambda.LayerVersion.fromLayerVersionArn(
@@ -295,10 +287,6 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         // Format: { "WEB3_RPC_1": "https://...", "WEB3_RPC_137": "https://...", ... }
         // Used for chains that don't use the RPC gateway (legacy support)
         ...jsonRpcProviders,
-        ...(robinhoodFewV2SubgraphUrl ? {
-          ROBINHOOD_FEWV2_SUBGRAPH_URL: robinhoodFewV2SubgraphUrl,
-          ...(graphBearerToken_ROBINHOOD ? { GRAPH_BEARER_TOKEN_ROBINHOOD: graphBearerToken_ROBINHOOD } : {}),
-        } : {}),
       },
       layers: [
         aws_lambda.LayerVersion.fromLayerVersionArn(
