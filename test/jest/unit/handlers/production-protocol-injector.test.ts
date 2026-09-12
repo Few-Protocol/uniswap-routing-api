@@ -1,7 +1,9 @@
 import bunyan from 'bunyan'
 import { StaticJsonRpcProvider } from '@ethersproject/providers'
-import { ChainId } from '@ring-protocol/sdk-core'
-import { AlphaRouter, MIXED_ROUTE_QUOTER_V2_ADDRESSES } from '@ring-protocol/smart-order-router'
+import { ChainId, CurrencyAmount, Token } from '@ring-protocol/sdk-core'
+import { AlphaRouter, MIXED_ROUTE_QUOTER_V1_ADDRESSES, MIXED_ROUTE_QUOTER_V2_ADDRESSES, V2Route } from '@ring-protocol/smart-order-router'
+import { Pair } from '@ring-protocol/v2-sdk'
+import { BigNumber } from 'ethers'
 import { Protocol } from '@ring-protocol/router-sdk'
 import { InjectorSOR } from '../../../../lib/handlers/injector-sor'
 import { QuoteHandlerInjector } from '../../../../lib/handlers/quote/injector'
@@ -41,6 +43,40 @@ describe('production container and request protocol configuration', () => {
       if (chainId === ChainId.ROBINHOOD) {
         const current = (dependencies.onChainQuoteProvider as any).currentQuoteProvider
         expect(current.getQuoterAddress(true, true, Protocol.MIXED)).toBe(MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId])
+      }
+      if (chainId === ChainId.BNB || chainId === ChainId.ROBINHOOD) {
+        const useV2 = !MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId]
+        const tokenA = new Token(chainId, '0x0000000000000000000000000000000000000010', 18, 'A')
+        const tokenB = new Token(chainId, '0x0000000000000000000000000000000000000011', 18, 'B')
+        const pair = new Pair(CurrencyAmount.fromRawAmount(tokenA, '1000000'), CurrencyAmount.fromRawAmount(tokenB, '1000000'))
+        const route = new V2Route([pair], tokenA, tokenB)
+        const blockNumber = jest.spyOn(provider, 'getBlockNumber').mockResolvedValue(123)
+        try {
+          for (const name of ['currentQuoteProvider', 'targetQuoteProvider']) {
+            const quoter = (dependencies.onChainQuoteProvider as any)[name]
+            quoter.retryOptions = { retries: 0 }
+            const multicall = jest.spyOn(quoter.multicall2Provider, 'callSameFunctionOnContractWithMultipleParams')
+              .mockImplementation(async (params: any) => {
+                expect(params.address).toBe(useV2 ? MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId] : MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId])
+                expect(params.functionParams[0]).toHaveLength(useV2 ? 3 : 2)
+                return {
+                  blockNumber: BigNumber.from(123), approxGasUsedPerSuccessCall: 100000,
+                  results: [{ success: true, result: useV2
+                    ? [BigNumber.from(99), BigNumber.from(100000)]
+                    : [BigNumber.from(99), [], [], BigNumber.from(100000)] }],
+                }
+              })
+            try {
+              const result = await quoter.getQuotesManyExactIn([CurrencyAmount.fromRawAmount(tokenA, '100')], [route])
+              expect(result.routesWithQuotes[0][1][0].quote.toString()).toBe('99')
+              expect(multicall).toHaveBeenCalledTimes(1)
+            } finally {
+              multicall.mockRestore()
+            }
+          }
+        } finally {
+          blockNumber.mockRestore()
+        }
       }
       expect(noRpc).not.toHaveBeenCalled()
     } finally {

@@ -429,6 +429,9 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             case ChainId.UNICHAIN:
             case ChainId.SONEIUM:
             default:
+              // SOR selects V2 and its path encoding when a chain has no mixed quoter V1.
+              const useDefaultQuoterAddresses =
+                !MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId] && !!MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId]
               const currentQuoteProvider = new OnChainQuoteProvider(
                 chainId,
                 provider,
@@ -447,6 +450,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                 // nice to have protocol level block number configs overrides, this is in prep for v4 and mixed w/ v4
                 (_protocol) => BLOCK_NUMBER_CONFIGS[chainId],
                 // We will only enable shadow sample mixed quoter on Base
+                useDefaultQuoterAddresses ? undefined :
                 (useMixedRouteQuoter: boolean, mixedRouteContainsV4Pool: boolean, protocol: Protocol) =>
                   useMixedRouteQuoter
                     ? mixedRouteContainsV4Pool
@@ -477,6 +481,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                 (_protocol) => SUCCESS_RATE_FAILURE_OVERRIDES[chainId],
                 // nice to have protocol level block number configs overrides, this is in prep for v4 and mixed w/ v4
                 (_protocol) => BLOCK_NUMBER_CONFIGS[chainId],
+                useDefaultQuoterAddresses ? undefined :
                 (useMixedRouteQuoter: boolean, mixedRouteContainsV4Pool: boolean, protocol: Protocol) =>
                   useMixedRouteQuoter
                     ? mixedRouteContainsV4Pool
