@@ -63,6 +63,8 @@ export class UniGraphQLProvider implements IUniGraphQLProvider {
         return 'CELO'
       case ChainId.BNB:
         return 'BNB'
+      case ChainId.ROBINHOOD:
+        return 'ROBINHOOD'
       case ChainId.BASE:
         return 'BASE'
       case ChainId.BASE_SEPOLIA:

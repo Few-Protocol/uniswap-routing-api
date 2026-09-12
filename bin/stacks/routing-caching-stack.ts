@@ -30,6 +30,14 @@ export interface RoutingCachingStackProps extends cdk.NestedStackProps {
   alchemyQueryKey2?: string
   graphBaseV4SubgraphId?: string
   graphBearerToken?: string
+  graphBearerToken_X_LAYER?: string
+  graphBearerToken_HYPER?: string
+  graphBearerToken_BNB?: string
+  graphBearerToken_MEGAETH?: string
+  // Optional per-chain Graph bearer tokens for future use
+  graphBearerToken_ARB?: string
+  graphBearerToken_BASE?: string
+  graphBearerToken_UNICHAIN?: string
 }
 
 export class RoutingCachingStack extends cdk.NestedStack {
@@ -44,11 +52,31 @@ export class RoutingCachingStack extends cdk.NestedStack {
   public readonly alchemyQueryKey2: string | undefined = undefined
   public readonly graphBaseV4SubgraphId: string | undefined = undefined
   public readonly graphBearerToken: string | undefined = undefined
+  public readonly graphBearerToken_X_LAYER: string | undefined = undefined
+  public readonly graphBearerToken_HYPER: string | undefined = undefined
+  public readonly graphBearerToken_BNB: string | undefined = undefined
+  public readonly graphBearerToken_MEGAETH: string | undefined = undefined
+  public readonly graphBearerToken_ARB: string | undefined = undefined
+  public readonly graphBearerToken_BASE: string | undefined = undefined
+  public readonly graphBearerToken_UNICHAIN: string | undefined = undefined
 
   constructor(scope: Construct, name: string, props: RoutingCachingStackProps) {
     super(scope, name, props)
 
-    const { chatbotSNSArn, alchemyQueryKey, alchemyQueryKey2, graphBaseV4SubgraphId, graphBearerToken } = props
+    const {
+      chatbotSNSArn,
+      alchemyQueryKey,
+      alchemyQueryKey2,
+      graphBaseV4SubgraphId,
+      graphBearerToken,
+      graphBearerToken_X_LAYER,
+      graphBearerToken_HYPER,
+      graphBearerToken_BNB,
+      graphBearerToken_ARB,
+      graphBearerToken_BASE,
+      graphBearerToken_UNICHAIN,
+      graphBearerToken_MEGAETH,
+    } = props
 
     const chatBotTopic = chatbotSNSArn ? aws_sns.Topic.fromTopicArn(this, 'ChatbotTopic', chatbotSNSArn) : undefined
 
@@ -56,6 +84,13 @@ export class RoutingCachingStack extends cdk.NestedStack {
     this.alchemyQueryKey2 = alchemyQueryKey2
     this.graphBaseV4SubgraphId = graphBaseV4SubgraphId
     this.graphBearerToken = graphBearerToken
+    this.graphBearerToken_X_LAYER = graphBearerToken_X_LAYER
+    this.graphBearerToken_HYPER = graphBearerToken_HYPER
+    this.graphBearerToken_BNB = graphBearerToken_BNB
+    this.graphBearerToken_MEGAETH = graphBearerToken_MEGAETH
+    this.graphBearerToken_ARB = graphBearerToken_ARB
+    this.graphBearerToken_BASE = graphBearerToken_BASE
+    this.graphBearerToken_UNICHAIN = graphBearerToken_UNICHAIN
     // TODO: Remove and swap to the new bucket below. Kept around for the rollout, but all requests will go to bucket 2.
     this.poolCacheBucket = new aws_s3.Bucket(this, 'PoolCacheBucket')
     this.poolCacheBucket2 = new aws_s3.Bucket(this, 'PoolCacheBucket2')
@@ -115,10 +150,15 @@ export class RoutingCachingStack extends cdk.NestedStack {
     // Spin up a new pool cache lambda for each config in chain X protocol
     for (let i = 0; i < chainProtocols.length; i++) {
       const { protocol, chainId, timeout } = chainProtocols[i]
+      // 使用简短易懂的函数名，避免被 AWS 截断
+      // 格式: PoolCache-Chain{chainId}-{protocol}
+      // 例如: PoolCache-Chain1-FEWV2, PoolCache-Chain1-V3
+      const functionName = `PoolCache-Chain${chainId}-${protocol}`
       const lambda = new aws_lambda_nodejs.NodejsFunction(
         this,
         `PoolCacheLambda-ChainId${chainId}-Protocol${protocol}`,
         {
+          functionName,
           role: lambdaRole,
           runtime: aws_lambda.Runtime.NODEJS_18_X,
           entry: path.join(__dirname, '../../lib/cron/cache-pools.ts'),
@@ -130,7 +170,7 @@ export class RoutingCachingStack extends cdk.NestedStack {
             sourceMap: true,
             keepNames: true,
           },
-          description: `Pool Cache Lambda for Chain with ChainId ${chainId} and Protocol ${protocol}`,
+          description: `Pool Cache Lambda for Chain ${chainId} - ${protocol}`,
           layers: [lambdaLayerVersion],
           tracing: aws_lambda.Tracing.ACTIVE,
           environment: {
@@ -141,7 +181,18 @@ export class RoutingCachingStack extends cdk.NestedStack {
             ALCHEMY_QUERY_KEY: this.alchemyQueryKey ?? '',
             ALCHEMY_QUERY_KEY_2: this.alchemyQueryKey2 ?? '',
             GRAPH_BASE_V4_SUBGRAPH_ID: this.graphBaseV4SubgraphId ?? '',
-            GRAPH_BEARER_TOKEN: this.graphBearerToken ?? '',
+            GRAPH_BEARER_TOKEN: chainId === ChainId.XLAYER_MAINNET ? this.graphBearerToken_X_LAYER ?? '' : this.graphBearerToken ?? '',
+            GRAPH_BEARER_TOKEN_X_LAYER: this.graphBearerToken_X_LAYER ?? '',
+            GRAPH_BEARER_TOKEN_HYPER: this.graphBearerToken_HYPER ?? '',
+            GRAPH_BEARER_TOKEN_BNB: this.graphBearerToken_BNB ?? '',
+            GRAPH_BEARER_TOKEN_MEGAETH: this.graphBearerToken_MEGAETH ?? '',
+            // Extra per-chain bearer tokens for future extension
+            GRAPH_BEARER_TOKEN_ARB: this.graphBearerToken_ARB ?? '',
+            GRAPH_BEARER_TOKEN_BASE: this.graphBearerToken_BASE ?? '',
+            GRAPH_BEARER_TOKEN_UNICHAIN: this.graphBearerToken_UNICHAIN ?? '',
+            // 设置 GOLDSKY_API_KEY 到 Lambda 环境变量，供运行时使用
+            GOLDSKY_API_KEY: this.graphBearerToken_HYPER || '',
+            GOLDSKY_PROJECT_ID: process.env.GOLDSKY_PROJECT_ID || '',
             chainId: chainId.toString(),
             protocol,
             timeout: timeout.toString(),

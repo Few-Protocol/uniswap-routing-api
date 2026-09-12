@@ -5,6 +5,7 @@ import { ChainId } from '@ring-protocol/sdk-core'
 // production nets depending on revenue/quote traffic volume, if it's medium/high 1%, otherwise super low traffic (< 100 quotes per 5 minutes) 100%
 // so zora and blast go to 100% directly. rootstock is not supported by uniswap labs product or protocol layer, go to 100% directly.
 export const NEW_CACHED_ROUTES_ROLLOUT_PERCENT: { [chain in ChainId]: number } = {
+  [ChainId.ROBINHOOD]: 0, // Keep the new route-cache rollout disabled for initial FewV2 support.
   [ChainId.MAINNET]: 100,
   [ChainId.GOERLI]: 100,
   [ChainId.SEPOLIA]: 100,
@@ -40,4 +41,8 @@ export const NEW_CACHED_ROUTES_ROLLOUT_PERCENT: { [chain in ChainId]: number } =
   [ChainId.STORY_ODYSSEY]: 100,
   [ChainId.STORY_MAINNET]: 100,
   [ChainId.HYPER_MAINNET]: 100,
+  [ChainId.MEGAETH_MAINNET]: 100,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: 100,
 }

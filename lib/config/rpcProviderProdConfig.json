@@ -15,6 +15,126 @@
     ]
   },
   {
+    "chainId": 999,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_999"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 56,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_56"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 4326,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_4326"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 42161,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_42161"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 8453,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_8453"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 130,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_130"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 10,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_10"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
+    "chainId": 196,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_196"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
+  },
+  {
     "chainId": 11155111,
     "useMultiProviderProb": 1,
     "latencyEvaluationSampleProb": 0,

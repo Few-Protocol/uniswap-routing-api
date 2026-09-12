@@ -1151,6 +1151,7 @@ export const BLOCK_NUMBER_CONFIGS: { [chainId: number]: BlockNumberConfig } = {
 
 // block -1 means it's never deployed
 export const NEW_QUOTER_DEPLOY_BLOCK: { [chainId in ChainId]: number } = {
+  [ChainId.ROBINHOOD]: -1, // The optional view-only quoter deployment has not been verified on this chain.
   [ChainId.MAINNET]: 19662663,
   [ChainId.GOERLI]: -1,
   [ChainId.SEPOLIA]: 5677582,
@@ -1187,10 +1188,15 @@ export const NEW_QUOTER_DEPLOY_BLOCK: { [chainId in ChainId]: number } = {
   [ChainId.STORY_ODYSSEY]: -1,
   [ChainId.STORY_MAINNET]: -1,
   [ChainId.HYPER_MAINNET]: -1,
+  [ChainId.MEGAETH_MAINNET]: -1,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: -1,
 }
 
 // 0 threshold means it's not deployed yet
 export const LIKELY_OUT_OF_GAS_THRESHOLD: { [chainId in ChainId]: number } = {
+  [ChainId.ROBINHOOD]: 0, // The optional view-only quoter deployment has not been verified on this chain.
   [ChainId.MAINNET]: 17540 * 2, // 17540 is the single tick.cross cost on mainnet. We multiply by 2 to be safe.
   [ChainId.GOERLI]: 0,
   [ChainId.SEPOLIA]: 17540 * 2, // 17540 is the single tick.cross cost on sepolia. We multiply by 2 to be safe.
@@ -1226,6 +1232,10 @@ export const LIKELY_OUT_OF_GAS_THRESHOLD: { [chainId in ChainId]: number } = {
   [ChainId.STORY_ODYSSEY]: 0,
   [ChainId.STORY_MAINNET]: 0,
   [ChainId.HYPER_MAINNET]: 0,
+  [ChainId.MEGAETH_MAINNET]: 0,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: 0,
 }
 
 // TODO: Move this new addresses to SOR

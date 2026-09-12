@@ -30,6 +30,14 @@ export function chainIdToNetworkName(networkId: ChainId): string {
       return 'unichain'
     case ChainId.SONEIUM:
       return 'soneium'
+    case ChainId.XLAYER_MAINNET:
+      return 'xlayer'
+    case ChainId.HYPER_MAINNET:
+      return 'hyper'
+    case ChainId.ROBINHOOD:
+      return 'robinhood'
+    case ChainId.MEGAETH_MAINNET:
+      return 'megaeth'
     default:
       return 'ethereum'
   }
@@ -43,112 +51,30 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
   }
 
   const tokens = value.split(',')
-  switch (key) {
-    // Infura
-    case 'INFURA_43114': {
-      return `https://avalanche-mainnet.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_10': {
-      return `https://optimism-mainnet.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_42220': {
-      return `https://celo-mainnet.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_137': {
-      return `https://polygon-mainnet.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_8453': {
-      return `https://base-mainnet.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_11155111': {
-      return `https://sepolia.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_42161': {
-      return `https://arbitrum-mainnet.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_1': {
-      return `https://mainnet.infura.io/v3/${tokens[0]}`
-    }
-    case 'INFURA_81457': {
-      return `https://blast-mainnet.infura.io/v3/${tokens[0]}`
-    }
-    // Quicknode
-    case 'QUICKNODE_43114': {
-      return `https://${tokens[0]}.avalanche-mainnet.quiknode.pro/${tokens[1]}/ext/bc/C/rpc/`
-    }
-    case 'QUICKNODE_10': {
-      return `https://${tokens[0]}.optimism.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_42220': {
-      return `https://${tokens[0]}.celo-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_56': {
-      return `https://${tokens[0]}.bsc.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_137': {
-      return `https://${tokens[0]}.matic.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_8453': {
-      return `https://${tokens[0]}.base-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_84532': {
-      return `https://${tokens[0]}.base-sepolia.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_42161': {
-      return `https://${tokens[0]}.arbitrum-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_1': {
-      return `https://${tokens[0]}.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_81457': {
-      return `https://${tokens[0]}.blast-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_7777777': {
-      return `https://${tokens[0]}.zora-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_324': {
-      return `https://${tokens[0]}.zksync-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_1301': {
-      // URL contains unichain-sepolia.quiknode.pro, we had to not disclose prior to the unichain announcement
-      return `${tokens[0]}`
-    }
-    case 'QUICKNODE_130': {
-      return `https://${tokens[0]}.unichain-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    case 'QUICKNODE_480': {
-      return `https://${tokens[0]}.worldchain-mainnet.quiknode.pro/${tokens[1]}`
-    }
-    // QuickNode RETH
-    case 'QUICKNODERETH_1': {
-      return `https://${tokens[0]}.quiknode.pro/${tokens[1]}`
-    }
-    // Alchemy
-    case 'ALCHEMY_10': {
-      return `https://opt-mainnet-fast.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_137': {
-      return `https://polygon-mainnet-fast.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_8453': {
-      return `https://base-mainnet-fast.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_11155111': {
-      return `https://eth-sepolia-fast.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_42161': {
-      return `https://arb-mainnet-fast.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_1': {
-      return `https://eth-mainnet.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_324': {
-      return `https://zksync-mainnet.g.alchemy.com/v2/${tokens[0]}`
-    }
-    case 'ALCHEMY_1301': {
-      return `https://unichain-sepolia.g.alchemy.com/v2/${tokens[0]}`
-    }
+  const alchemyNetworks: Record<string, string> = {
+    ALCHEMY_1: 'eth-mainnet',
+    ALCHEMY_10: 'opt-mainnet',
+    ALCHEMY_56: 'bnb-mainnet',
+    ALCHEMY_130: 'unichain-mainnet',
+    ALCHEMY_137: 'polygon-mainnet',
+    ALCHEMY_196: 'xlayer-mainnet',
+    ALCHEMY_324: 'zksync-mainnet',
+    ALCHEMY_999: 'hyperliquid-mainnet',
+    ALCHEMY_1301: 'unichain-sepolia',
+    ALCHEMY_8453: 'base-mainnet',
+    ALCHEMY_81457: 'blast-mainnet',
+    ALCHEMY_42161: 'arb-mainnet',
+    ALCHEMY_43114: 'avax-mainnet',
+    ALCHEMY_11155111: 'eth-sepolia',
+    ALCHEMY_42220: 'celo-mainnet',
+    ALCHEMY_4326: 'megaeth-mainnet',
   }
+
+  const networkName = alchemyNetworks[key]
+  if (networkName) {
+    return `https://${networkName}.g.alchemy.com/v2/${tokens[0]}`
+  }
+
   throw new Error(`Unknown provider-chainId pair: ${key}`)
 }
 

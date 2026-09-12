@@ -3,7 +3,7 @@ import { SwapOptions, SwapOptionsSwapRouter02, SwapOptionsUniversalRouter, SwapT
 import JSBI from 'jsbi'
 import { TradeTypeParam } from './schema/quote-schema'
 import { computePortionAmount, parseDeadline, parseSlippageTolerance, populateFeeOptions } from '../shared'
-import { PermitSingle } from '@uniswap/permit2-sdk'
+import { PermitSingle } from '@ring-protocol/permit2-sdk'
 import { UNIVERSAL_ROUTER_ADDRESS, UniversalRouterVersion } from '@ring-protocol/universal-router-sdk'
 import { utils } from 'ethers'
 

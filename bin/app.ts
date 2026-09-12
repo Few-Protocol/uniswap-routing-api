@@ -41,6 +41,14 @@ export class RoutingAPIStage extends Stage {
       alchemyQueryKey2?: string
       graphBaseV4SubgraphId?: string
       graphBearerToken?: string
+      graphBearerToken_X_LAYER?: string
+      graphBearerToken_HYPER?: string
+      graphBearerToken_BNB?: string
+      graphBearerToken_MEGAETH?: string
+      // Extra per-chain Graph bearer tokens
+      graphBearerToken_ARB?: string
+      graphBearerToken_BASE?: string
+      graphBearerToken_UNICHAIN?: string
       uniGraphQLEndpoint: string
       uniGraphQLHeaderOrigin: string
     }
@@ -66,6 +74,13 @@ export class RoutingAPIStage extends Stage {
       alchemyQueryKey2,
       graphBaseV4SubgraphId,
       graphBearerToken,
+      graphBearerToken_X_LAYER,
+      graphBearerToken_HYPER,
+      graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
+      graphBearerToken_ARB,
+      graphBearerToken_BASE,
+      graphBearerToken_UNICHAIN,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     } = props
@@ -90,6 +105,13 @@ export class RoutingAPIStage extends Stage {
       alchemyQueryKey2,
       graphBaseV4SubgraphId,
       graphBearerToken,
+      graphBearerToken_X_LAYER,
+      graphBearerToken_HYPER,
+      graphBearerToken_BNB,
+      graphBearerToken_MEGAETH,
+      graphBearerToken_ARB,
+      graphBearerToken_BASE,
+      graphBearerToken_UNICHAIN,
       uniGraphQLEndpoint,
       uniGraphQLHeaderOrigin,
     })
@@ -135,14 +157,12 @@ export class RoutingAPIPipeline extends Stack {
     // have been granted permissions to access secrets via resource policies.
 
     const jsonRpcProvidersSecret = sm.Secret.fromSecretAttributes(this, 'RPCProviderUrls', {
-      // The main secrets use our Infura RPC urls
+      // The main secrets use our Alchemy RPC urls
       secretCompleteArn:
         'arn:aws:secretsmanager:us-east-1:513278913266:secret:routing-api-rpc-urls-json-primary-ixS8mw',
 
       /*
       The backup secrets mostly use our Alchemy RPC urls
-      However Alchemy does not support Rinkeby, Ropsten, and Kovan
-      So those chains are set to our Infura RPC urls
       When switching to the backups,
       we must set the multicall chunk size to 50 so that optimism
       does not bug out on Alchemy's end
@@ -213,53 +233,16 @@ export class RoutingAPIPipeline extends Stack {
 
     // Load RPC provider URLs from AWS secret (for RPC Gateway)
     const RPC_GATEWAY_PROVIDERS = [
-      // Optimism
-      // 'INFURA_10',
-      // 'QUICKNODE_10',
-      // 'ALCHEMY_10',
-      // Polygon
-      // 'QUICKNODE_137',
-      // 'INFURA_137',
-      // 'ALCHEMY_137',
-      // Celo
-      // 'QUICKNODE_42220',
-      // 'INFURA_42220',
-      // Avalanche
-      // 'INFURA_43114',
-      // 'QUICKNODE_43114',
-      // BNB
-      // 'QUICKNODE_56',
-      // Base
-      // 'QUICKNODE_8453',
-      // 'INFURA_8453',
-      // 'ALCHEMY_8453',
-      // Sepolia
-      // 'INFURA_11155111',
       'ALCHEMY_11155111',
-      // Arbitrum
-      // 'INFURA_42161',
-      // 'QUICKNODE_42161',
-      // 'ALCHEMY_42161',
-      // Ethereum
-      // 'INFURA_1',
-      // 'QUICKNODE_1',
       'ALCHEMY_1',
-      // 'QUICKNODERETH_1',
-      // Blast
-      // 'QUICKNODE_81457',
-      // 'INFURA_81457',
-      // ZORA
-      // 'QUICKNODE_7777777',
-      // ZkSync
-      // 'QUICKNODE_324',
-      // 'ALCHEMY_324',
-      // WorldChain,
-      // 'QUICKNODE_480',
-      // Unichain Sepolia,
-      // 'QUICKNODE_1301',
-      // 'ALCHEMY_1301',
-      // unirpc - serves all chains
-      // 'UNIRPC_0',
+      'ALCHEMY_999',
+      'ALCHEMY_56',
+      'ALCHEMY_4326',
+      'ALCHEMY_42161',
+      'ALCHEMY_8453',
+      'ALCHEMY_130',
+      'ALCHEMY_10',
+      'ALCHEMY_196',
     ]
     for (const provider of RPC_GATEWAY_PROVIDERS) {
       jsonRpcProviders[provider] = jsonRpcProvidersSecret.secretValueFromJson(provider).toString()
@@ -291,6 +274,10 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
+      graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
     })
@@ -324,6 +311,10 @@ export class RoutingAPIPipeline extends Stack {
       // below secret namings are wrong, but we take it as is
       graphBearerToken: alchemySubgraphSecret.secretValueFromJson('alchemy-bearer-token').toString(),
       graphBaseV4SubgraphId: alchemySubgraphSecret.secretValueFromJson('alchemy-base-v4-subgraph-id').toString(),
+      graphBearerToken_HYPER: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_BNB: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_MEGAETH: routingApiNewSecrets.secretValueFromJson('goldsky-api-key').toString(),
+      graphBearerToken_X_LAYER: routingApiNewSecrets.secretValueFromJson('graph-bearer-token-x-layer').toString(),
       uniGraphQLEndpoint: routingApiNewSecrets.secretValueFromJson('uni-graphql-endpoint').toString(),
       uniGraphQLHeaderOrigin: routingApiNewSecrets.secretValueFromJson('uni-graphql-header-origin').toString(),
     })
@@ -387,72 +378,17 @@ export class RoutingAPIPipeline extends Stack {
 const app = new cdk.App()
 
 const jsonRpcProviders = {
+  WEB3_RPC_4663: process.env.WEB3_RPC_4663!,
   ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
   ALCHEMY_1: process.env.ALCHEMY_1!,
-  /*
-  WEB3_RPC_1: process.env.WEB3_RPC_1!,
-  WEB3_RPC_11155111: process.env.WEB3_RPC_11155111!,
-  WEB3_RPC_44787: process.env.WEB3_RPC_44787!,
-  WEB3_RPC_80001: process.env.WEB3_RPC_80001!,
-  WEB3_RPC_81457: process.env.WEB3_RPC_81457!,
-  WEB3_RPC_42161: process.env.WEB3_RPC_42161!,
-  WEB3_RPC_421613: process.env.WEB3_RPC_421613!,
-  WEB3_RPC_10: process.env.WEB3_RPC_10!,
-  WEB3_RPC_137: process.env.WEB3_RPC_137!,
-  WEB3_RPC_42220: process.env.WEB3_RPC_42220!,
-  WEB3_RPC_43114: process.env.WEB3_RPC_43114!,
-  WEB3_RPC_56: process.env.WEB3_RPC_56!,
-  WEB3_RPC_8453: process.env.WEB3_RPC_8453!,
-  WEB3_RPC_324: process.env.WEB3_RPC_324!,
-  // The followings are for RPC Gateway
-  // Optimism
-  // INFURA_10: process.env.INFURA_10!,
-  QUICKNODE_10: process.env.QUICKNODE_10!,
-  ALCHEMY_10: process.env.ALCHEMY_10!,
-  // Polygon
-  QUICKNODE_137: process.env.QUICKNODE_137!,
-  // INFURA_137: process.env.INFURA_137!,
-  ALCHEMY_137: process.env.ALCHEMY_137!,
-  // Celo
-  QUICKNODE_42220: process.env.QUICKNODE_42220!,
-  // INFURA_42220: process.env.INFURA_42220!,
-  // Avalanche
-  // INFURA_43114: process.env.INFURA_43114!,
-  QUICKNODE_43114: process.env.QUICKNODE_43114!,
-  // BNB
-  QUICKNODE_56: process.env.QUICKNODE_56!,
-  // Base
-  QUICKNODE_8453: process.env.QUICKNODE_8453!,
-  // INFURA_8453: process.env.INFURA_8453!,
-  ALCHEMY_8453: process.env.ALCHEMY_8453!,
-  // Sepolia
-  // INFURA_11155111: process.env.INFURA_11155111!,
-  ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
-  // Arbitrum
-  // INFURA_42161: process.env.INFURA_42161!,
-  QUICKNODE_42161: process.env.QUICKNODE_42161!,
+  ALCHEMY_56: process.env.ALCHEMY_56!,
+  ALCHEMY_4326: process.env.ALCHEMY_4326!,
+  ALCHEMY_999: process.env.ALCHEMY_999!,
   ALCHEMY_42161: process.env.ALCHEMY_42161!,
-  // Ethereum
-  // INFURA_1: process.env.INFURA_1!,
-  QUICKNODE_1: process.env.QUICKNODE_1!,
-  QUICKNODERETH_1: process.env.QUICKNODERETH_1!,
-  ALCHEMY_1: process.env.ALCHEMY_1!,
-  // Blast
-  QUICKNODE_81457: process.env.QUICKNODE_81457!,
-  // INFURA_81457: process.env.INFURA_81457!,
-  // Zora
-  QUICKNODE_7777777: process.env.QUICKNODE_7777777!,
-  // ZkSync
-  QUICKNODE_324: process.env.QUICKNODE_324!,
-  ALCHEMY_324: process.env.ALCHEMY_324!,
-  // WorldChain,
-  QUICKNODE_480: process.env.QUICKNODE_480!,
-  // Unichain Sepolia,
-  QUICKNODE_1301: process.env.QUICKNODE_1301!,
-  ALCHEMY_1301: process.env.ALCHEMY_1301!,
-  // unirpc - serves all chains
-  UNIRPC_0: process.env.UNIRPC_0!,
-  */
+  ALCHEMY_8453: process.env.ALCHEMY_8453!,
+  ALCHEMY_130: process.env.ALCHEMY_130!,
+  ALCHEMY_10: process.env.ALCHEMY_10!,
+  ALCHEMY_196: process.env.ALCHEMY_196!,
 }
 
 // Local dev stack
@@ -479,6 +415,14 @@ new RoutingAPIStack(app, 'RoutingAPIStack', {
   alchemyQueryKey2: process.env.ALCHEMY_QUERY_KEY_2!,
   graphBaseV4SubgraphId: process.env.GRAPH_BASE_V4_SUBGRAPH_ID!,
   graphBearerToken: process.env.GRAPH_BEARER_TOKEN!,
+  graphBearerToken_X_LAYER: process.env.GRAPH_BEARER_TOKEN_X_LAYER!,
+  graphBearerToken_HYPER: process.env.GOLDSKY_API_KEY || '',
+  graphBearerToken_BNB: process.env.GRAPH_BEARER_TOKEN_BNB || process.env.GOLDSKY_API_KEY || '',
+  graphBearerToken_MEGAETH: process.env.GRAPH_BEARER_TOKEN_MEGAETH || process.env.GOLDSKY_API_KEY || '',
+  // Extra per-chain Graph bearer tokens (optional)
+  graphBearerToken_ARB: process.env.GRAPH_BEARER_TOKEN_ARB || '',
+  graphBearerToken_BASE: process.env.GRAPH_BEARER_TOKEN_BASE || '',
+  graphBearerToken_UNICHAIN: process.env.GRAPH_BEARER_TOKEN_UNICHAIN || '',
 })
 
 new RoutingAPIPipeline(app, 'RoutingAPIPipelineStack', {

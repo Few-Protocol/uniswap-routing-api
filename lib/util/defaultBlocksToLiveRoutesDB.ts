@@ -7,6 +7,7 @@ import { ChainId } from '@ring-protocol/sdk-core'
 // changing to this way with ChainId enum as key indexing, so that we wont forgot to add new chain tuned blocks-to-live
 // those are only gonna be enabled with DynamoRouteCachingProvider.newCachedRoutesRolloutPercent anyway
 export const DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB: { [chain in ChainId]: number } = {
+  [ChainId.ROBINHOOD]: 0, // Do not reuse routes from earlier blocks until cache rollout is enabled.
   // (1 minute) / (12 seconds)= 5
   [ChainId.MAINNET]: 5,
   [ChainId.GOERLI]: 5,
@@ -29,6 +30,8 @@ export const DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB: { [chain in ChainId]: number } = 
   // For Unichain, due to low volume and low liquidity pools that change often, let's have a shorter TTL
   // - start with 0.5 mins: (0.5 minutes) / (1 seconds) = 30
   [ChainId.UNICHAIN]: 30,
+  [ChainId.HYPER_MAINNET]: 30,
+  [ChainId.MEGAETH_MAINNET]: 30,
   [ChainId.MONAD_TESTNET]: 60,
   // (1 minute) / (250 milliseconds) = 240
   [ChainId.ARBITRUM_ONE]: 240,
@@ -58,5 +61,7 @@ export const DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB: { [chain in ChainId]: number } = 
   [ChainId.BLAST_SEPOLIA]: 30,
   [ChainId.STORY_ODYSSEY]: 30,
   [ChainId.STORY_MAINNET]: 30,
-  [ChainId.HYPER_MAINNET]: 30,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: 20,
 }

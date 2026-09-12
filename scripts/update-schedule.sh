@@ -6,9 +6,9 @@
 # 在下方配置参数，然后直接运行脚本即可
 
 # ========== 配置区域 ==========
-NEW_RATE="2880"              # 新的调度间隔（分钟），例如: 720 = 12小时, 60 = 1小时, 30 = 30分钟
+NEW_RATE="720"              # 新的调度间隔（分钟），例如: 720 = 12小时, 60 = 1小时, 30 = 30分钟
 REGION="us-east-1"          # AWS 区域
-PROFILE="mgmt"              # AWS CLI Profile，留空则使用默认 profile
+PROFILE="tbbeta"              # AWS CLI Profile，留空则使用默认 profile
 # ==============================
 
 set -e
@@ -26,6 +26,21 @@ echo "新的调度时间: rate($NEW_RATE minutes)"
 echo "AWS 区域: $REGION"
 echo "AWS Profile: ${PROFILE:-默认}"
 echo "=========================================="
+
+echo ""
+echo "请选择操作:"
+echo "  1) 更新 EventBridge 调度"
+echo "  2) 取消操作"
+read -p "请输入选项 (1/2): " MAIN_CHOICE
+
+case $MAIN_CHOICE in
+  1)
+    ;;
+  *)
+    echo "操作已取消"
+    exit 0
+    ;;
+esac
 
 # 列出所有匹配的 EventBridge 规则
 echo ""
