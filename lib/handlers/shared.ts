@@ -80,6 +80,7 @@ export const DEFAULT_ROUTING_CONFIG_BY_CHAIN = (chainId: ChainId): AlphaRouterCo
         distributionPercent: 20,
         forceCrossProtocol: false,
       }
+    case ChainId.INK:
     case ChainId.OPTIMISM:
     case ChainId.WORLDCHAIN:
     case ChainId.UNICHAIN_SEPOLIA:
