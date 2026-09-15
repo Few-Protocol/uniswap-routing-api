@@ -378,6 +378,7 @@ export class RoutingAPIPipeline extends Stack {
 const app = new cdk.App()
 
 const jsonRpcProviders = {
+  WEB3_RPC_57073: process.env.WEB3_RPC_57073!,
   WEB3_RPC_4663: process.env.WEB3_RPC_4663!,
   ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
   ALCHEMY_1: process.env.ALCHEMY_1!,

@@ -2,6 +2,8 @@ import { ChainId } from '@ring-protocol/sdk-core'
 
 export function chainIdToNetworkName(networkId: ChainId): string {
   switch (networkId) {
+    case ChainId.INK:
+      return 'ink'
     case ChainId.MAINNET:
       return 'ethereum'
     case ChainId.ARBITRUM_ONE:
@@ -52,6 +54,7 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
 
   const tokens = value.split(',')
   const alchemyNetworks: Record<string, string> = {
+    ALCHEMY_57073: 'ink-mainnet',
     ALCHEMY_1: 'eth-mainnet',
     ALCHEMY_10: 'opt-mainnet',
     ALCHEMY_56: 'bnb-mainnet',
