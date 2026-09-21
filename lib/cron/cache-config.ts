@@ -150,7 +150,7 @@ export const fewV2SubgraphUrlOverride = (chainId: ChainId) => {
     case ChainId.BNB:
       return `https://gateway.thegraph.com/api/subgraphs/id/6jkbFySYhSvJLbQmpcDwUsoMS3Fn6LTBmbeJhHJh7Gyz`
     case ChainId.HYPER_MAINNET:
-      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/1.0.0/gn`
+      return `https://api.goldsky.com/api/public/project_cmkz0xpbg9cga012m03ff9uqy/subgraphs/ringswap-few-v2-subgraph-hyper/pricing-d40a4a4/gn`
     case ChainId.MEGAETH_MAINNET:
       return process.env.MEGAETH_FEWV2_SUBGRAPH_URL || process.env.GRAPH_FEWV2_SUBGRAPH_URL_MEGAETH
     default:
