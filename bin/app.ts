@@ -236,6 +236,7 @@ export class RoutingAPIPipeline extends Stack {
       'ALCHEMY_11155111',
       'ALCHEMY_1',
       'ALCHEMY_999',
+      'ALCHEMY_4663',
       'ALCHEMY_56',
       'ALCHEMY_4326',
       'ALCHEMY_42161',
@@ -378,16 +379,13 @@ export class RoutingAPIPipeline extends Stack {
 const app = new cdk.App()
 
 const jsonRpcProviders = {
-  WEB3_RPC_4663:
-    process.env.WEB3_RPC_4663?.trim() ||
-    (process.env.ALCHEMY_1?.trim()
-      ? `https://robinhood-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_1.trim().split(',')[0]}`
-      : ''),
+  WEB3_RPC_4663: process.env.WEB3_RPC_4663!,
   ALCHEMY_11155111: process.env.ALCHEMY_11155111!,
   ALCHEMY_1: process.env.ALCHEMY_1!,
   ALCHEMY_56: process.env.ALCHEMY_56!,
   ALCHEMY_4326: process.env.ALCHEMY_4326!,
   ALCHEMY_999: process.env.ALCHEMY_999!,
+  ALCHEMY_4663: process.env.ALCHEMY_4663!,
   ALCHEMY_42161: process.env.ALCHEMY_42161!,
   ALCHEMY_8453: process.env.ALCHEMY_8453!,
   ALCHEMY_130: process.env.ALCHEMY_130!,

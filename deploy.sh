@@ -52,13 +52,6 @@ echo -e "${YELLOW}目标分支: ${BRANCH}${NC}"
 # 4. 安装依赖并构建
 echo -e "\n${YELLOW}[4/5] 安装依赖并构建...${NC}"
 npm install
-# Match CDK's dotenv loading and stop before deploying an incomplete RPC configuration.
-node -r dotenv/config -e '
-  if (!process.env.WEB3_RPC_4663?.trim() && !process.env.ALCHEMY_1?.trim()) {
-    console.error("Missing Robinhood RPC configuration: supply WEB3_RPC_4663 or the existing ALCHEMY_1 key before deployment.");
-    process.exit(1);
-  }
-'
 npm run build
 echo -e "${GREEN}✓ 构建完成${NC}"
 

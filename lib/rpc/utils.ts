@@ -68,6 +68,7 @@ export function generateProviderUrl(key: string, value: string, chainId: number)
     ALCHEMY_11155111: 'eth-sepolia',
     ALCHEMY_42220: 'celo-mainnet',
     ALCHEMY_4326: 'megaeth-mainnet',
+    ALCHEMY_4663: 'robinhood-mainnet',
   }
 
   const networkName = alchemyNetworks[key]
