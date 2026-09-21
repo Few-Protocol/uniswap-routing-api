@@ -25,6 +25,7 @@ import { RoutingAPIStack } from '../../../../bin/stacks/routing-api-stack'
 
 const rpcConfiguration = {
   ALCHEMY_56: 'https://bnb.example.invalid',
+  ALCHEMY_4663: 'synthetic-robinhood-key',
   WEB3_RPC_999: 'https://hyper.example.invalid',
   WEB3_RPC_4663: 'https://robinhood.example.invalid',
 }
@@ -61,5 +62,6 @@ describe('Robinhood RPC deployment configuration', () => {
     runInNewContext(script, context)
     expect(context.result.WEB3_RPC_4663).toBe(rpcConfiguration.WEB3_RPC_4663)
     expect(context.result.ALCHEMY_56).toBe(rpcConfiguration.ALCHEMY_56)
+    expect(context.result.ALCHEMY_4663).toBe(rpcConfiguration.ALCHEMY_4663)
   })
 })

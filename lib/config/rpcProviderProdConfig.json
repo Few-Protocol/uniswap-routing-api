@@ -149,5 +149,20 @@
       "ALCHEMY"
     ],
     "enableDbSync": true
+  },
+  {
+    "chainId": 4663,
+    "useMultiProviderProb": 1,
+    "latencyEvaluationSampleProb": 0,
+    "healthCheckSampleProb": 0,
+    "providerInitialWeights": [
+      1
+    ],
+    "providerUrls": [
+      "ALCHEMY_4663"
+    ],
+    "providerNames": [
+      "ALCHEMY"
+    ]
   }
 ]
