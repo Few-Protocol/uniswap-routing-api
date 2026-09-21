@@ -424,7 +424,7 @@ export class QuoteHandler extends APIGLambdaHandler<
             intent,
             gasToken,
           },
-          `Exact In Swap: Give ${amount.toExact()} ${amount.currency.symbol}, Want: ${
+          `Exact_In_Swap_Give ${amount.toExact()} ${amount.currency.symbol}, Want: ${
             currencyOut.symbol
           }. Chain: ${chainId}`
         )

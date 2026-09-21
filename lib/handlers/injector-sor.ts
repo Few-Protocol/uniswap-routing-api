@@ -104,14 +104,17 @@ import { TENDERLY_NEW_ENDPOINT_ROLLOUT_PERCENT } from '../util/tenderlyNewEndpoi
 export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MAINNET,
   // ChainId.OPTIMISM,
-  // ChainId.ARBITRUM_ONE,
+  ChainId.ARBITRUM_ONE,
   // ChainId.POLYGON,
   ChainId.SEPOLIA,
   // ChainId.CELO,
   // ChainId.CELO_ALFAJORES,
-  // ChainId.BNB,
+  ChainId.BNB,
+  ChainId.HYPER_MAINNET,
+  ChainId.ROBINHOOD,
+  ChainId.MEGAETH_MAINNET,
   // ChainId.AVALANCHE,
-  // ChainId.BASE,
+  ChainId.BASE,
   // ChainId.BLAST,
   // ChainId.ZORA,
   // ChainId.ZKSYNC,
@@ -119,8 +122,9 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   // ChainId.UNICHAIN_SEPOLIA,
   // ChainId.MONAD_TESTNET,
   // ChainId.BASE_SEPOLIA,
-  // ChainId.UNICHAIN,
+  ChainId.UNICHAIN,
   // ChainId.SONEIUM,
+  ChainId.XLAYER_MAINNET,
 ]
 const DEFAULT_TOKEN_LIST = 'https://raw.githubusercontent.com/RingProtocol/token-list/master/uniswap.tokenlist.json';//https://gateway.ipfs.io/ipns/tokens.uniswap.org'
 
@@ -160,7 +164,8 @@ export type ContainerDependencies = {
   ringV2QuoteProvider: RingV2QuoteProvider
   simulator: Simulator
   routeCachingProvider?: IRouteCachingProvider
-  tokenValidatorProvider: TokenValidatorProvider
+  /** 仅在有 TokenValidator 合约的链上注入；未部署的链（如 MEGAETH 4326）不注入，避免链上 validate revert */
+  tokenValidatorProvider?: TokenValidatorProvider
   tokenPropertiesProvider: ITokenPropertiesProvider
   v2Supported: ChainId[]
   v4Supported?: ChainId[]
@@ -322,11 +327,15 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             },
           })
 
-          const tokenValidatorProvider = new TokenValidatorProvider(
-            chainId,
-            multicall2Provider,
-            new NodeJSCache(new NodeCache({ stdTTL: 30000, useClones: false }))
-          )
+          // 仅对已部署 TokenValidator 合约的链创建 TokenValidatorProvider；未部署的链（如 MEGAETH 4326）不创建，避免 validate() revert
+          const CHAINS_WITH_TOKEN_VALIDATOR: ChainId[] = [ChainId.MAINNET]
+          const tokenValidatorProvider = CHAINS_WITH_TOKEN_VALIDATOR.includes(chainId)
+            ? new TokenValidatorProvider(
+                chainId,
+                multicall2Provider,
+                new NodeJSCache(new NodeCache({ stdTTL: 30000, useClones: false }))
+              )
+            : undefined
           const tokenPropertiesProvider = new TokenPropertiesProvider(
             chainId,
             new NodeJSCache(new NodeCache({ stdTTL: 30000, useClones: false })),
@@ -385,7 +394,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
               Protocol.FEWV2,
               POOL_CACHE_BUCKET_3!,
               POOL_CACHE_GZIP_KEY!,
-              v2PoolProvider
+              fewV2PoolProvider
             )) as RingV2AWSSubgraphProvider,
           ])
 
@@ -396,7 +405,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             new TokenProvider(chainId, multicall2Provider)
           )
 
-          // Some providers like Infura set a gas limit per call of 10x block gas which is approx 150m
+          // Some RPC providers set a gas limit per call of 10x block gas which is approx 150m
           // 200*725k < 150m
           let quoteProvider: IOnChainQuoteProvider | undefined = undefined
           switch (chainId) {
@@ -420,6 +429,9 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             case ChainId.UNICHAIN:
             case ChainId.SONEIUM:
             default:
+              // SOR selects V2 and its path encoding when a chain has no mixed quoter V1.
+              const useDefaultQuoterAddresses =
+                !MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId] && !!MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId]
               const currentQuoteProvider = new OnChainQuoteProvider(
                 chainId,
                 provider,
@@ -438,13 +450,17 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                 // nice to have protocol level block number configs overrides, this is in prep for v4 and mixed w/ v4
                 (_protocol) => BLOCK_NUMBER_CONFIGS[chainId],
                 // We will only enable shadow sample mixed quoter on Base
+                useDefaultQuoterAddresses ? undefined :
                 (useMixedRouteQuoter: boolean, mixedRouteContainsV4Pool: boolean, protocol: Protocol) =>
                   useMixedRouteQuoter
                     ? mixedRouteContainsV4Pool
                       ? MIXED_ROUTE_QUOTER_V2_ADDRESSES[chainId]
                       : MIXED_ROUTE_QUOTER_V1_ADDRESSES[chainId]
                     : protocol === Protocol.V3
-                      ? QUOTER_V2_ADDRESSES[chainId]
+                      ? // XLayer 196: use RING quoter (0x9761...) so API matches CLI; QUOTER_V2 (0x5A6f...) can differ
+                        (chainId === ChainId.XLAYER_MAINNET
+                          ? NEW_QUOTER_V2_ADDRESSES[chainId]
+                          : QUOTER_V2_ADDRESSES[chainId])
                       : PROTOCOL_V4_QUOTER_ADDRESSES[chainId]
               )
               const targetQuoteProvider = new OnChainQuoteProvider(
@@ -465,6 +481,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
                 (_protocol) => SUCCESS_RATE_FAILURE_OVERRIDES[chainId],
                 // nice to have protocol level block number configs overrides, this is in prep for v4 and mixed w/ v4
                 (_protocol) => BLOCK_NUMBER_CONFIGS[chainId],
+                useDefaultQuoterAddresses ? undefined :
                 (useMixedRouteQuoter: boolean, mixedRouteContainsV4Pool: boolean, protocol: Protocol) =>
                   useMixedRouteQuoter
                     ? mixedRouteContainsV4Pool
@@ -567,6 +584,10 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.MONAD_TESTNET,
             ChainId.UNICHAIN,
             ChainId.SONEIUM,
+            ChainId.XLAYER_MAINNET,
+            ChainId.HYPER_MAINNET,
+            ChainId.ROBINHOOD,
+            ChainId.MEGAETH_MAINNET,
           ]
 
           const v4Supported = [
@@ -583,11 +604,17 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.BLAST,
             ChainId.MAINNET,
             ChainId.SONEIUM,
+            ChainId.HYPER_MAINNET,
+            ChainId.ROBINHOOD,
+            ChainId.MEGAETH_MAINNET,
           ]
 
           // https://linear.app/uniswap/issue/ROUTE-467/tenderly-simulation-during-caching-lambda
           const deleteCacheEnabledChains = [
             ChainId.MAINNET,
+            ChainId.XLAYER_MAINNET,
+            ChainId.HYPER_MAINNET,
+            ChainId.MEGAETH_MAINNET,
             ChainId.GOERLI,
             ChainId.SEPOLIA,
             ChainId.OPTIMISM,
@@ -632,6 +659,10 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.WORLDCHAIN,
             ChainId.ZORA,
             ChainId.SONEIUM,
+            ChainId.XLAYER_MAINNET,
+            ChainId.HYPER_MAINNET,
+            ChainId.ROBINHOOD,
+            ChainId.MEGAETH_MAINNET,
           ]
           const mixedCrossLiquidityV3AgainstV4Supported: ChainId[] = [ChainId.BASE]
 
@@ -702,7 +733,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
     protocol: Protocol,
     poolCacheBucket: string,
     poolCacheKey: string,
-    poolProvider: IV2PoolProvider | IV3PoolProvider | IV4PoolProvider,
+    poolProvider: IV2PoolProvider | IV3PoolProvider | IV4PoolProvider | IRingV2PoolProvider,
     v4PoolsParams?: Array<[number, number, string]>
   ) {
     try {

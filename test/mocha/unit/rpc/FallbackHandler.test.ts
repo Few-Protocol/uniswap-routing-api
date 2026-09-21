@@ -6,7 +6,7 @@ import Sinon from 'sinon'
 import { ProviderHealthStateDynamoDbRepository } from '../../../../lib/rpc/ProviderHealthStateDynamoDbRepository'
 import { ProviderHealthiness } from '../../../../lib/rpc/ProviderHealthState'
 
-const PROVIDER_ID = '56_QUIKNODE'
+const PROVIDER_ID = '56_ALCHEMY'
 
 const log = bunyan.createLogger({
   name: 'ProviderHealthStateDynamoDbRepositoryTest',
@@ -22,12 +22,12 @@ describe('FallbackHandler', () => {
   const realisticAlarm = JSON.parse(`
     {
       "source": "aws.cloudwatch",
-      "alarmArn": "arn:aws:cloudwatch:us-east-1:901338192186:alarm:RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-QUIKNODE",
+      "alarmArn": "arn:aws:cloudwatch:us-east-1:901338192186:alarm:RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-ALCHEMY",
       "accountId": "901338192186",
       "time": "2024-04-16T08:47:36.960+0000",
       "region": "us-east-1",
       "alarmData": {
-        "alarmName": "RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-QUIKNODE",
+        "alarmName": "RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-ALCHEMY",
         "state": {
           "value": "ALARM",
           "reason": "Threshold Crossed: 1 datapoint [161.0 (16/04/24 08:42:00)] was greater than or equal to the threshold (150.0).",
@@ -52,7 +52,7 @@ describe('FallbackHandler', () => {
               "metricStat": {
                 "metric": {
                   "namespace": "Uniswap",
-                  "name": "RPC_GATEWAY_56_QUIKNODE_SUCCESS",
+                  "name": "RPC_GATEWAY_56_ALCHEMY_SUCCESS",
                   "dimensions": {
                     "Service": "RoutingAPI"
                   }
@@ -71,7 +71,7 @@ describe('FallbackHandler', () => {
   it('test readAlarmEvent', async () => {
     const alarmEvent = fallbackHandler.readAlarmEvent(realisticAlarm)
     console.log(alarmEvent)
-    expect(alarmEvent.alarmName).equals('RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-QUIKNODE')
+    expect(alarmEvent.alarmName).equals('RoutingAPI-RpcGateway-ErrorRateAlarm-ChainId-56-Provider-ALCHEMY')
     expect(alarmEvent.state).equals('ALARM')
     expect(alarmEvent.previousState).equals('OK')
     expect(alarmEvent.reason).equals(

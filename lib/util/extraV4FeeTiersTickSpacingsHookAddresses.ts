@@ -13,6 +13,7 @@ export const emptyV4FeeTickSpacingsHookAddresses: Array<[number, number, string]
 // There are 10k fee tiers (0 - 100% with increment of 0.01%) and 32766 tick spacings (min 1, max 32767)
 // so roughly 32mil v4 pools without hooks
 export const EXTRA_V4_FEE_TICK_SPACINGS_HOOK_ADDRESSES: { [chain in ChainId]: Array<[number, number, string]> } = {
+  [ChainId.ROBINHOOD]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.GOERLI]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.SEPOLIA]: [
@@ -55,4 +56,8 @@ export const EXTRA_V4_FEE_TICK_SPACINGS_HOOK_ADDRESSES: { [chain in ChainId]: Ar
   [ChainId.STORY_ODYSSEY]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.STORY_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
   [ChainId.HYPER_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
+  [ChainId.MEGAETH_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
+
+  // ring swap specific
+  [ChainId.XLAYER_MAINNET]: emptyV4FeeTickSpacingsHookAddresses,
 }

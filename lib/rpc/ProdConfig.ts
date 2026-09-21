@@ -45,7 +45,7 @@ export function getRpcGatewayEnabledChains(config?: object): Map<ChainId, string
     if (chainConfig.providerUrls) {
       result.set(
         chainConfig.chainId,
-        // Extract the provider name. For example, from "INFURA_8453" to "INFURA"
+        // Extract the provider name. For example, from "ALCHEMY_8453" to "ALCHEMY"
         chainConfig.providerUrls.map((url: string) => url.substring(0, url.indexOf('_')))
       )
     }

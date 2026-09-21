@@ -32,10 +32,13 @@ export class GlobalRpcProviders {
       }
       for (let i = 0; i < chainConfig.providerUrls!.length; i++) {
         const urlEnvVar = chainConfig.providerUrls[i]
-        if (process.env[urlEnvVar] === undefined) {
-          throw new Error(`Environmental variable ${urlEnvVar} isn't defined!`)
+        const providerValue =
+          process.env[urlEnvVar]?.trim() ||
+          (urlEnvVar.startsWith('ALCHEMY_') ? process.env.ALCHEMY_1?.trim() : undefined)
+        if (providerValue === undefined) {
+          throw new Error(`Environmental variable ${urlEnvVar} isn't defined or is empty!`)
         }
-        chainConfig.providerUrls[i] = generateProviderUrl(urlEnvVar, process.env[urlEnvVar]!, chainConfig.chainId)
+        chainConfig.providerUrls[i] = generateProviderUrl(urlEnvVar, providerValue, chainConfig.chainId)
       }
     }
     return prodConfig

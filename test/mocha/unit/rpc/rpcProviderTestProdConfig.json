@@ -2,72 +2,72 @@
   {
     "chainId": 42220,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 0],
-    "providerUrls": ["QUICKNODE_42220", "INFURA_42220"],
-    "providerNames": ["QUICKNODE", "INFURA"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_42220"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 43114,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 0],
-    "providerUrls": ["INFURA_43114", "QUICKNODE_43114"],
-    "providerNames": ["INFURA", "QUICKNODE"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_43114"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 56,
     "useMultiProviderProb": 1,
     "providerInitialWeights": [1],
-    "providerUrls": ["QUICKNODE_56"],
-    "providerNames": ["QUICKNODE"]
+    "providerUrls": ["ALCHEMY_56"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 10,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 0, 0],
-    "providerUrls": ["INFURA_10", "QUICKNODE_10", "ALCHEMY_10"],
-    "providerNames": ["INFURA", "QUICKNODE", "ALCHEMY"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_10"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 11155111,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 0],
-    "providerUrls": ["INFURA_11155111", "ALCHEMY_11155111"],
-    "providerNames": ["INFURA", "ALCHEMY"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_11155111"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 137,
     "useMultiProviderProb": 0.01,
-    "providerInitialWeights": [1, 0, 0],
-    "providerUrls": ["QUICKNODE_137", "INFURA_137", "ALCHEMY_137"],
-    "providerNames": ["QUICKNODE", "INFURA", "ALCHEMY"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_137"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 42161,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 1, 1],
-    "providerUrls": ["INFURA_42161", "QUICKNODE_42161", "ALCHEMY_42161"],
-    "providerNames": ["INFURA", "QUICKNODE", "ALCHEMY"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_42161"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 8453,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 0, 0],
-    "providerUrls": ["QUICKNODE_8453", "INFURA_8453", "ALCHEMY_8453"],
-    "providerNames": ["QUICKNODE", "INFURA", "ALCHEMY"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_8453"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 1,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 0, 0, 0],
-    "providerUrls": ["INFURA_1", "QUICKNODE_1", "ALCHEMY_1", "UNIRPC_0"],
-    "providerNames": ["INFURA", "QUICKNODE", "ALCHEMY", "UNIRPC"]
+    "providerInitialWeights": [1, 0],
+    "providerUrls": ["ALCHEMY_1", "UNIRPC_0"],
+    "providerNames": ["ALCHEMY", "UNIRPC"]
   },
   {
     "chainId": 81457,
     "useMultiProviderProb": 1,
-    "providerInitialWeights": [1, 0],
-    "providerUrls": ["QUICKNODE_81457", "INFURA_81457"],
-    "providerNames": ["QUICKNODE", "INFURA"]
+    "providerInitialWeights": [1],
+    "providerUrls": ["ALCHEMY_81457"],
+    "providerNames": ["ALCHEMY"]
   },
   {
     "chainId": 1868,

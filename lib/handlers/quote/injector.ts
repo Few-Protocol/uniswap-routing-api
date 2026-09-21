@@ -115,6 +115,34 @@ export class QuoteHandlerInjector extends InjectorSOR<
       deleteCacheEnabledChains,
     } = dependencies[chainIdEnum]!
 
+    // check fewV2 subgraph pools
+    const fewV2SubgraphPools = await ringV2SubgraphProvider.getPools()
+    // const fewV2PoolAddresses = fewV2SubgraphPools.map((pool) => pool.id)
+    if (fewV2SubgraphPools.length == 0) {
+      log.error('No fewV2 pool addresses found')
+    }
+
+    // Read specific pool state for address 0xA0A997315fD31eB0072222aD3db6eab74b60ADC2
+    // const targetPoolAddress = '0xA0A997315fD31eB0072222aD3db6eab74b60ADC2'
+    // if (fewV2PoolAddresses.some((addr) => addr.toLowerCase() === targetPoolAddress.toLowerCase())) {
+    //   const targetPool = fewV2SubgraphPools.find(
+    //     (pool) => pool.id.toLowerCase() === targetPoolAddress.toLowerCase()
+    //   )
+    //   if (targetPool) {
+    //     // Get full Token objects from tokenProvider
+    //     const tokenAccessor = await tokenProvider.getTokens([targetPool.token0.id, targetPool.token1.id])
+    //     const token0 = tokenAccessor.getTokenByAddress(targetPool.token0.id)
+    //     const token1 = tokenAccessor.getTokenByAddress(targetPool.token1.id)
+    //     if (token0 && token1) {
+    //       const poolAccessor = await fewV2PoolProvider.getPools([[token0, token1]])
+    //       const poolState = poolAccessor.getPool(token0, token1)
+    //       log.info({ targetPoolAddress, poolState }, 'Target pool state from poolProvider')
+    //     } else {
+    //       log.warn({ targetPoolAddress, token0Id: targetPool.token0.id, token1Id: targetPool.token1.id }, 'Could not get tokens for target pool')
+    //     }
+    //   }
+    // }
+
     let onChainQuoteProvider = dependencies[chainIdEnum]!.onChainQuoteProvider
     let gasPriceProvider = gasPriceProviderOnChain
     if (gasPriceWei) {

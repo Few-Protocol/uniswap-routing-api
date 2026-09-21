@@ -178,7 +178,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       // Set this lambda's timeout to be slightly lower to give them time to
       // log the response in the event of a failure on our end.
       timeout: cdk.Duration.seconds(15),
-      memorySize: 1024,//3008,//5120,
+      memorySize: 2048,//3008,//5120,
       deadLetterQueueEnabled: true,
       bundling: {
         minify: true,

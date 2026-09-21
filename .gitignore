@@ -1,5 +1,4 @@
 node_modules
-.env
 .vscode
 build
 cdk.out
@@ -11,3 +10,5 @@ lib/types
 cache
 .idea
 nouse
+scripts/*.log
+.omc/
