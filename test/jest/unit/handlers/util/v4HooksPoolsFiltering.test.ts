@@ -1,7 +1,7 @@
 import { describe, expect } from '@jest/globals'
 import { v4HooksPoolsFiltering } from '../../../../../lib/util/v4HooksPoolsFiltering'
-import { V4SubgraphPool } from '@uniswap/smart-order-router'
-import { ChainId } from '@uniswap/sdk-core'
+import { V4SubgraphPool } from '@ring-protocol/smart-order-router'
+import { ChainId } from '@ring-protocol/sdk-core'
 
 describe('v4HooksPoolsFiltering', () => {
   it('flaunch hooks included', () => {

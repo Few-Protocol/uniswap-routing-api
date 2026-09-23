@@ -1,8 +1,8 @@
 import { expect } from '@jest/globals'
 import { QuoteHandler } from '../../../../lib/handlers/quote/quote'
-import { ChainId } from '@uniswap/sdk-core'
-import { Protocol } from '@uniswap/router-sdk'
-import { UniversalRouterVersion } from '@uniswap/universal-router-sdk'
+import { ChainId } from '@ring-protocol/sdk-core'
+import { Protocol } from '@ring-protocol/router-sdk'
+import { UniversalRouterVersion } from '@ring-protocol/universal-router-sdk'
 
 describe('QuoteHandler', () => {
   describe('.protocolsFromRequest', () => {
