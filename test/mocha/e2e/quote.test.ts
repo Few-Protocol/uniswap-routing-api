@@ -1,6 +1,6 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { AllowanceTransfer, permit2Address, PermitSingle } from '@ring-protocol/permit2-sdk'
-import { ChainId, Currency, CurrencyAmount, Ether, Fraction, Rounding, Token, WETH9 } from '@uniswap/sdk-core'
+import { ChainId, Currency, CurrencyAmount, Ether, Fraction, Rounding, Token, WETH9 } from '@ring-protocol/sdk-core'
 import {
   CEUR_CELO,
   CEUR_CELO_ALFAJORES,
@@ -28,11 +28,11 @@ import {
   V4_SUPPORTED,
   WBTC_MAINNET,
   WLD_WORLDCHAIN,
-} from '@uniswap/smart-order-router'
+} from '@ring-protocol/smart-order-router'
 import {
   UNIVERSAL_ROUTER_ADDRESS as UNIVERSAL_ROUTER_ADDRESS_BY_CHAIN,
   UniversalRouterVersion,
-} from '@uniswap/universal-router-sdk'
+} from '@ring-protocol/universal-router-sdk'
 import { fail } from 'assert'
 import axiosStatic, { AxiosResponse } from 'axios'
 import axiosRetry from 'axios-retry'
@@ -51,7 +51,7 @@ import { resetAndFundAtBlock } from '../../utils/forkAndFund'
 import { getBalance, getBalanceAndApprove } from '../../utils/getBalanceAndApprove'
 import { DAI_ON, getAmount, getAmountFromToken, UNI_MAINNET, USDC_ON, USDT_ON, WNATIVE_ON } from '../../utils/tokens'
 import { FLAT_PORTION, GREENLIST_TOKEN_PAIRS, Portion } from '../../test-utils/mocked-data'
-import { WRAPPED_NATIVE_CURRENCY } from '@uniswap/smart-order-router/build/main/index'
+import { WRAPPED_NATIVE_CURRENCY } from '@ring-protocol/smart-order-router/build/main/index'
 import { getFirstNonDelegatedSigner } from '../../utils/getFirstNonDelegatedSigner'
 
 const { ethers } = hre
