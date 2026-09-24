@@ -47,6 +47,8 @@ export class UniGraphQLProvider implements IUniGraphQLProvider {
    *  */
   private _chainIdToGraphQLChainName(chainId: ChainId): string | undefined {
     switch (chainId) {
+      case ChainId.ARC:
+        return 'ARC'
       case ChainId.INK:
         return 'INK'
       case ChainId.MAINNET:
