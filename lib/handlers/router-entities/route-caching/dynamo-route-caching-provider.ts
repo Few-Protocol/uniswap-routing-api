@@ -22,7 +22,7 @@ import { PromiseResult } from 'aws-sdk/lib/request'
 import { DEFAULT_BLOCKS_TO_LIVE_ROUTES_DB } from '../../../util/defaultBlocksToLiveRoutesDB'
 import { getSymbolOrAddress } from '../../../util/getSymbolOrAddress'
 import { serializeRouteIds } from '@ring-protocol/smart-order-router/build/main/util/serializeRouteIds'
-import { UniversalRouterVersion } from '@ring-protocol/universal-router-sdk'
+import { UNIVERSAL_ROUTER_VERSION, UniversalRouterVersion } from '@ring-protocol/universal-router-sdk'
 import { computeProtocolsInvolvedIfMixed } from '../../../util/computeProtocolsInvolvedIfMixed'
 
 interface ConstructorParams {
@@ -159,6 +159,7 @@ export class DynamoRouteCachingProvider extends IRouteCachingProvider {
               // only when UR header is v1.2, we explicitly delete the V4 from protocols in
               // https://github.com/Uniswap/smart-order-router/blob/main/src/routers/alpha-router/alpha-router.ts#L1461
               alphaRouterConfig?.universalRouterVersion === UniversalRouterVersion.V2_0 ||
+              alphaRouterConfig?.universalRouterVersion === UniversalRouterVersion.V2_1_1 ||
               // We want to roll out the mixed route with UR v1_2 with percent control,
               // along with the cached routes so that we can test the performance of the mixed route with UR v1_2ss
               (alphaRouterConfig?.enableMixedRouteWithUR1_2 &&
@@ -435,9 +436,10 @@ export class DynamoRouteCachingProvider extends IRouteCachingProvider {
   ): void {
     const payload = {
       headers: {
-        'x-universal-router-version': protocols.includes(Protocol.V4)
-          ? UniversalRouterVersion.V2_0
-          : UniversalRouterVersion.V1_2,
+        'x-universal-router-version': alphaRouterConfig?.universalRouterVersion ??
+          (protocols.includes(Protocol.V4)
+            ? UNIVERSAL_ROUTER_VERSION(partitionKey.chainId)
+            : UniversalRouterVersion.V1_2),
       },
       queryStringParameters: {
         tokenInAddress: getSymbolOrAddress(partitionKey.currencyIn, partitionKey.chainId),

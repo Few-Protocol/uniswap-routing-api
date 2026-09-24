@@ -2,6 +2,8 @@ import { ChainId } from '@ring-protocol/sdk-core'
 
 export function chainIdToNetworkName(networkId: ChainId): string {
   switch (networkId) {
+    case ChainId.ARC:
+      return 'arc'
     case ChainId.INK:
       return 'ink'
     case ChainId.MAINNET:
