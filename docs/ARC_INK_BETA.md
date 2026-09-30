@@ -1,6 +1,8 @@
 # Arc and Ink API beta deployment
 
-Deploy these candidates to testring first. Production release is a separate decision after the acceptance checks below.
+Deployment is currently blocked on the SOR compatibility release in [SOR #44](https://github.com/Few-Protocol/uniswap-smart-order-router/pull/44). Publish and verify SOR 0.6.2, update all three API manifests and lockfiles, and repeat the consumer checks before executing the commands below. The current PRs still pin 0.6.1. Local tests with the packed fix do not update that published dependency.
+
+After this prerequisite, deploy these candidates to testring first. Production release is a separate decision after the acceptance checks below.
 
 | Service | Review | Base | Beta target |
 | --- | --- | --- | --- |
@@ -11,7 +13,7 @@ Deploy these candidates to testring first. Production release is a separate deci
 ## Before deployment
 
 1. Review and check out each PR's latest commit using the team's existing deployment checkout. Record `git rev-parse HEAD`. Preserve the complete local deployment environment when switching branches; do not replace it with an example file or an environment containing only the new networks.
-2. Use each repository's documented Node/package-manager setup. Verify the pinned dependencies and tests before deploying. These PRs consume SOR `0.6.1`; no new npm release is required.
+2. Use each repository's documented Node/package-manager setup. Verify that the published SOR compatibility fix is pinned in all three manifests and lockfiles, then run the consumer builds and tests. Do not deploy while any candidate still pins `0.6.1`.
 3. Confirm both new RPCs respond with the expected chain IDs: Arc `5042`, Ink `57073`. Keep every existing RPC, API key and service variable unchanged. Add the following values only in the deployment environment:
 
 | Service | Arc | Ink |
