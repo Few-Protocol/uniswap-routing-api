@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals'
-import { ChainId } from '@uniswap/sdk-core'
+import { ChainId } from '@ring-protocol/sdk-core'
 import { adhocCorrectGasUsed } from '../../../../../lib/util/estimateGasUsed'
 import { BigNumber } from '@ethersproject/bignumber'
 import {

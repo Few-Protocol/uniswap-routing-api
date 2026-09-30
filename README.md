@@ -10,6 +10,8 @@ To develop on the Routing API you must have an AWS account where you can deploy 
 
 ### Deploying the API
 
+For the Arc/Ink rollout, follow the [beta deployment and acceptance guide](docs/ARC_INK_BETA.md), including the matching Unified and GraphQL candidates.
+
 The best way to develop and test the API is to deploy your own instance to AWS.
 
 1. Install and configure [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [AWS CDK V1](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html).

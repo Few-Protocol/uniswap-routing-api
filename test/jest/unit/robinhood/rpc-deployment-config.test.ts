@@ -24,17 +24,45 @@ jest.mock('../../../../lib/cron/cache-config', () => ({
 import { RoutingAPIStack } from '../../../../bin/stacks/routing-api-stack'
 
 const rpcConfiguration = {
-  ALCHEMY_56: 'https://bnb.example.invalid',
-  ALCHEMY_4663: 'synthetic-robinhood-key',
-  WEB3_RPC_999: 'https://hyper.example.invalid',
+  WEB3_RPC_5042: 'https://arc.example.invalid',
+  WEB3_RPC_57073: 'https://ink.example.invalid',
   WEB3_RPC_4663: 'https://robinhood.example.invalid',
+  ALCHEMY_11155111: 'synthetic-sepolia-key',
+  ALCHEMY_1: 'synthetic-ethereum-key',
+  ALCHEMY_56: 'synthetic-bnb-key',
+  ALCHEMY_4326: 'synthetic-megaeth-key',
+  ALCHEMY_999: 'synthetic-hyper-key',
+  ALCHEMY_4663: 'synthetic-robinhood-key',
+  ALCHEMY_42161: 'synthetic-arbitrum-key',
+  ALCHEMY_8453: 'synthetic-base-key',
+  ALCHEMY_130: 'synthetic-unichain-key',
+  ALCHEMY_10: 'synthetic-optimism-key',
+  ALCHEMY_196: 'synthetic-xlayer-key',
 }
 
-describe('Robinhood RPC deployment configuration', () => {
-  test('passes all existing RPC entries and Robinhood to both quote lambdas', () => {
+// Evaluate the real deploy.sh app map with synthetic inputs, without loading .env.
+// Supplying the fixture directly to the stack would miss keys omitted by bin/app.ts.
+function readAppRpcConfiguration(): Record<string, string> {
+  const file = ts.createSourceFile('app.ts', readFileSync(resolve(__dirname, '../../../../bin/app.ts'), 'utf8'), ts.ScriptTarget.Latest, true)
+  let initializer: ts.Expression | undefined
+  for (const statement of file.statements) {
+    if (!ts.isVariableStatement(statement)) continue
+    for (const declaration of statement.declarationList.declarations) {
+      if (declaration.name.getText(file) === 'jsonRpcProviders') initializer = declaration.initializer
+    }
+  }
+  expect(initializer).toBeDefined()
+  const script = ts.transpileModule(`result = ${initializer!.getText(file)}`, { compilerOptions: { target: ts.ScriptTarget.ES2020 } }).outputText
+  const context: any = { process: { env: rpcConfiguration } }
+  runInNewContext(script, context)
+  return context.result
+}
+
+describe('RPC deployment configuration', () => {
+  test('passes Arc, Ink and every existing RPC entry from the app to both quote lambdas', () => {
     const stack = new RoutingAPIStack(new cdk.App(), 'Audit', {
       env: { account: '123456789012', region: 'us-east-1' },
-      stage: 'local', provisionedConcurrency: 0, jsonRpcProviders: rpcConfiguration,
+      stage: 'local', provisionedConcurrency: 0, jsonRpcProviders: readAppRpcConfiguration(),
       ethGasStationInfoUrl: 'https://gas.example.invalid',
       tenderlyUser: '', tenderlyProject: '', tenderlyAccessKey: '', tenderlyNodeApiKey: '',
       unicornSecret: 'synthetic-debug-value',
@@ -48,20 +76,7 @@ describe('Robinhood RPC deployment configuration', () => {
     for (const env of environments) expect(env).toMatchObject(rpcConfiguration)
   })
 
-  test('reads the Robinhood RPC through the existing app configuration map', () => {
-    const file = ts.createSourceFile('app.ts', readFileSync(resolve(__dirname, '../../../../bin/app.ts'), 'utf8'), ts.ScriptTarget.Latest, true)
-    let initializer: ts.Expression | undefined
-    const visit = (node: ts.Node) => {
-      if (ts.isVariableDeclaration(node) && node.name.getText(file) === 'jsonRpcProviders') initializer = node.initializer
-      ts.forEachChild(node, visit)
-    }
-    visit(file)
-    expect(initializer).toBeDefined()
-    const script = ts.transpileModule(`result = ${initializer!.getText(file)}`, { compilerOptions: { target: ts.ScriptTarget.ES2020 } }).outputText
-    const context: any = { process: { env: rpcConfiguration } }
-    runInNewContext(script, context)
-    expect(context.result.WEB3_RPC_4663).toBe(rpcConfiguration.WEB3_RPC_4663)
-    expect(context.result.ALCHEMY_56).toBe(rpcConfiguration.ALCHEMY_56)
-    expect(context.result.ALCHEMY_4663).toBe(rpcConfiguration.ALCHEMY_4663)
+  test('preserves all configured RPC values through the existing app configuration map', () => {
+    expect(readAppRpcConfiguration()).toEqual(rpcConfiguration)
   })
 })

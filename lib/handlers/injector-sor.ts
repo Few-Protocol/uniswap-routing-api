@@ -102,6 +102,8 @@ import { NEW_CACHED_ROUTES_ROLLOUT_PERCENT } from '../util/newCachedRoutesRollou
 import { TENDERLY_NEW_ENDPOINT_ROLLOUT_PERCENT } from '../util/tenderlyNewEndpointRolloutPercent'
 
 export const SUPPORTED_CHAINS: ChainId[] = [
+  ChainId.ARC,
+  ChainId.INK,
   ChainId.MAINNET,
   // ChainId.OPTIMISM,
   ChainId.ARBITRUM_ONE,
@@ -572,6 +574,8 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           }
 
           const v2Supported = [
+            ChainId.ARC,
+            ChainId.INK,
             ChainId.MAINNET,
             ChainId.ARBITRUM_ONE,
             ChainId.OPTIMISM,
@@ -591,6 +595,8 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
           ]
 
           const v4Supported = [
+            ChainId.ARC,
+            ChainId.INK,
             ChainId.SEPOLIA,
             ChainId.ARBITRUM_ONE,
             ChainId.BASE,
@@ -646,6 +652,7 @@ export abstract class InjectorSOR<Router, QueryParams> extends Injector<
             ChainId.SONEIUM,
           ]
           const mixedSupported = [
+            ChainId.INK,
             ChainId.MAINNET,
             ChainId.SEPOLIA,
             ChainId.GOERLI,
