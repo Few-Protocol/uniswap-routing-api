@@ -1,6 +1,7 @@
 import { Currency, Token } from '@ring-protocol/sdk-core'
 import {
   getAddress,
+  hasWrappedNative,
   ITokenListProvider,
   ITokenProvider,
   NATIVE_NAMES_BY_ID,
@@ -23,7 +24,7 @@ export class CurrencyLookup {
   public async searchForToken(tokenRaw: string, chainId: number): Promise<Currency | undefined> {
     const nativeToken = this.checkIfNativeToken(tokenRaw, chainId)
     if (nativeToken) {
-      return nativeToken
+      return hasWrappedNative(chainId) ? nativeToken : undefined
     }
 
     // At this point, we know this is not a NativeCurrency based on the check above, so we can explicitly cast to Token.
