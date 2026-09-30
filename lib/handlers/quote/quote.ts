@@ -545,6 +545,16 @@ export class QuoteHandler extends APIGLambdaHandler<
         const tokenIn = tokenPath[i]
         const tokenOut = tokenPath[i + 1]
 
+        let edgeAmountIn = undefined
+        if (i == 0) {
+          edgeAmountIn = type == 'exactIn' ? amount.quotient.toString() : quote.quotient.toString()
+        }
+
+        let edgeAmountOut = undefined
+        if (i == pools.length - 1) {
+          edgeAmountOut = type == 'exactIn' ? quote.quotient.toString() : amount.quotient.toString()
+        }
+
         if (nextPool instanceof V4Pool || subRoute.protocol === Protocol.V4) {
           // We want to filter the fake v4 pool here,
           // because in SOR, we intentionally retain the fake pool, when it returns the valid routes
@@ -591,6 +601,8 @@ export class QuoteHandler extends APIGLambdaHandler<
             liquidity: liquidity.toString(),
             sqrtRatioX96: sqrtRatioX96.toString(),
             tickCurrent: tickCurrent.toString(),
+            amountIn: edgeAmountIn,
+            amountOut: edgeAmountOut,
           })
         } else if (nextPool instanceof V3Pool || subRoute.protocol === Protocol.V3) {
           const pool = nextPool as any
@@ -620,6 +632,8 @@ export class QuoteHandler extends APIGLambdaHandler<
             liquidity: liquidity.toString(),
             sqrtRatioX96: sqrtRatioX96.toString(),
             tickCurrent: tickCurrent.toString(),
+            amountIn: edgeAmountIn,
+            amountOut: edgeAmountOut,
           })
         } else if (nextPool instanceof Pair || subRoute.protocol === Protocol.V2) {
           const reserve0 = nextPool.reserve0
@@ -686,6 +700,8 @@ export class QuoteHandler extends APIGLambdaHandler<
               },
               quotient: reserve1.quotient.toString(),
             },
+            amountIn: edgeAmountIn,
+            amountOut: edgeAmountOut,
           })
         } else if (nextPool instanceof FewV2Pair || subRoute.protocol === Protocol.FEWV2) {
           const reserve0 = nextPool.reserve0
@@ -752,6 +768,8 @@ export class QuoteHandler extends APIGLambdaHandler<
               },
               quotient: reserve1.quotient.toString(),
             },
+            amountIn: edgeAmountIn,
+            amountOut: edgeAmountOut,
           })
         }
         else {
@@ -759,11 +777,6 @@ export class QuoteHandler extends APIGLambdaHandler<
         }
       }
 
-      setRouteEdgeAmounts(
-        curRoute,
-        type == 'exactIn' ? amount.quotient.toString() : quote.quotient.toString(),
-        type == 'exactIn' ? quote.quotient.toString() : amount.quotient.toString()
-      )
       routeResponse.push(curRoute)
     }
 
@@ -1016,15 +1029,4 @@ export class QuoteHandler extends APIGLambdaHandler<
       MetricLoggerUnit.Milliseconds
     )
   }
-}
-
-// Assign route totals after synthetic native/wrapped-native pools have been removed.
-export function setRouteEdgeAmounts<T extends { amountIn?: string; amountOut?: string }>(
-  pools: T[],
-  amountIn: string,
-  amountOut: string
-): void {
-  if (pools.length === 0) return
-  pools[0].amountIn = amountIn
-  pools[pools.length - 1].amountOut = amountOut
 }

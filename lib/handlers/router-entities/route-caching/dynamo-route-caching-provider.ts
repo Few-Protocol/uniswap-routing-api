@@ -434,12 +434,15 @@ export class DynamoRouteCachingProvider extends IRouteCachingProvider {
     alphaRouterConfig?: AlphaRouterConfig,
     swapOptions?: SwapOptions
   ): void {
+    // Preserve the legacy V1.2/V2.0 refresh rules; only the newer ABI needs explicit selection.
+    const routerVersion = alphaRouterConfig?.universalRouterVersion ?? UNIVERSAL_ROUTER_VERSION(partitionKey.chainId)
     const payload = {
       headers: {
-        'x-universal-router-version': alphaRouterConfig?.universalRouterVersion ??
-          (protocols.includes(Protocol.V4)
-            ? UNIVERSAL_ROUTER_VERSION(partitionKey.chainId)
-            : UniversalRouterVersion.V1_2),
+        'x-universal-router-version': routerVersion === UniversalRouterVersion.V2_1_1
+          ? routerVersion
+          : protocols.includes(Protocol.V4)
+            ? UniversalRouterVersion.V2_0
+            : UniversalRouterVersion.V1_2,
       },
       queryStringParameters: {
         tokenInAddress: getSymbolOrAddress(partitionKey.currencyIn, partitionKey.chainId),
