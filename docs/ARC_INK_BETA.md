@@ -1,8 +1,8 @@
 # Arc and Ink API beta deployment
 
-Deployment is currently blocked on the SOR compatibility release in [SOR #44](https://github.com/Few-Protocol/uniswap-smart-order-router/pull/44). Publish and verify SOR 0.6.2, update all three API manifests and lockfiles, and repeat the consumer checks before executing the commands below. The current PRs still pin 0.6.1. Local tests with the packed fix do not update that published dependency.
+The SOR compatibility release in [SOR #44](https://github.com/Few-Protocol/uniswap-smart-order-router/pull/44) is published as 0.6.2. The npm tarball matches the reviewed release artifact, and all three API manifests and lockfiles pin this version. Consumer builds and regression tests pass with the installed npm package. Follow the configuration checks below before beta deployment.
 
-After this prerequisite, deploy these candidates to testring first. Production release is a separate decision after the acceptance checks below.
+Deploy these candidates to testring first. Production release is a separate decision after the acceptance checks below.
 
 | Service | Review | Base | Beta target |
 | --- | --- | --- | --- |
