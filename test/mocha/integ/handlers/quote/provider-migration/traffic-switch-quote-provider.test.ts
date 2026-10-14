@@ -1,15 +1,15 @@
 import sinon, { SinonSpy } from 'sinon'
-import { metric } from '@uniswap/smart-order-router/build/main/util/metric'
-import { MetricLoggerUnit, RouteWithQuotes, USDC_MAINNET, WRAPPED_NATIVE_CURRENCY } from '@uniswap/smart-order-router'
+import { metric } from '@ring-protocol/smart-order-router/build/main/util/metric'
+import { MetricLoggerUnit, RouteWithQuotes, USDC_MAINNET, WRAPPED_NATIVE_CURRENCY } from '@ring-protocol/smart-order-router'
 import { TrafficSwitchOnChainQuoteProvider } from '../../../../../../lib/handlers/quote/provider-migration/traffic-switch-on-chain-quote-provider'
-import { ChainId, CurrencyAmount } from '@uniswap/sdk-core'
-import { V3Route } from '@uniswap/smart-order-router/build/main/routers'
+import { ChainId, CurrencyAmount } from '@ring-protocol/sdk-core'
+import { V3Route } from '@ring-protocol/smart-order-router/build/main/routers'
 import { USDC_WETH_LOW } from '../../../../../test-utils/mocked-data'
 import { getMockedOnChainQuoteProvider } from '../../../../../test-utils/mocked-dependencies'
-import { ProviderConfig } from '@uniswap/smart-order-router/build/main/providers/provider'
-import { AmountQuote } from '@uniswap/smart-order-router/build/main/providers/on-chain-quote-provider'
+import { ProviderConfig } from '@ring-protocol/smart-order-router/build/main/providers/provider'
+import { AmountQuote } from '@ring-protocol/smart-order-router/build/main/providers/on-chain-quote-provider'
 import { BigNumber } from 'ethers'
-import { Protocol } from '@uniswap/router-sdk'
+import { Protocol } from '@ring-protocol/router-sdk'
 
 describe('TrafficSwitchOnChainQuoteProvider', () => {
   const amountIns = [CurrencyAmount.fromRawAmount(WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET], '1000000000000000000')]
